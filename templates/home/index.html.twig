@@ -1,7 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Pedibus Jambus{% endblock %}
+{% block title %}
+	Pedibus Jambus
+{% endblock %}
 
 {% block body %}
-    <h1 class="text-3xl">Accueil</h1>
+
+	<section id="upper-section"
+		class="flex flex-col items-center border-2 border-green-300 rounded-md w-fit justify-center mx-auto m-4 p-4 bg-white"
+	>
+		<div class="flex flex-col md:flex-row text-center">
+			<p class="text-3xl">
+				Association de randonnée pédestre
+			</p>
+			<p class="text-3xl">
+				-
+			</p>
+			<p class="text-3xl">
+				77380 Combs-la-Ville
+			</p>
+		</div>
+		<h1 class="text-3xl text-red-500 font-bold text-left">Mieux connaître notre assosciation</h1>
+
+		<div class="flex flex-col">
+			<p class="text-xl w-lg">
+				Pedibus Jambus est une association régie par la loi du 1er juillet 1901.
+
+				Elle a pour objet la pratique et la promotion de la randonnée pédestre en tant qu’activité sportive et
+				culturelle de plein air.
+			</p>
+
+			<div class="flex flex-col lg:flex-row">
+				<div class="flex flex-col">
+					<span class="text-xl w-lg p-4 text-blue-500 font-bold">
+						« Un jour de sentier, huit jours de santé ».
+					</span>
+					<p class="text-xl w-lg">
+						Aujourd’hui, les preuves scientifiques de cette affirmation s’accumulent. Si vous aimez la randonnée,
+						la faune, la flore, notre club de randonnée pédestre "Pedibus Jambus"et ses animateurs vous feront
+						découvrir les forêts et les sites de l’Île de France ainsi que des circuits originaux sur Paris ou la
+						banlieue. Contrairement au sport de compétition ou de haut niveau qui aggrave le stress et l’anxiété,
+						une activité physique modérée comme la randonnée renforce l’estime de soi, redonne éventuellement
+						confiance et permet une meilleure intégration dans la vie sociale, d’où une meilleure qualité de la
+						vie.La bonne humeur règne chez
+						<span class="text-xl w-lg text-green-500 font-semibold">"Pedibus Jambus"</span>
+						et l'imagination de nos animateurs pour nous concocter de belles randonnées n'est plus à démontrer. Amis
+						visiteurs, nous espérons que ce site répondra à vos attentes.
+					</p>
+				</div>
+				<img src="{{ asset('img/flower-main.jpg') }}" alt="Image d'accueil" class="h-[32pc] w-lg" />
+			</div>
+			<div class="flex flex-col gap-y-8 justify-center items-center">
+				<p class="text-xl w-lg">
+					A bientôt sur les chemins.
+				</p>
+
+				<p class="text-xl w-lg">
+					l'équipe de Pedibus Jambus
+				</p>
+			</div>
+		</div>
+	</section>
+	
+
+	<section id="lower-section" class="flex flex-col items-center border-2 border-green-300 rounded-md w-fit justify-center mx-auto m-4 p-4 bg-white">
+		<p>Nos plus récentes sorties :</p>
+		
+	</section>
 {% endblock %}

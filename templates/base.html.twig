@@ -1,20 +1,40 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        
-        <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
-        {% block stylesheets %}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8" />
+		<title>
+			{% block title %}
+				Welcome!
+			{% endblock %}
+		</title>
+		<link rel="" href="favicon.ico" type="image/x-icon">
+		<script src="https://cdn.tailwindcss.com"></script>
+		{% block stylesheets %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {{ include("components/navbar/index.html.twig") }}
+		{% endblock %}
 
-        {% block body %}{% endblock %}
-    </body>
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+
+	</head>
+
+	<body class="bg-cyan-100 min-h-screen">
+
+		<img
+			src="{{ asset('img/blue-mountain.jpg') }}"
+			class="fixed w-auto h-auto min-w-full min-h-full object-cover z-0"
+			alt=""
+		/>
+
+		<div class="relative z-10">
+			{{ include('components/navbar/index.html.twig') }}
+
+			{% block body %}
+
+			{% endblock %}
+		</div>
+	</body>
 </html>

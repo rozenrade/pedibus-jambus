@@ -1,11 +1,72 @@
-<nav class="flex justify-between">
-    <span>Pedibus Jambus</span>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+	@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0);
+	} }
 
-    <ul class="flex flex-row gap-4">
-    <li>Qui sommes-nous</li>
+	.animate-slideDown { animation: slideDown 0.3s ease-out forwards; }
+</style>
 
-    <li>Sorties</li>
+<nav class="bg-white shadow-md py-4 px-6 flex justify-between items-center">
+	<a href="/" class="text-xl font-bold text-gray-700 hover:text-green-600 duration-200">Pedibus Jambus</a>
 
-    <li>Programmes</li>
-    </ul>
+	<div class="hidden md:flex gap-x-4">
+
+		<a href="/auth" class="text-gray-700 hover:text-green-600 duration-200">Se connecter | S'inscrire</a>
+		<a href="/about-us" class="text-gray-700 hover:text-green-600 duration-200">Qui sommes-nous</a>
+		<a href="/outlings" class="text-gray-700 hover:text-green-600 duration-200">Sorties</a>
+		<a href="/programs" class="text-gray-700 hover:text-green-600 duration-200">Programmes</a>
+	</div>
+
+	<div class="md:hidden relative">
+		<button
+			id="menu-toggle"
+			class="text-gray-700 hover:text-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 rounded-md p-2 transition-all duration-300"
+		>
+			<i id="burger-icon" class="fas fa-bars text-xl"></i>
+		</button>
+
+		<div id="dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10 hidden">
+			<a
+				href="/auth"
+				class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200"
+			>
+				Se connecter | S'inscrire
+			</a>
+			<a
+				href="/about-us"
+				class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200"
+			>
+				Qui sommes-nous
+			</a>
+			<a
+				href="/outlings"
+				class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200"
+			>
+				Sorties
+			</a>
+			<a
+				href="/programs"
+				class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200"
+			>
+				Programmes
+			</a>
+		</div>
+	</div>
 </nav>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() { const menuToggle = document.getElementById('menu-toggle');
+	const dropdown = document.getElementById('dropdown'); const burgerIcon = document.getElementById('burger-icon');
+
+	menuToggle.addEventListener('click', function() {
+
+	if (dropdown.classList.contains('hidden')) { dropdown.classList.remove('hidden');
+	dropdown.classList.add('animate-slideDown'); burgerIcon.classList.remove('fa-bars');
+	burgerIcon.classList.add('fa-times'); } else { dropdown.classList.add('hidden');
+	dropdown.classList.remove('animate-slideDown'); burgerIcon.classList.remove('fa-times');
+	burgerIcon.classList.add('fa-bars'); } });
+
+	document.addEventListener('click', function(event) { if (!menuToggle.contains(event.target) &&
+	!dropdown.contains(event.target)) { dropdown.classList.add('hidden'); dropdown.classList.remove('animate-slideDown');
+	burgerIcon.classList.remove('fa-times'); burgerIcon.classList.add('fa-bars'); } }); });
+</script>
