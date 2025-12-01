@@ -21,6 +21,10 @@
 
 	<!-- Menu desktop -->
 	<div class="hidden md:flex gap-x-4">
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="/admin/add-photo" class="text-gray-700 hover:text-green-600 duration-200">Ajouter une photo</a>
+			<a href="/admin/add-album" class="text-gray-700 hover:text-green-600 duration-200">Ajouter un album</a>
+		{% endif %}
 		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 			<a href="/logout" class="text-gray-700 hover:text-green-600 duration-200">Se déconnecter</a>
 		{% else %}
@@ -39,6 +43,10 @@
 		</button>
 
 		<div id="dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10 hidden">
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="/admin/add-photo" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-600">Ajouter une photo</a>
+				<a href="/admin/add-album" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-600">Ajouter un album</a>
+			{% endif %}
 			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 				<a href="/logout" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-600">Se déconnecter</a>
 			{% else %}

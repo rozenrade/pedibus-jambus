@@ -1,0 +1,5 @@
+# config/routes/verify_email.yaml
+app_verify_email:
+    path: /verify/email
+    defaults:
+        _controller: App\Controller\RegistrationController::verifyUserEmail

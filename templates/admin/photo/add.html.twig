@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Pedibus Jambus - Ajouter des photos
+{% endblock %}
+
+<h1>Ajouter une photo</h1>
+
+{{ form_start(form) }}
+    {{ form_row(form.imageFile) }}
+    <button class="btn btn-primary">Uploader</button>
+{{ form_end(form) }}
