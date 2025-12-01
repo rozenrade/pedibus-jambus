@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pedibus Jambus - Se créer un compte{% endblock %}
+
+{% block body %}
+    {# Conteneur principal pour centrer le formulaire sur la page #}
+    <div class="min-h-screen flex items-center justify-center p-4">
+        
+        {# La carte du formulaire #}
+        <div class="w-full max-w-md bg-white shadow-xl rounded-xl p-8 space-y-6 border border-gray-200">
+
+            {# Affichage des erreurs de vérification d'email #}
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{{ flash_error }}</span>
+                </div>
+            {% endfor %}
+
+            {# En-tête du formulaire #}
+            <div class="text-center space-y-2">
+                <h1 class="text-3xl font-extrabold text-gray-900">Créez votre compte</h1>
+                <p class="text-sm text-blue-600 font-medium">Rejoignez-nous en quelques clics</p>
+            </div>
+            
+            {# Affichage des erreurs globales du formulaire #}
+            {% if form_errors(registrationForm) %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">Erreurs du formulaire :</span>
+                    {{ form_errors(registrationForm) }}
+                </div>
+            {% endif %}
+
+            {{ form_start(registrationForm, {'attr': {'class': 'space-y-6'}}) }}
+
+                {# Champ Email #}
+                {{ form_row(registrationForm.email, {
+                    label: 'Adresse Email',
+                    attr: {
+                        placeholder: 'votre.email@exemple.com',
+                        class: 'w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
+                    },
+                    row_attr: {
+                        class: 'space-y-1'
+                    },
+                    label_attr: {
+                        class: 'block text-sm font-medium text-gray-700'
+                    }
+                }) }}
+
+                {# Champ Mot de passe #}
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Mot de passe',
+                    attr: {
+                        placeholder: 'Minimum 6 caractères',
+                        class: 'w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out'
+                    },
+                    row_attr: {
+                        class: 'space-y-1'
+                    },
+                    label_attr: {
+                        class: 'block text-sm font-medium text-gray-700'
+                    }
+                }) }}
+                
+                {# Case à cocher : Accepter les conditions #}
+                {{ form_row(registrationForm.agreeTerms, {
+                    label: 'J\'accepte les conditions d\'utilisation',
+                    label_attr: {
+                        class: 'text-sm text-gray-700 flex items-center'
+                    },
+                    attr: {
+                        class: 'h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mr-2'
+                    }
+                }) }}
+
+                {# Bouton d'Inscription #}
+                <button type="submit"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out mt-6">
+                    M'inscrire
+                </button>
+            
+            {{ form_end(registrationForm) }}
+
+            {# Lien vers la connexion #}
+            <div class="text-center text-sm pt-4 border-t border-gray-200">
+                <p class="text-gray-600">
+                    Vous avez déjà un compte ? 
+                    <a href="{{ path('app_login') }}" class="font-medium text-blue-600 hover:text-blue-500">
+                        Connectez-vous ici
+                    </a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
