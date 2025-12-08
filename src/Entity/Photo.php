@@ -1,10 +1,12 @@
 <?php
+// src/Entity/Photo.php
 
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 #[Vich\Uploadable]
@@ -15,32 +17,59 @@ class Photo
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(max: 255, maxMessage: "Le titre ne peut pas dépasser {{ limit }} caractères")]
+    private ?string $title = null;
+
     // Stocké en BDD
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
     // Fichier uploadé (non stocké en BDD)
     #[Vich\UploadableField(mapping: 'photos', fileNameProperty: 'imageName')]
+    #[Assert\Image(
+        maxSize: '10M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+        mimeTypesMessage: 'Veuillez télécharger une image valide (JPG, PNG, WebP ou GIF)'
+    )]
     private ?File $imageFile = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $description = null;
+
     #[ORM\ManyToOne(inversedBy: 'photos')]
+    #[ORM\JoinColumn(nullable: true)] // ← CHANGÉ ICI : nullable: true
     private ?Album $album = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
 
-    public function setImageFile(?File $imageFile = null): void
+    #[ORM\Column(type: 'datetime')]
+    private \DateTimeInterface $createdAt;
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private array $tags = [];
+
+    public function __construct()
     {
-        $this->imageFile = $imageFile;
-
-        if ($imageFile) {
-            $this->updatedAt = new \DateTimeImmutable();
-        }
+        $this->createdAt = new \DateTimeImmutable();
+        $this->tags = [];
     }
 
-    public function getImageFile(): ?File
+    public function getId(): ?int
     {
-        return $this->imageFile;
+        return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+        return $this;
     }
 
     public function getImageName(): ?string
@@ -53,11 +82,30 @@ class Photo
         $this->imageName = $imageName;
     }
 
-    public function getId(): ?int
+    public function getImageFile(): ?File
     {
-        return $this->id;
+        return $this->imageFile;
     }
 
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+        return $this;
+    }
 
     public function getAlbum(): ?Album
     {
@@ -68,5 +116,90 @@ class Photo
     {
         $this->album = $album;
         return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags ?? [];
+    }
+
+    public function setTags(array $tags): self
+    {
+        $this->tags = $tags;
+        return $this;
+    }
+
+    public function addTag(string $tag): self
+    {
+        if (!in_array($tag, $this->tags, true)) {
+            $this->tags[] = $tag;
+        }
+        return $this;
+    }
+
+    public function removeTag(string $tag): self
+    {
+        if (($key = array_search($tag, $this->tags, true)) !== false) {
+            unset($this->tags[$key]);
+            $this->tags = array_values($this->tags);
+        }
+        return $this;
+    }
+
+    // Méthodes utilitaires
+    public function __toString(): string
+    {
+        return $this->title ?? 'Photo #' . $this->id;
+    }
+
+    public function getTagsAsString(): string
+    {
+        return implode(', ', $this->tags);
+    }
+
+    public function setTagsFromString(string $tagsString): self
+    {
+        $tags = array_map('trim', explode(',', $tagsString));
+        $tags = array_filter($tags, function($tag) {
+            return !empty($tag);
+        });
+        $this->tags = array_unique($tags);
+        
+        return $this;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        if (!$this->imageName) {
+            return null;
+        }
+        return '/uploads/photos/' . $this->imageName;
+    }
+
+    public function hasTags(): bool
+    {
+        return !empty($this->tags);
     }
 }

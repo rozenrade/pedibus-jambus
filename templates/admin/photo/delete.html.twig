@@ -1,0 +1,172 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer la photo - Administration
+{% endblock %}
+
+{% block body %}
+	<div class="container mx-auto px-4 py-8 max-w-2xl">
+		<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+			<div class="text-center mb-6">
+				<div class="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+					<svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+					</svg>
+				</div>
+				<h1 class="text-2xl font-bold text-gray-900 mb-2">Supprimer la photo</h1>
+				<p class="text-gray-600">Êtes-vous sûr de vouloir supprimer cette photo ?</p>
+			</div>
+
+			<!-- Prévisualisation -->
+			{% if photo.imageName %}
+				<div class="mb-6">
+					<div class="flex justify-center">
+						<div class="w-48 h-48 overflow-hidden rounded-lg border border-gray-200">
+							<img src="{{ asset('uploads/photos/' ~ photo.imageName) }}" alt="Photo à supprimer" class="w-full h-full object-cover">
+						</div>
+					</div>
+				</div>
+			{% endif %}
+
+			<!-- Infos -->
+			<div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+				<div class="text-sm text-red-700 space-y-2">
+					{% if photo.title %}
+						<p>
+							<strong>Titre :</strong>
+							{{ photo.title }}</p>
+					{% endif %}
+					{% if photo.album %}
+						<p>
+							<strong>Album :</strong>
+							{{ photo.album.title }}</p>
+					{% endif %}
+					<p>
+						<strong>Ajoutée le :</strong>
+						{{ photo.updatedAt|date('d/m/Y à H:i') }}</p>
+					{% if photo.imageName %}
+						<p>
+							<strong>Fichier :</strong>
+							{{ photo.imageName }}</p>
+					{% endif %}
+				</div>
+			</div>
+
+			<!-- Message d'avertissement -->
+			<div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+				<div class="flex">
+					<svg class="w-5 h-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
+						<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+					</svg>
+					<div>
+						<h3 class="text-sm font-medium text-yellow-800">Attention ! Cette action est irréversible</h3>
+						<div class="mt-1 text-sm text-yellow-700">
+							<p>La suppression entraînera :</p>
+							<ul class="list-disc list-inside mt-1 space-y-1">
+								<li>La suppression définitive de la photo</li>
+								<li>La suppression du fichier image sur le serveur</li>
+								{% if photo.album and photo.album.photos|length == 1 %}
+									<li class="font-semibold">Cet album deviendra vide</li>
+								{% endif %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Statistiques -->
+			<div class="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+				<h3 class="text-sm font-medium text-gray-900 mb-3">Informations supplémentaires</h3>
+				<div class="grid grid-cols-2 gap-4 text-sm">
+					<div>
+						<p class="text-gray-600">Type de fichier</p>
+						<p class="font-medium">
+							{% if photo.imageName %}
+								{{ photo.imageName|split('.')|last|upper }}
+							{% else %}
+								Inconnu
+							{% endif %}
+						</p>
+					</div>
+					<div>
+						<p class="text-gray-600">Date de création</p>
+						<p class="font-medium">{{ photo.createdAt|date('d/m/Y') }}</p>
+					</div>
+					{% if photo.album %}
+						<div>
+							<p class="text-gray-600">Photos dans l'album</p>
+							<p class="font-medium">{{ photo.album.photos|length }}
+								photo(s)</p>
+						</div>
+					{% endif %}
+					{% if photo.tags is not empty %}
+						<div class="col-span-2">
+							<p class="text-gray-600 mb-1">Tags</p>
+							<div class="flex flex-wrap gap-1">
+								{% for tag in photo.tags %}
+									<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
+										{{ tag }}
+									</span>
+								{% endfor %}
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="flex justify-between pt-6 border-t border-gray-200">
+				<a href="{{ path('admin_photo_show', {'id': photo.id}) }}" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+					Annuler et retourner à la photo
+				</a>
+
+				<div class="flex space-x-3">
+					{% if photo.album %}
+						<a href="{{ path('admin_album_show', {'id': photo.album.id}) }}" class="px-4 py-2 border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-50">
+							Retour à l'album
+						</a>
+					{% endif %}
+
+					<form method="post">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete-photo-' ~ photo.id) }}">
+						<button type="submit" onclick="return confirm('Êtes-vous ABSOLUMENT sûr de vouloir supprimer cette photo ? Cette action ne peut pas être annulée.')" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
+							Oui, supprimer définitivement
+						</button>
+					</form>
+				</div>
+			</div>
+
+			<!-- Alternative -->
+			<div class="mt-6 pt-6 border-t border-gray-200">
+				<h3 class="text-sm font-medium text-gray-900 mb-3">Alternative à la suppression</h3>
+				<div class="space-y-2">
+					{% if photo.album %}
+						<p class="text-sm text-gray-600">
+							Au lieu de supprimer, vous pouvez :
+						</p>
+						<div class="flex flex-wrap gap-2">
+							<a href="{{ path('admin_photo_move_to_album', {'id': photo.id}) }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+								Déplacer vers un autre album
+							</a>
+							<span class="text-gray-300">•</span>
+							<a href="{{ path('admin_photo_edit', {'id': photo.id}) }}" class="text-sm text-gray-600 hover:text-gray-800 font-medium">
+								Modifier la photo
+							</a>
+						</div>
+					{% else %}
+						<p class="text-sm text-gray-600">
+							Cette photo n'a pas d'album. Vous pouvez :
+						</p>
+						<div class="flex flex-wrap gap-2">
+							<a href="{{ path('admin_photo_assign_to_album', {'id': photo.id}) }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+								L'assigner à un album
+							</a>
+							<span class="text-gray-300">•</span>
+							<a href="{{ path('admin_photo_edit', {'id': photo.id}) }}" class="text-sm text-gray-600 hover:text-gray-800 font-medium">
+								Modifier la photo
+							</a>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

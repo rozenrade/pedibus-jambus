@@ -1,0 +1,420 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord - Administration
+{% endblock %}
+
+{% block body %}
+	<div
+		class="min-h-screen bg-gray-50">
+		<!-- Header -->
+		<div class="bg-white shadow-sm border-b border-gray-200">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="flex justify-between items-center py-4">
+					<div>
+						<h1 class="text-2xl font-bold text-gray-900">Tableau de bord</h1>
+						<p class="text-gray-600 mt-1">Vue d'ensemble de votre application</p>
+					</div>
+					<div class="flex items-center space-x-4">
+						<span class="text-sm text-gray-500">
+							{{ "now"|date("d/m/Y") }}
+						</span>
+						<div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+							{{ app.user.email|first|upper }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+			<!-- Stats en haut -->
+			<div
+				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+				<!-- Albums -->
+				<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+					<div class="flex items-center">
+						<div class="flex-shrink-0 bg-blue-100 p-3 rounded-lg">
+							<svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+							</svg>
+						</div>
+						<div class="ml-4">
+							<p class="text-sm font-medium text-gray-600">Albums</p>
+							<p class="text-2xl font-bold text-gray-900">{{ totalAlbums }}</p>
+							<div class="flex items-center mt-1">
+								<span class="text-xs text-gray-500">
+									{{ publicAlbums }}
+									public •
+									{{ privateAlbums }}
+									privé
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="mt-4">
+						<a href="{{ path('admin_album_index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+							Voir tous les albums →
+						</a>
+					</div>
+				</div>
+
+				<!-- Photos -->
+				<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+					<div class="flex items-center">
+						<div class="flex-shrink-0 bg-green-100 p-3 rounded-lg">
+							<svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+							</svg>
+						</div>
+						<div class="ml-4">
+							<p class="text-sm font-medium text-gray-600">Photos</p>
+							<p class="text-2xl font-bold text-gray-900">{{ totalPhotos }}</p>
+							<div class="flex items-center mt-1">
+								<span class="text-xs text-gray-500">
+									{{ recentPhotosCount }}
+									ajoutées ce mois-ci
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="mt-4">
+						<a href="{{ path('admin_photo_index') }}" class="text-green-600 hover:text-green-800 text-sm font-medium">
+							Voir toutes les photos →
+						</a>
+					</div>
+				</div>
+
+				<!-- Utilisateurs -->
+				<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+					<div class="flex items-center">
+						<div class="flex-shrink-0 bg-purple-100 p-3 rounded-lg">
+							<svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5 5.197v-1a6 6 0 00-9-5.197M9 21v-1a6 6 0 0112 0v1"/>
+							</svg>
+						</div>
+						<div class="ml-4">
+							<p class="text-sm font-medium text-gray-600">Utilisateurs</p>
+							<p class="text-2xl font-bold text-gray-900">{{ totalUsers }}</p>
+							<div class="flex items-center mt-1">
+								<span class="text-xs text-gray-500">
+									Gestion des comptes
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="mt-4">
+						<a href="#" class="text-purple-600 hover:text-purple-800 text-sm font-medium">
+							Gérer les utilisateurs →
+						</a>
+					</div>
+				</div>
+
+				<!-- Activité récente -->
+				<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+					<div class="flex items-center">
+						<div class="flex-shrink-0 bg-yellow-100 p-3 rounded-lg">
+							<svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+							</svg>
+						</div>
+						<div class="ml-4">
+							<p class="text-sm font-medium text-gray-600">Activité</p>
+							<p class="text-2xl font-bold text-gray-900">{{ recentAlbumsCount + recentPhotosCount }}</p>
+							<div class="flex items-center mt-1">
+								<span class="text-xs text-gray-500">
+									Actions ce mois-ci
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="mt-4">
+						<a href="#" class="text-yellow-600 hover:text-yellow-800 text-sm font-medium">
+							Voir l'activité →
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Deux colonnes principales -->
+			<div
+				class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+				<!-- Colonne gauche (2/3) -->
+				<div
+					class="lg:col-span-2 space-y-8">
+					<!-- Actions rapides -->
+					<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+						<div class="px-6 py-4 border-b border-gray-200">
+							<h2 class="text-lg font-semibold text-gray-900">Actions rapides</h2>
+							<p class="text-sm text-gray-600 mt-1">Accédez rapidement aux fonctionnalités principales</p>
+						</div>
+						<div class="p-6">
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<a href="{{ path('admin_album_new') }}" class="group p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition-colors">
+									<div class="flex items-center">
+										<div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200">
+											<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+											</svg>
+										</div>
+										<div class="ml-4">
+											<h3 class="font-medium text-gray-900 group-hover:text-blue-700">Nouvel album</h3>
+											<p class="text-sm text-gray-500">Créez un nouvel album photos</p>
+										</div>
+									</div>
+								</a>
+
+								<a href="{{ path('admin_photo_new') }}" class="group p-4 border border-gray-200 rounded-lg hover:border-green-300 hover:bg-green-50 transition-colors">
+									<div class="flex items-center">
+										<div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200">
+											<svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+											</svg>
+										</div>
+										<div class="ml-4">
+											<h3 class="font-medium text-gray-900 group-hover:text-green-700">Nouvelle photo</h3>
+											<p class="text-sm text-gray-500">Ajoutez une nouvelle photo</p>
+										</div>
+									</div>
+								</a>
+
+								<a href="{{ path('admin_album_index') }}" class="group p-4 border border-gray-200 rounded-lg hover:border-purple-300 hover:bg-purple-50 transition-colors">
+									<div class="flex items-center">
+										<div class="flex-shrink-0 w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200">
+											<svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+											</svg>
+										</div>
+										<div class="ml-4">
+											<h3 class="font-medium text-gray-900 group-hover:text-purple-700">Gérer les albums</h3>
+											<p class="text-sm text-gray-500">Voir et organiser tous les albums</p>
+										</div>
+									</div>
+								</a>
+
+								<a href="{{ path('admin_photo_index') }}" class="group p-4 border border-gray-200 rounded-lg hover:border-yellow-300 hover:bg-yellow-50 transition-colors">
+									<div class="flex items-center">
+										<div class="flex-shrink-0 w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center group-hover:bg-yellow-200">
+											<svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+											</svg>
+										</div>
+										<div class="ml-4">
+											<h3 class="font-medium text-gray-900 group-hover:text-yellow-700">Gérer les photos</h3>
+											<p class="text-sm text-gray-500">Voir et organiser toutes les photos</p>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- Albums récents -->
+					<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+						<div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+							<div>
+								<h2 class="text-lg font-semibold text-gray-900">Albums récents</h2>
+								<p class="text-sm text-gray-600 mt-1">Les 5 derniers albums créés</p>
+							</div>
+							<a href="{{ path('admin_album_index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+								Voir tous →
+							</a>
+						</div>
+						<div class="divide-y divide-gray-200">
+							{% for album in recentAlbums %}
+								<div class="px-6 py-4 hover:bg-gray-50">
+									<div class="flex items-center">
+										{% if album.coverImage %}
+											<div class="flex-shrink-0 w-12 h-12 rounded overflow-hidden bg-gray-100">
+												<img src="{{ asset('uploads/albums/covers/' ~ album.coverImage) }}" alt="{{ album.title }}" class="w-full h-full object-cover">
+											</div>
+										{% else %}
+											<div class="flex-shrink-0 w-12 h-12 bg-gray-100 rounded flex items-center justify-center">
+												<svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+												</svg>
+											</div>
+										{% endif %}
+										<div class="ml-4 flex-1">
+											<div class="flex justify-between">
+												<div>
+													<h3 class="font-medium text-gray-900">{{ album.title }}</h3>
+													<p class="text-sm text-gray-500">
+														{{ album.eventDate|date('d/m/Y') }}
+														•
+														{{ album.photos|length }}
+														photo(s)
+													</p>
+												</div>
+												<span class="px-2 py-1 text-xs font-medium rounded-full {{ album.isPublic ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
+													{{ album.isPublic ? 'Public' : 'Privé' }}
+												</span>
+											</div>
+										</div>
+									</div>
+									<div class="mt-3 flex space-x-3">
+										<a href="{{ path('admin_album_show', {'id': album.id}) }}" class="text-sm text-blue-600 hover:text-blue-800">
+											Voir
+										</a>
+										<a href="{{ path('admin_album_edit', {'id': album.id}) }}" class="text-sm text-gray-600 hover:text-gray-800">
+											Modifier
+										</a>
+										<a href="{{ path('admin_photo_new_to_album', {'albumId': album.id}) }}" class="text-sm text-green-600 hover:text-green-800">
+											Ajouter des photos
+										</a>
+									</div>
+								</div>
+							{% else %}
+								<div class="px-6 py-8 text-center">
+									<p class="text-gray-500">Aucun album créé pour le moment</p>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+
+				<!-- Colonne droite (1/3) -->
+				<div
+					class="space-y-8">
+					<!-- Top albums -->
+					<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+						<div class="px-6 py-4 border-b border-gray-200">
+							<h2 class="text-lg font-semibold text-gray-900">Albums les plus populaires</h2>
+							<p class="text-sm text-gray-600 mt-1">Par nombre de photos</p>
+						</div>
+						<div class="divide-y divide-gray-200">
+							{% for item in topAlbums %}
+								{% set album = item.album %}
+								{% set photoCount = item.photoCount %}
+								<div class="px-6 py-4">
+									<div class="flex items-center justify-between">
+										<div class="flex-1 min-w-0">
+											<p class="font-medium text-gray-900 truncate">{{ album.title }}</p>
+											<div class="flex items-center mt-1">
+												<div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+													{% set maxPhotos = 50 %}
+													{% set percentage = photoCount > 0 ? min((photoCount / maxPhotos) * 100, 100) : 0 %}
+													<div class="h-full bg-blue-600 rounded-full" style="width: {{ percentage|round }}%"></div>
+												</div>
+												<span class="ml-3 text-sm text-gray-500">{{ photoCount }}
+													photos</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% else %}
+								<div class="px-6 py-8 text-center">
+									<p class="text-gray-500">Aucun album avec des photos</p>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+
+					<!-- Photos récentes -->
+					<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+						<div class="px-6 py-4 border-b border-gray-200">
+							<h2 class="text-lg font-semibold text-gray-900">Photos récentes</h2>
+							<p class="text-sm text-gray-600 mt-1">Dernières photos ajoutées</p>
+						</div>
+						<div class="p-4">
+							<div class="grid grid-cols-3 gap-2">
+								{% for photo in recentPhotos %}
+									{% if photo.imageName %}
+										<a href="{{ path('admin_photo_show', {'id': photo.id}) }}" class="block aspect-square rounded overflow-hidden bg-gray-100 hover:opacity-90 transition-opacity">
+											<img src="{{ asset('uploads/photos/' ~ photo.imageName) }}" alt="Photo récente" class="w-full h-full object-cover">
+										</a>
+									{% else %}
+										<div class="aspect-square bg-gray-100 rounded flex items-center justify-center">
+											<svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linecap="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+											</svg>
+										</div>
+									{% endif %}
+								{% else %}
+									<div class="col-span-3 py-8 text-center">
+										<p class="text-gray-500">Aucune photo ajoutée</p>
+									</div>
+								{% endfor %}
+							</div>
+							<div class="mt-4 text-center">
+								<a href="{{ path('admin_photo_index') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+									Voir toutes les photos →
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- Statistiques -->
+					<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+						<div class="px-6 py-4 border-b border-gray-200">
+							<h2 class="text-lg font-semibold text-gray-900">Statistiques</h2>
+							<p class="text-sm text-gray-600 mt-1">Vue d'ensemble</p>
+						</div>
+						<div class="p-6">
+							<div class="space-y-4">
+								<div>
+									<div class="flex justify-between text-sm">
+										<span class="text-gray-600">Albums publics</span>
+										<span class="font-medium">{{ publicAlbums }}</span>
+									</div>
+									<div class="mt-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+										{% if totalAlbums > 0 %}
+											<div class="h-full bg-green-600 rounded-full" style="width: {{ (publicAlbums / totalAlbums * 100)|round }}%"></div>
+										{% else %}
+											<div class="h-full bg-gray-300 rounded-full" style="width: 0%"></div>
+										{% endif %}
+									</div>
+								</div>
+								<div>
+									<div class="flex justify-between text-sm">
+										<span class="text-gray-600">Albums privés</span>
+										<span class="font-medium">{{ privateAlbums }}</span>
+									</div>
+									<div class="mt-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+										{% if totalAlbums > 0 %}
+											<div class="h-full bg-blue-600 rounded-full" style="width: {{ (privateAlbums / totalAlbums * 100)|round }}%"></div>
+										{% else %}
+											<div class="h-full bg-gray-300 rounded-full" style="width: 0%"></div>
+										{% endif %}
+									</div>
+								</div>
+								<div>
+									<div class="flex justify-between text-sm">
+										<span class="text-gray-600">Photos par album</span>
+										<span class="font-medium">
+											{% if totalAlbums > 0 %}
+												{{ (totalPhotos / totalAlbums)|round(1) }}
+											{% else %}
+												0
+											{% endif %}
+										</span>
+									</div>
+									<div class="mt-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+										{% if totalAlbums > 0 %}
+											{% set percentage = min((totalPhotos / (totalAlbums * 20)) * 100, 100) %}
+											<div class="h-full bg-purple-600 rounded-full" style="width: {{ percentage|round }}%"></div>
+										{% else %}
+											<div class="h-full bg-gray-300 rounded-full" style="width: 0%"></div>
+										{% endif %}
+									</div>
+								</div>
+							</div>
+							<div class="mt-6 pt-6 border-t border-gray-200">
+								<div class="grid grid-cols-2 gap-4 text-center">
+									<div>
+										<p class="text-2xl font-bold text-gray-900">{{ recentAlbumsCount }}</p>
+										<p class="text-xs text-gray-500">Albums ce mois</p>
+									</div>
+									<div>
+										<p class="text-2xl font-bold text-gray-900">{{ recentPhotosCount }}</p>
+										<p class="text-xs text-gray-500">Photos ce mois</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
