@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une photo -
+	{{ album.title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container mx-auto px-4 py-8 max-w-2xl">
+		<div class="mb-8">
+			<div class="flex items-center space-x-3 mb-4">
+				<a href="{{ path('admin_album_show', {'id': album.id}) }}" class="text-blue-600 hover:text-blue-800">
+					← Retour à l'album
+				</a>
+				<span class="text-gray-400">/</span>
+				<h1 class="text-2xl font-bold text-gray-900">Ajouter une photo</h1>
+			</div>
+			<p class="text-gray-600">Ajoutez une photo à l'album :
+				<strong>{{ album.title }}</strong>
+			</p>
+		</div>
+
+		<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+			{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+
+			<div>
+				{{ form_label(form.imageFile, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
+				{{ form_widget(form.imageFile, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+				{{ form_errors(form.imageFile) }}
+				<p class="text-sm text-gray-500 mt-1">Formats : JPG, PNG, WebP, GIF. Max 10MB.</p>
+
+				<div id="imagePreview" class="mt-4 hidden">
+					<p class="text-sm text-gray-600 mb-2">Aperçu :</p>
+					<img id="previewImage" class="max-w-xs rounded border border-gray-200" src="" alt="Aperçu">
+				</div>
+			</div>
+
+			<div>
+				{{ form_label(form.title, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
+				{{ form_widget(form.title, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+				{{ form_errors(form.title) }}
+			</div>
+
+			<div>
+				{{ form_label(form.description, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
+				{{ form_widget(form.description, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500', 'rows': 3}}) }}
+				{{ form_errors(form.description) }}
+			</div>
+
+			<div class="flex justify-between pt-6 border-t border-gray-200">
+				<div class="flex space-x-3">
+					<a href="{{ path('admin_album_show', {'id': album.id}) }}" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+						Annuler
+					</a>
+					<a href="{{ path('admin_photo_multiple_to_album', {'albumId': album.id}) }}" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+						Upload multiple
+					</a>
+				</div>
+				<div class="flex space-x-3">
+					<button type="submit" name="add_another" value="1" class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-medium">
+						Ajouter + une autre
+					</button>
+					<button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+						Ajouter la photo
+					</button>
+				</div>
+			</div>
+
+			{{ form_end(form) }}
+		</div>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+const imageInput = document.querySelector('# {{ form.imageFile.vars.id }}');
+const previewDiv = document.getElementById('imagePreview');
+const previewImg = document.getElementById('previewImage');
+
+if (imageInput) {
+imageInput.addEventListener('change', function (e) {
+const file = e.target.files[0];
+if (file) {
+const reader = new FileReader();
+reader.onload = function (e) {
+previewImg.src = e.target.result;
+previewDiv.classList.remove('hidden');
+}
+reader.readAsDataURL(file);
+} else {
+previewDiv.classList.add('hidden');
+}
+});
+}
+});
+	</script>
+{% endblock %}

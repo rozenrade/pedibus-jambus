@@ -1,0 +1,23 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        album_cover:
+            uri_prefix: /uploads/albums/covers
+            upload_destination: "%kernel.project_dir%/public/uploads/albums/covers"
+            namer: Vich\UploaderBundle\Naming\OrignameNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        photos: # Doit correspondre à mapping: 'photos' dans votre entité
+            uri_prefix: /uploads/photos # URL publique
+            upload_destination: "%kernel.project_dir%/public/uploads/photos" # Dossier physique
+            namer: Vich\UploaderBundle\Naming\OrignameNamer # Garde le nom original
+            # ou pour des noms uniques :
+            # namer: Vich\UploaderBundle\Naming\UniqidNamer
+
+            # Options importantes :
+            delete_on_remove: true
+            delete_on_update: true
+            inject_on_load: false
