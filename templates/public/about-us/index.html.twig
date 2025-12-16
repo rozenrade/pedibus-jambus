@@ -1,0 +1,511 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Qui sommes-nous ? - Pedibus Jambus
+{% endblock %}
+
+{% block body %}
+	<section class="w-full py-12 px-4 bg-gradient-to-br from-green-50 to-blue-50">
+		<div
+			class="max-w-7xl mx-auto">
+			{# En-tête de la page #}
+			<div class="text-center mb-12">
+				<h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
+					Qui sommes-nous ?
+				</h1>
+				<div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
+			</div>
+
+			{# Section carte d'identité #}
+			<div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-12">
+				<div
+					class="flex flex-col lg:flex-row gap-8 items-start">
+					{# Logo ou image à gauche #}
+					<div class="lg:w-1/3">
+						<div class="sticky top-8">
+							<div class="bg-gradient-to-r from-green-500 to-blue-500 p-8 rounded-2xl text-center text-white shadow-lg">
+								<div class="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+									<i class="fas fa-hiking text-5xl text-green-500"></i>
+								</div>
+								<h2 class="text-2xl font-bold mb-2">PEDIBUS JAMBUS</h2>
+								<p class="text-green-500">Association de randonnée pédestre</p>
+							</div>
+						</div>
+					</div>
+
+					{# Contenu à droite #}
+					<div class="lg:w-2/3">
+						<div class="mb-8">
+							<h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 pb-3 border-b border-green-200">
+								<i class="fas fa-id-card text-green-500 mr-3"></i>
+								Carte d'identité
+							</h2>
+
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<div class="space-y-4">
+									<div class="bg-green-50 p-4 rounded-xl border border-green-100">
+										<div class="flex items-center">
+											<i class="fas fa-user text-green-600 mr-3 text-xl"></i>
+											<div>
+												<p class="text-sm text-gray-500">Nom / Prénom</p>
+												<p class="text-lg font-semibold text-gray-800">PEDIBUS JAMBUS</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+										<div class="flex items-center">
+											<i class="fas fa-birthday-cake text-blue-600 mr-3 text-xl"></i>
+											<div>
+												<p class="text-sm text-gray-500">Née le</p>
+												<p class="text-lg font-semibold text-gray-800">1er janvier 1994</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
+										<div class="flex items-center">
+											<i class="fas fa-users text-purple-600 mr-3 text-xl"></i>
+											<div>
+												<p class="text-sm text-gray-500">Taille</p>
+												<p class="text-lg font-semibold text-gray-800">80 à 100 adhérents</p>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="space-y-4">
+									<div class="bg-yellow-50 p-4 rounded-xl border border-yellow-100">
+										<div class="flex items-center">
+											<i class="fas fa-globe-americas text-yellow-600 mr-3 text-xl"></i>
+											<div>
+												<p class="text-sm text-gray-500">Nationalité</p>
+												<p class="text-lg font-semibold text-gray-800">Multinationale</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="bg-red-50 p-4 rounded-xl border border-red-100">
+										<div class="flex items-center">
+											<i class="fas fa-star text-red-600 mr-3 text-xl"></i>
+											<div>
+												<p class="text-sm text-gray-500">Signe particulier</p>
+												<p class="text-lg font-semibold text-gray-800">Moyenne d'âge 60 ans</p>
+											</div>
+										</div>
+									</div>
+
+									<div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+										<div class="flex items-center">
+											<i class="fas fa-smile text-indigo-600 mr-3 text-xl"></i>
+											<div>
+												<p class="text-sm text-gray-500">Ambiance</p>
+												<p class="text-lg font-semibold text-gray-800">Bonne humeur permanente</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						{# Informations détaillées #}
+						<div
+							class="space-y-8">
+							{# But #}
+							<div class="bg-gradient-to-r from-green-100 to-blue-100 p-6 rounded-2xl">
+								<h3 class="text-xl font-bold text-gray-800 mb-4">
+									<i class="fas fa-bullseye text-green-600 mr-2"></i>
+									Son but
+								</h3>
+								<p class="text-gray-700 text-lg leading-relaxed">
+									Découvrir les paysages les plus variés, partager les rêves et idées entre amis.
+								</p>
+							</div>
+
+							{# Sorties #}
+							<div class="bg-gradient-to-r from-blue-100 to-purple-100 p-6 rounded-2xl">
+								<h3 class="text-xl font-bold text-gray-800 mb-4">
+									<i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+									Sorties
+								</h3>
+								<ul class="space-y-3 text-gray-700">
+									<li class="flex items-start">
+										<i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+										<span>Toutes les fins de semaine, un samedi ou dimanche sur deux</span>
+									</li>
+									<li class="flex items-start">
+										<i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+										<span>Un lundi, mardi et jeudi par mois</span>
+									</li>
+									<li class="flex items-start">
+										<i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+										<span>Selon la disponibilité des animateurs</span>
+									</li>
+								</ul>
+							</div>
+
+							{# Grille d'informations #}
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<div class="bg-white border border-green-200 p-6 rounded-2xl shadow-sm">
+									<h4 class="text-lg font-bold text-gray-800 mb-3">
+										<i class="fas fa-sun text-yellow-500 mr-2"></i>
+										Périodes
+									</h4>
+									<ul class="space-y-2 text-gray-600">
+										<li>
+											<strong>Mars à novembre :</strong>
+											Sortie à la journée avec pique-nique</li>
+										<li>
+											<strong>Novembre à mars :</strong>
+											Sortie à la demi-journée</li>
+									</ul>
+								</div>
+
+								<div class="bg-white border border-blue-200 p-6 rounded-2xl shadow-sm">
+									<h4 class="text-lg font-bold text-gray-800 mb-3">
+										<i class="fas fa-route text-blue-500 mr-2"></i>
+										Kilométrage
+									</h4>
+									<ul class="space-y-2 text-gray-600">
+										<li>
+											<strong>Journée :</strong>
+											18 à 25 km environ</li>
+										<li>
+											<strong>Demi-journée :</strong>
+											10 à 15 km environ</li>
+									</ul>
+								</div>
+
+								<div class="bg-white border border-purple-200 p-6 rounded-2xl shadow-sm">
+									<h4 class="text-lg font-bold text-gray-800 mb-3">
+										<i class="fas fa-utensils text-purple-500 mr-2"></i>
+										Repas
+									</h4>
+									<p class="text-gray-600">Pique-nique à la charge du participant</p>
+								</div>
+
+								<div class="bg-white border border-red-200 p-6 rounded-2xl shadow-sm">
+									<h4 class="text-lg font-bold text-gray-800 mb-3">
+										<i class="fas fa-info-circle text-red-500 mr-2"></i>
+										Programmes
+									</h4>
+									<ul class="space-y-2 text-gray-600">
+										<li>4 programmes trimestriels</li>
+										<li>Programmes annuels "Grandes Évasions" et "Horizons Lointains"</li>
+										<li>Programmes spécifiques occasionnels</li>
+									</ul>
+								</div>
+							</div>
+
+							{# Matériel nécessaire #}
+							<div class="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-2xl border border-red-100">
+								<h3 class="text-xl font-bold text-gray-800 mb-4">
+									<i class="fas fa-hiking text-red-600 mr-2"></i>
+									Matériel nécessaire
+								</h3>
+								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+									<ul class="space-y-2 text-gray-700">
+										<li class="flex items-center">
+											<i class="fas fa-backpack text-green-500 mr-3"></i>
+											<span>Sac à dos 35/45 litres</span>
+										</li>
+										<li class="flex items-center">
+											<i class="fas fa-shoe-prints text-green-500 mr-3"></i>
+											<span>Chaussures de marche</span>
+										</li>
+										<li class="flex items-center">
+											<i class="fas fa-tint text-green-500 mr-3"></i>
+											<span>Gourde</span>
+										</li>
+									</ul>
+									<ul class="space-y-2 text-gray-700">
+										<li class="flex items-center">
+											<i class="fas fa-umbrella text-green-500 mr-3"></i>
+											<span>Cape de pluie</span>
+										</li>
+										<li class="flex items-center">
+											<i class="fas fa-first-aid text-green-500 mr-3"></i>
+											<span>Pharmacie personnelle</span>
+										</li>
+										<li class="flex items-center">
+											<i class="fas fa-box text-green-500 mr-3"></i>
+											<span>Boîte plastique ronde</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							{# Important #}
+							<div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-r-xl">
+								<div class="flex items-start">
+									<i class="fas fa-exclamation-triangle text-yellow-500 text-2xl mr-4 mt-1"></i>
+									<div>
+										<h4 class="text-xl font-bold text-gray-800 mb-3">IMPORTANT</h4>
+										<p class="text-gray-700 italic">
+											Ne jamais trop charger son sac de choses qui paraissent essentielles et qui deviennent vite inutiles.
+										</p>
+									</div>
+								</div>
+							</div>
+
+							{# Message final #}
+							<div class="text-center py-8 border-t border-green-200">
+								<p class="text-2xl md:text-3xl text-green-600 font-bold italic mb-4">
+									A bientôt parmi nous, pour découvrir petits chemins et grands sentiers.
+								</p>
+								<div class="w-16 h-1 bg-green-400 mx-auto"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# Section contact #}
+			<div class="bg-gradient-to-r from-emerald-800 to-slate-700 rounded-2xl shadow-xl p-8 text-white mb-12 backdrop-blur-sm bg-opacity-90">
+				<div class="flex flex-col lg:flex-row items-center gap-8">
+					<div class="lg:w-1/3 text-center lg:text-left">
+						<h2 class="text-2xl md:text-3xl font-bold mb-4">PEDIBUS JAMBUS</h2>
+						<p class="text-white">Association Randonnée Pédestre</p>
+					</div>
+					<div class="lg:w-2/3">
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+							<div class="space-y-3">
+								<div class="flex items-center">
+									<i class="fas fa-map-marker-alt text-emerald-300 mr-4 text-xl"></i>
+									<span>8 rue des andains<br>77380 Combs-la-Ville</span>
+								</div>
+								<div class="flex items-center">
+									<i class="fas fa-phone text-emerald-300 mr-4 text-xl"></i>
+									<span>Christiane : 06 69 47 00 16</span>
+								</div>
+							</div>
+							<div class="space-y-3">
+								<div class="flex items-center">
+									<i class="fas fa-envelope text-emerald-300 mr-4 text-xl"></i>
+									<span>pedibusjambus77380@gmail.com</span>
+								</div>
+								<div class="flex items-center">
+									<i class="fas fa-hiking text-emerald-300 mr-4 text-xl"></i>
+									<span>Sorties toute l'année</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# Sections Bureau et Animateurs #}
+			<div
+				class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+				{# Bureau #}
+				<div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+					<h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 pb-4 border-b border-green-200 text-center">
+						<i class="fas fa-users text-green-500 mr-3"></i>
+						Le Bureau
+					</h2>
+
+					<div class="space-y-6">
+						<div class="flex flex-col items-center text-center bg-green-50 p-6 rounded-2xl border border-green-100">
+							<img src="{{ asset('img/Petitbois.jpg') }}" alt="Christiane Petitbois" class="w-32 h-32 rounded-full border-4 border-white shadow-lg mb-4">
+							<h3 class="text-xl font-bold text-gray-800">Christiane Petitbois</h3>
+							<p class="text-green-600 font-semibold">Présidente</p>
+						</div>
+
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+							<div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+								<h4 class="font-bold text-gray-800 mb-2">Vice-Président</h4>
+								<p class="text-gray-700">Jean-Michel Gauvain</p>
+							</div>
+							<div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
+								<h4 class="font-bold text-gray-800 mb-2">Secrétaire</h4>
+								<p class="text-gray-700">Dominique Mann</p>
+							</div>
+							<div class="bg-yellow-50 p-4 rounded-xl border border-yellow-100">
+								<h4 class="font-bold text-gray-800 mb-2">Secrétaire adjointe</h4>
+								<p class="text-gray-700">Isabelle Girard</p>
+							</div>
+							<div class="bg-red-50 p-4 rounded-xl border border-red-100">
+								<h4 class="font-bold text-gray-800 mb-2">Trésorière</h4>
+								<p class="text-gray-700">Claudine Brejda-Robert</p>
+							</div>
+							<div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+								<h4 class="font-bold text-gray-800 mb-2">Trésorière adjointe</h4>
+								<p class="text-gray-700">Michel Bouthinon</p>
+							</div>
+							<div class="bg-pink-50 p-4 rounded-xl border border-pink-100">
+								<h4 class="font-bold text-gray-800 mb-2">Responsable logistique</h4>
+								<p class="text-gray-700">Christiane Desbarres</p>
+							</div>
+							<div class="bg-teal-50 p-4 rounded-xl border border-teal-100">
+								<h4 class="font-bold text-gray-800 mb-2">Responsable animateurs</h4>
+								<p class="text-gray-700">Christian Daubilly</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{# Animateurs #}
+				<div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+					<h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 pb-4 border-b border-blue-200 text-center">
+						<i class="fas fa-hiking text-blue-500 mr-3"></i>
+						Les Animateurs
+					</h2>
+
+					<div
+						class="space-y-6">
+						{# Animateurs avec photos #}
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+							<div class="flex items-center bg-blue-50 p-4 rounded-xl border border-blue-100">
+								<img src="{{ asset('img/Daubilly.jpg') }}" alt="Christian Daubilly" class="w-16 h-16 rounded-full border-2 border-white shadow mr-4">
+								<div>
+									<h4 class="font-bold text-gray-800">Christian Daubilly</h4>
+									<p class="text-sm text-gray-600">06 28 78 30 11</p>
+								</div>
+							</div>
+
+							<div class="flex items-center bg-purple-50 p-4 rounded-xl border border-purple-100">
+								<img src="{{ asset('img/Delord.jpg') }}" alt="Jacques Delord" class="w-16 h-16 rounded-full border-2 border-white shadow mr-4">
+								<div>
+									<h4 class="font-bold text-gray-800">Jacques Delord</h4>
+									<p class="text-sm text-gray-600">06 72 36 66 09</p>
+								</div>
+							</div>
+
+							<div class="flex items-center bg-yellow-50 p-4 rounded-xl border border-yellow-100">
+								<div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center border-2 border-white shadow mr-4">
+									<i class="fas fa-user text-gray-400"></i>
+								</div>
+								<div>
+									<h4 class="font-bold text-gray-800">Jean-Pierre Caquet</h4>
+									<p class="text-sm text-gray-600">06 51 71 77 08</p>
+								</div>
+							</div>
+
+							<div class="flex items-center bg-green-50 p-4 rounded-xl border border-green-100">
+								<img src="{{ asset('img/Vallée.jpg') }}" alt="Nelly Vallée" class="w-16 h-16 rounded-full border-2 border-white shadow mr-4">
+								<div>
+									<h4 class="font-bold text-gray-800">Nelly Vallée</h4>
+									<p class="text-sm text-gray-600">06 76 10 23 10</p>
+								</div>
+							</div>
+						</div>
+
+						{# Liste des autres animateurs #}
+						<div class="bg-gray-50 p-6 rounded-2xl">
+							<h4 class="font-bold text-gray-800 mb-4 text-center">Autres animateurs</h4>
+							<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+								<div class="flex items-center">
+									<i class="fas fa-user-circle text-gray-400 mr-3"></i>
+									<span class="text-gray-700">Christian Vouriot - 06 71 31 00 63</span>
+								</div>
+								<div class="flex items-center">
+									<i class="fas fa-user-circle text-gray-400 mr-3"></i>
+									<span class="text-gray-700">Rémy Petitbois - 06 74 39 69 28</span>
+								</div>
+								<div class="flex items-center">
+									<i class="fas fa-user-circle text-gray-400 mr-3"></i>
+									<span class="text-gray-700">Sandrine Cloup - 06 65 17 69 07</span>
+								</div>
+								<div class="flex items-center">
+									<i class="fas fa-user-circle text-gray-400 mr-3"></i>
+									<span class="text-gray-700">Roseline Gauvain - 06 80 92 16 74</span>
+								</div>
+								<div class="flex items-center">
+									<i class="fas fa-user-circle text-gray-400 mr-3"></i>
+									<span class="text-gray-700">Jean-Luc Lemé - 06 63 60 94 71</span>
+								</div>
+								<div class="flex items-center">
+									<i class="fas fa-user-circle text-gray-400 mr-3"></i>
+									<span class="text-gray-700">Michel Mersier - 06 15 22 45 06</span>
+								</div>
+								<div class="flex items-center">
+									<i class="fas fa-user-circle text-gray-400 mr-3"></i>
+									<span class="text-gray-700">Michel Braas - 06 48 21 26 07</span>
+								</div>
+								<div class="flex items-center">
+									<i class="fas fa-user-circle text-gray-400 mr-3"></i>
+									<span class="text-gray-700">Vincent Fondanèche - 06 65 07 64 16</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# Section Webmestre et Président d'honneur #}
+			<div
+				class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+				{# Webmestres #}
+				<div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+					<h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+						<i class="fas fa-laptop-code text-indigo-500 mr-3"></i>
+						Webmestres
+					</h2>
+
+					<div class="space-y-6">
+						<div class="flex flex-col sm:flex-row items-center gap-6 bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+							<img src="{{ asset('img/Liron.jpg') }}" alt="Roger Liron" class="w-24 h-24 rounded-full border-4 border-white shadow-lg">
+							<div class="text-center sm:text-left">
+								<h3 class="text-xl font-bold text-gray-800">Roger Liron</h3>
+								<p class="text-indigo-600 font-semibold mb-2">Webmestre principal</p>
+								<div class="space-y-1">
+									<p class="text-gray-600">
+										<i class="fas fa-phone text-indigo-500 mr-2"></i>
+										06 78 70 32 36
+									</p>
+									<p class="text-gray-600">
+										<i class="fas fa-envelope text-indigo-500 mr-2"></i>
+										roger.liron@wanadoo.fr
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+							<h4 class="font-bold text-gray-800 mb-3">JM Gauvain</h4>
+							<div class="space-y-2">
+								<p class="text-gray-600">
+									<i class="fas fa-phone text-gray-500 mr-2"></i>
+									06 87 29 23 23
+								</p>
+								<p class="text-gray-600">
+									<i class="fas fa-envelope text-gray-500 mr-2"></i>
+									jmr.gauvain@orange.fr
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{# Président d'honneur #}
+				<div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl shadow-xl p-6 md:p-8 border border-yellow-100 bg-white">
+					<h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+						<i class="fas fa-crown text-yellow-500 mr-3"></i>
+						Président d'honneur
+					</h2>
+
+					<div class="flex flex-col items-center">
+						<img src="{{ asset('img/Bertrand.jpg') }}" alt="Michel Bertrand" class="w-40 h-40 rounded-full border-4 border-white shadow-xl mb-6">
+						<h3 class="text-2xl font-bold text-gray-800">Michel Bertrand</h3>
+						<p class="text-yellow-600 font-semibold text-lg">Président d'honneur</p>
+						<div class="mt-6 p-4 bg-white rounded-xl shadow-sm border border-yellow-200 max-w-md">
+							<p class="text-gray-600 text-center italic">
+								"Pour son engagement et sa contribution exceptionnelle à notre association"
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{# Message final #}
+			<div class="mt-12 text-center">
+				<div class="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-4 rounded-full shadow-lg">
+					<p class="text-xl font-bold">
+						<i class="fas fa-heart mr-3"></i>
+						Merci à tous nos bénévoles !
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,213 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pedibus Jambus - Se créer un compte{% endblock %}
+
+{% block body %}
+    {# Section principale avec image de fond #}
+    <section class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-green-50 to-blue-50">
+        {# Conteneur de la carte #}
+        <div class="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
+            
+            {# En-tête avec image décorative #}
+            <div class="bg-gradient-to-r from-green-500 to-blue-500 p-8 text-center relative">
+                <div class="absolute top-4 left-4">
+                    <a href="/" class="text-white hover:text-green-100 transition-colors">
+                        <i class="fas fa-arrow-left text-xl"></i>
+                    </a>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4 shadow-lg">
+                        <i class="fas fa-hiking text-3xl text-green-500"></i>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Rejoignez-nous</h1>
+                    <p class="text-green-500 text-lg">Commencez votre aventure de randonnée</p>
+                </div>
+            </div>
+
+            {# Contenu du formulaire #}
+            <div class="p-8 md:p-10">
+                {# Messages d'erreur #}
+                {% for flash_error in app.flashes('verify_email_error') %}
+                    <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-circle text-red-500"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-red-700">{{ flash_error }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                {# Erreurs générales du formulaire #}
+                {% if form_errors(registrationForm) %}
+                    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-sm font-medium text-red-800">
+                                    Des erreurs sont présentes dans le formulaire
+                                </h3>
+                                <div class="mt-2 text-sm text-red-700">
+                                    {{ form_errors(registrationForm) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {# Intro #}
+                <div class="mb-8 text-center">
+                    <p class="text-gray-600">
+                        Créez votre compte pour accéder à toutes nos fonctionnalités et rejoindre notre communauté de randonneurs.
+                    </p>
+                </div>
+
+                {{ form_start(registrationForm, {'attr': {'class': 'space-y-6', 'novalidate': 'novalidate'}}) }}
+
+                    {# Champ Email #}
+                    <div class="space-y-2">
+                        <label for="{{ registrationForm.email.vars.id }}" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-envelope mr-2 text-green-500"></i>Adresse Email
+                        </label>
+                        <div class="relative">
+                            {{ form_widget(registrationForm.email, {
+                                attr: {
+                                    class: 'w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 ease-in-out placeholder-gray-400',
+                                    placeholder: 'exemple@email.com'
+                                }
+                            }) }}
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-at text-gray-400"></i>
+                            </div>
+                        </div>
+                        {% if registrationForm.email.vars.errors %}
+                            <div class="text-red-500 text-sm mt-1">
+                                {% for error in registrationForm.email.vars.errors %}
+                                    <i class="fas fa-exclamation-circle mr-1"></i>{{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {# Champ Mot de passe #}
+                    <div class="space-y-2">
+                        <label for="{{ registrationForm.plainPassword.vars.id }}" class="block text-sm font-medium text-gray-700">
+                            <i class="fas fa-lock mr-2 text-green-500"></i>Mot de passe
+                        </label>
+                        <div class="relative">
+                            {{ form_widget(registrationForm.plainPassword, {
+                                attr: {
+                                    class: 'w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 ease-in-out placeholder-gray-400',
+                                    placeholder: 'Minimum 6 caractères'
+                                }
+                            }) }}
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-key text-gray-400"></i>
+                            </div>
+                        </div>
+                        {% if registrationForm.plainPassword.vars.errors %}
+                            <div class="text-red-500 text-sm mt-1">
+                                {% for error in registrationForm.plainPassword.vars.errors %}
+                                    <i class="fas fa-exclamation-circle mr-1"></i>{{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <p class="text-xs text-gray-500 mt-1">
+                            <i class="fas fa-info-circle mr-1"></i>Le mot de passe doit contenir au moins 6 caractères
+                        </p>
+                    </div>
+
+                    {# Case à cocher - Conditions #}
+                    <div class="space-y-2">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                {{ form_widget(registrationForm.agreeTerms, {
+                                    attr: {
+                                        class: 'h-5 w-5 text-green-600 border-gray-300 rounded focus:ring-green-500 focus:ring-2'
+                                    }
+                                }) }}
+                            </div>
+                            <div class="ml-3">
+                                <label for="{{ registrationForm.agreeTerms.vars.id }}" class="text-sm text-gray-700">
+                                    J'accepte les 
+                                    <a href="#" class="text-green-600 hover:text-green-800 font-medium">conditions d'utilisation</a>
+                                     et la 
+                                    <a href="#" class="text-green-600 hover:text-green-800 font-medium">politique de confidentialité</a>
+                                </label>
+                            </div>
+                        </div>
+                        {% if registrationForm.agreeTerms.vars.errors %}
+                            <div class="text-red-500 text-sm mt-1">
+                                {% for error in registrationForm.agreeTerms.vars.errors %}
+                                    <i class="fas fa-exclamation-circle mr-1"></i>{{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {# Bouton de soumission #}
+                    <div class="pt-4">
+                        <button type="submit" 
+                                class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-lg text-lg font-semibold text-black bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-300 transform hover:-translate-y-1">
+                            <i class="fas fa-user-plus mr-3"></i>
+                            Créer mon compte
+                        </button>
+                    </div>
+
+                {{ form_end(registrationForm) }}
+
+                {# Séparateur #}
+                <div class="relative my-8">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-white text-gray-500">Déjà membre ?</span>
+                    </div>
+                </div>
+
+                {# Lien de connexion #}
+                <div class="text-center">
+                    <a href="{{ path('app_login') }}" 
+                       class="inline-flex items-center px-6 py-3 border-2 border-green-500 rounded-xl text-green-600 font-medium hover:bg-green-50 transition duration-200 ease-in-out">
+                        <i class="fas fa-sign-in-alt mr-3"></i>
+                        Se connecter à mon compte
+                    </a>
+                </div>
+
+                {# Information de sécurité #}
+                <div class="mt-8 p-4 bg-green-50 rounded-xl border border-green-100">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-shield-alt text-green-500 mt-1"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="text-sm font-medium text-green-800">Vos données sont sécurisées</h4>
+                            <p class="mt-1 text-xs text-green-600">
+                                Nous protégeons vos informations personnelles et ne les partageons jamais avec des tiers.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Pied de page #}
+            <div class="bg-gray-50 px-8 py-4 border-t border-gray-200">
+                <div class="text-center text-sm text-gray-500">
+                    <p>© 2024 Pedibus Jambus. Tous droits réservés.</p>
+                    <p class="mt-1">
+                        <a href="/" class="text-green-600 hover:text-green-800">
+                            <i class="fas fa-home mr-1"></i>Retour à l'accueil
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

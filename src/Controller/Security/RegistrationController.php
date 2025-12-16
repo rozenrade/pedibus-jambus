@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Security;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
@@ -18,7 +18,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
+    public function __construct(private EmailVerifier $emailVerifier, private EntityManagerInterface $entityManager)
     {
     }
 
@@ -27,7 +27,7 @@ class RegistrationController extends AbstractController
     {
         // Si l'utilisateur est déjà connecté, redirigez-le
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_home');
         }
 
         $user = new User();
@@ -45,6 +45,8 @@ class RegistrationController extends AbstractController
 
             // L'utilisateur n'est PAS vérifié par défaut
             $user->setIsVerified(false);
+
+            $user->setRoles(['ROLE_USER']);
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -93,7 +95,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $user = $this->getDoctrine()->getManager()->getRepository(User::class)->find($id);
+        $user = $this->entityManager->getRepository(User::class)->find($id);
         
         if (null === $user) {
             return $this->redirectToRoute('app_register');
@@ -108,7 +110,7 @@ class RegistrationController extends AbstractController
 
         // Marquer l'utilisateur comme vérifié
         $user->setIsVerified(true);
-        $this->getDoctrine()->getManager()->flush();
+        $this->entityManager->flush();
 
         // Message de succès
         $this->addFlash('success', 'Votre adresse email a été vérifiée avec succès ! Vous pouvez maintenant vous connecter.');
