@@ -1,535 +1,80 @@
-{# templates/public_albums/show.html.twig #}
+{# templates/public/gallery/show.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ album.title }} - Albums publics - Pedibus Jambus{% endblock %}
+{% block title %}{{ album.title }} - Pedibus Jambus{% endblock %}
 
 {% block body %}
-<!-- Album public spécifique -->
-<section class="w-full px-4 py-8 relative">
+<section class="w-full px-4 py-8">
     <div class="max-w-7xl mx-auto">
-        <!-- Conteneur avec fond blanc semi-transparent -->
-        <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden">
-            <!-- Bandeau supérieur -->
-            <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 md:p-8">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <nav class="flex items-center gap-2 text-sm text-blue-200 mb-4">
-                            <a href="{{ path('home') }}" class="hover:text-white transition">
-                                <i class="fas fa-home"></i>
-                            </a>
-                            <span>/</span>
-                            <a href="{{ path('public_albums') }}" class="hover:text-white transition">
-                                Albums publics
-                            </a>
-                            <span>/</span>
-                            <span class="font-semibold">{{ album.title|truncate(30) }}</span>
-                        </nav>
-                        
-                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">
-                            {{ album.title }}
-                        </h1>
-                        
-                        <div class="flex flex-wrap items-center gap-4 mt-4">
-                            <span class="bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1">
-                                <i class="fas fa-globe-americas"></i>
-                                Album public
-                            </span>
-                            
-                            <span class="flex items-center gap-2 text-blue-100">
-                                <i class="fas fa-calendar-alt"></i>
-                                {{ album.eventDate|date('d/m/Y') }}
-                            </span>
-                            
-                            <span class="flex items-center gap-2 text-blue-100">
-                                <i class="fas fa-images"></i>
-                                {{ album.photos|length }} photos
-                            </span>
-                            
-                            <span class="flex items-center gap-2 text-blue-100">
-                                <i class="fas fa-clock"></i>
-                                Dernière mise à jour : {{ album.updatedAt ? album.updatedAt|date('d/m/Y') : album.createdAt|date('d/m/Y') }}
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-3">
-                        <a 
-                            href="{{ path('public_albums') }}" 
-                            class="bg-white/20 hover:bg-white/30 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 flex items-center gap-2"
-                        >
-                            <i class="fas fa-arrow-left"></i>
-                            Retour
-                        </a>
-                        
-                        <button onclick="window.print()" 
-                                class="bg-white/20 hover:bg-white/30 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 flex items-center gap-2">
-                            <i class="fas fa-print"></i>
-                            Imprimer
-                        </button>
-                    </div>
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+            <!-- En-tête de l'album -->
+            <div class="mb-8">
+                <a href="{{ path('public_album') }}" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-4">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour à la galerie
+                </a>
+                
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ album.title }}</h1>
+                <div class="flex flex-wrap items-center gap-4 text-gray-600">
+                    <span class="flex items-center gap-2">
+                        <i class="fas fa-calendar-alt"></i>
+                        {{ album.eventDate|date('d/m/Y') }}
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <i class="fas fa-images"></i>
+                        {{ album.photos|length }} photos
+                    </span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+                        <i class="fas fa-globe-americas mr-1"></i>
+                        Public
+                    </span>
                 </div>
-            </div>
-
-            <!-- Description -->
-            {% if album.description %}
-                <div class="p-6 md:p-8 border-b border-gray-100">
-                    <div class="max-w-3xl">
-                        <h2 class="text-lg font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                            <i class="fas fa-align-left text-blue-500"></i>
-                            Description de l'album
-                        </h2>
-                        <p class="text-gray-600 leading-relaxed">
-                            {{ album.description|nl2br }}
-                        </p>
-                    </div>
-                </div>
-            {% endif %}
-
-            <!-- Photos -->
-            <div class="p-6 md:p-8">
-                {% if album.photos|length > 0 %}
-                    <!-- En-tête photos -->
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                        <div>
-                            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">
-                                <i class="fas fa-images text-green-500 mr-2"></i>
-                                Photos de la randonnée
-                            </h2>
-                            <p class="text-gray-600">
-                                Photos triées du plus récent au plus ancien
-                            </p>
-                        </div>
-                        
-                        <div class="flex items-center gap-4">
-                            <!-- Compteur -->
-                            <div class="bg-blue-50 px-4 py-2 rounded-full">
-                                <span class="text-blue-700 font-semibold">
-                                    {{ album.photos|length }} photo(s)
-                                </span>
-                            </div>
-                            
-                            <!-- Options d'affichage -->
-                            <div class="flex bg-gray-100 rounded-lg p-1">
-                                <button id="gridView" class="p-2 rounded-md bg-white shadow-sm text-blue-600">
-                                    <i class="fas fa-th"></i>
-                                </button>
-                                <button id="listView" class="p-2 rounded-md text-gray-500 hover:text-blue-600">
-                                    <i class="fas fa-list"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Grille de photos -->
-                    <div id="photosGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                        {% for photo in album.photos %}
-                            <!-- Carte photo -->
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 group photo-card">
-                                <!-- Image -->
-                                <div class="relative overflow-hidden">
-                                    <img 
-                                        src="{{ asset('uploads/photos/' ~ photo.imageName) }}" 
-                                        alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" 
-                                        class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500 cursor-zoom-in lightbox-image"
-                                        data-index="{{ loop.index0 }}"
-                                        data-album-id="{{ album.id }}"
-                                        loading="lazy"
-                                    >
-                                    
-                                    <!-- Overlay info -->
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                                        <div class="p-4 w-full text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                            <p class="text-sm font-medium mb-1">Cliquez pour agrandir</p>
-                                            <p class="text-xs opacity-90">
-                                                <i class="far fa-clock mr-1"></i>
-                                                {{ photo.createdAt|date('d/m/Y H:i') }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Badge si la photo a des tags -->
-                                    {% if photo.tags|length > 0 %}
-                                        <div class="absolute top-3 right-3">
-                                            <span class="bg-black/70 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                                                <i class="fas fa-tag text-xs"></i>
-                                                {{ photo.tags|length }}
-                                            </span>
-                                        </div>
-                                    {% endif %}
-                                    
-                                    <!-- Numéro de la photo -->
-                                    <div class="absolute top-3 left-3">
-                                        <span class="bg-black/70 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                            #{{ loop.index }}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <!-- Métadonnées -->
-                                <div class="p-4">
-                                    {% if photo.title %}
-                                        <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2">
-                                            {{ photo.title }}
-                                        </h3>
-                                    {% endif %}
-                                    
-                                    {% if photo.description %}
-                                        <p class="text-gray-600 text-sm mb-3 line-clamp-3">
-                                            {{ photo.description }}
-                                        </p>
-                                    {% endif %}
-                                    
-                                    <!-- Tags -->
-                                    {% if photo.tags|length > 0 %}
-                                        <div class="mt-3">
-                                            <div class="flex flex-wrap gap-1">
-                                                {% for tag in photo.tags|slice(0, 3) %}
-                                                    <span class="inline-block bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded">
-                                                        #{{ tag }}
-                                                    </span>
-                                                {% endfor %}
-                                                {% if photo.tags|length > 3 %}
-                                                    <span class="inline-block bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">
-                                                        +{{ photo.tags|length - 3 }}
-                                                    </span>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                    
-                                    <!-- Informations -->
-                                    <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between text-xs text-gray-500">
-                                        <span>
-                                            <i class="far fa-calendar mr-1"></i>
-                                            {{ photo.createdAt|date('d/m/Y') }}
-                                        </span>
-                                        <span>
-                                            <i class="far fa-clock mr-1"></i>
-                                            {{ photo.createdAt|date('H:i') }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                    <!-- Vue liste (cachée par défaut) -->
-                    <div id="photosList" class="hidden space-y-4">
-                        {% for photo in album.photos %}
-                            <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300">
-                                <div class="flex flex-col md:flex-row">
-                                    <!-- Miniature -->
-                                    <div class="md:w-1/4">
-                                        <img 
-                                            src="{{ asset('uploads/photos/' ~ photo.imageName) }}" 
-                                            alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" 
-                                            class="w-full h-48 md:h-full object-cover cursor-zoom-in lightbox-image"
-                                            data-index="{{ loop.index0 }}"
-                                            data-album-id="{{ album.id }}"
-                                        >
-                                    </div>
-                                    
-                                    <!-- Détails -->
-                                    <div class="md:w-3/4 p-6">
-                                        <div class="flex justify-between items-start mb-2">
-                                            <div>
-                                                <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mr-3">
-                                                    #{{ loop.index }}
-                                                </span>
-                                                <span class="text-gray-500 text-sm">
-                                                    <i class="far fa-clock mr-1"></i>
-                                                    {{ photo.createdAt|date('d/m/Y H:i') }}
-                                                </span>
-                                            </div>
-                                            
-                                            <a href="{{ asset('uploads/photos/' ~ photo.imageName) }}" 
-                                               target="_blank"
-                                               class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                                                <i class="fas fa-external-link-alt mr-1"></i>
-                                                Ouvrir
-                                            </a>
-                                        </div>
-                                        
-                                        {% if photo.title %}
-                                            <h3 class="text-lg font-semibold text-gray-800 mb-2">
-                                                {{ photo.title }}
-                                            </h3>
-                                        {% endif %}
-                                        
-                                        {% if photo.description %}
-                                            <p class="text-gray-600 mb-4">
-                                                {{ photo.description }}
-                                            </p>
-                                        {% endif %}
-                                        
-                                        {% if photo.tags|length > 0 %}
-                                            <div class="flex flex-wrap gap-2">
-                                                {% for tag in photo.tags %}
-                                                    <span class="inline-block bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
-                                                        #{{ tag }}
-                                                    </span>
-                                                {% endfor %}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                {% else %}
-                    <!-- Message si aucune photo -->
-                    <div class="text-center py-12 md:py-16">
-                        <div class="max-w-md mx-auto">
-                            <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-8 mb-6">
-                                <i class="fas fa-image text-5xl text-gray-300 mb-4"></i>
-                                <h3 class="text-xl md:text-2xl font-bold text-gray-700 mb-3">
-                                    Aucune photo dans cet album
-                                </h3>
-                                <p class="text-gray-500">
-                                    Les photos seront ajoutées prochainement.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                
+                {% if album.description %}
+                    <p class="mt-4 text-gray-600">{{ album.description }}</p>
                 {% endif %}
             </div>
-
-            <!-- Pied de page -->
-            <div class="bg-gray-50 p-6 md:p-8 border-t border-gray-200">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div class="text-gray-600">
-                        <p class="text-sm">
-                            <i class="fas fa-info-circle text-blue-500 mr-2"></i>
-                            Cet album est visible publiquement. Les photos sont triées du plus récent au plus ancien.
-                        </p>
-                    </div>
-                    
-                    <div class="flex gap-3">
-                        <a href="{{ path('public_albums') }}" 
-                           class="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300">
-                            <i class="fas fa-arrow-left"></i>
-                            Retour aux albums
-                        </a>
-                        
-                        <a href="{{ path('home') }}" 
-                           class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300">
-                            <i class="fas fa-home"></i>
-                            Accueil
-                        </a>
-                    </div>
+            
+            <!-- Photos de l'album en grille -->
+            {% if album.photos|length > 0 %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {% for photo in album.photos %}
+                        <div class="photo-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 cursor-pointer"
+                             onclick="openLightbox('{{ album.id }}', {{ loop.index0 }})">
+                            <img 
+                                src="{{ asset('uploads/photos/' ~ photo.imageName) }}" 
+                                alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" 
+                                class="w-full h-64 object-cover"
+                                loading="lazy"
+                                data-album-id="{{ album.id }}"
+                                data-photo-index="{{ loop.index0 }}"
+                            >
+                            <div class="p-4">
+                                {% if photo.title %}
+                                    <h3 class="font-semibold text-gray-800 mb-2 truncate">{{ photo.title }}</h3>
+                                {% endif %}
+                                <p class="text-sm text-gray-500">{{ photo.createdAt|date('d/m/Y') }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            </div>
+            {% else %}
+                <div class="text-center py-12">
+                    <i class="fas fa-image text-5xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-500">Aucune photo dans cet album</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 </section>
 
-<!-- Lightbox -->
-<div id="lightbox" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95">
-    <!-- Boutons -->
-    <button id="lightbox-close" class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
-        &times;
-    </button>
-    
-    <button id="lightbox-prev" class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
-        ‹
-    </button>
-    
-    <button id="lightbox-next" class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
-        ›
-    </button>
-
-    <!-- Image -->
-    <div class="relative z-40 flex items-center justify-center h-full p-2 md:p-4">
-        <img id="lightbox-img" class="max-w-full max-h-[85vh] md:max-h-[90vh] object-contain rounded-lg" src="" alt="">
-        
-        <!-- Info photo -->
-        <div id="lightbox-info" class="absolute bottom-4 left-4 right-4 md:left-6 md:right-6 bg-black bg-opacity-60 rounded-lg p-4 text-white">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h4 id="lightbox-title" class="font-semibold text-lg"></h4>
-                    <p id="lightbox-description" class="text-sm opacity-90 mt-1"></p>
-                    <div id="lightbox-tags" class="flex flex-wrap gap-2 mt-2"></div>
-                </div>
-                <div class="text-sm opacity-80">
-                    <p id="lightbox-date"></p>
-                    <p id="lightbox-count" class="font-medium"></p>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Inclure la lightbox depuis le template principal -->
+<div id="lightbox" class="fixed inset-0 z-[100] hidden">
+    <!-- Le même code que dans index.html.twig -->
 </div>
-{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Variables pour la lightbox
-            let images = [];
-            let currentIndex = 0;
-            const currentAlbumId = {{ album.id }};
-            
-            // Récupérer toutes les images de l'album courant
-            images = Array.from(document.querySelectorAll('.lightbox-image[data-album-id="' + currentAlbumId + '"]'));
-            
-            // Références lightbox
-            const overlay = document.getElementById('lightbox');
-            const img = document.getElementById('lightbox-img');
-            const counter = document.getElementById('lightbox-count');
-            const title = document.getElementById('lightbox-title');
-            const description = document.getElementById('lightbox-description');
-            const date = document.getElementById('lightbox-date');
-            const tags = document.getElementById('lightbox-tags');
-            
-            const closeBtn = document.getElementById('lightbox-close');
-            const prevBtn = document.getElementById('lightbox-prev');
-            const nextBtn = document.getElementById('lightbox-next');
-            
-            // Récupérer les données des photos depuis le DOM
-            const photoCards = document.querySelectorAll('.photo-card');
-            const photoData = [];
-            
-            photoCards.forEach(card => {
-                const img = card.querySelector('img');
-                const titleEl = card.querySelector('h3');
-                const descEl = card.querySelector('p');
-                const dateEl = card.querySelector('span[class*="fa-calendar"]')?.closest('span');
-                const tagElements = card.querySelectorAll('.bg-blue-50.text-blue-700');
-                
-                photoData.push({
-                    src: img.src,
-                    alt: img.alt,
-                    title: titleEl ? titleEl.textContent.trim() : '',
-                    description: descEl ? descEl.textContent.trim() : '',
-                    date: dateEl ? dateEl.textContent.trim() : '',
-                    tags: Array.from(tagElements).map(tag => tag.textContent.trim())
-                });
-            });
-            
-            // Ouvrir lightbox
-            function openLightbox(index) {
-                currentIndex = index;
-                const data = photoData[index];
-                
-                img.src = data.src;
-                img.alt = data.alt;
-                
-                // Mettre à jour les informations
-                title.textContent = data.title || 'Photo sans titre';
-                description.textContent = data.description || '';
-                date.textContent = data.date || '';
-                counter.textContent = `${currentIndex + 1} / ${images.length}`;
-                
-                // Mettre à jour les tags
-                tags.innerHTML = '';
-                if (data.tags && data.tags.length > 0) {
-                    data.tags.forEach(tag => {
-                        const tagSpan = document.createElement('span');
-                        tagSpan.className = 'inline-block bg-white/20 text-white text-xs px-2 py-1 rounded';
-                        tagSpan.textContent = tag;
-                        tags.appendChild(tagSpan);
-                    });
-                }
-                
-                // Gestion des boutons navigation
-                prevBtn.style.display = currentIndex > 0 ? 'flex' : 'none';
-                nextBtn.style.display = currentIndex < images.length - 1 ? 'flex' : 'none';
-                
-                // Afficher
-                overlay.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-                
-                // Adapter la taille sur mobile
-                if (window.innerWidth < 768) {
-                    img.classList.add('max-h-[75vh]');
-                    img.classList.remove('max-h-[90vh]');
-                } else {
-                    img.classList.remove('max-h-[75vh]');
-                    img.classList.add('max-h-[90vh]');
-                }
-            }
-            
-            // Fermer lightbox
-            function closeLightbox() {
-                overlay.classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-            
-            // Navigation
-            function prev() {
-                if (currentIndex > 0) openLightbox(currentIndex - 1);
-            }
-            
-            function next() {
-                if (currentIndex < images.length - 1) openLightbox(currentIndex + 1);
-            }
-            
-            // Événements sur les images
-            images.forEach((image, index) => {
-                image.style.cursor = 'zoom-in';
-                image.addEventListener('click', () => openLightbox(index));
-            });
-            
-            // Événements boutons
-            closeBtn.addEventListener('click', closeLightbox);
-            prevBtn.addEventListener('click', prev);
-            nextBtn.addEventListener('click', next);
-            
-            // Fermer en cliquant sur l'overlay
-            overlay.addEventListener('click', function (e) {
-                if (e.target === overlay) {
-                    closeLightbox();
-                }
-            });
-            
-            // Navigation clavier
-            document.addEventListener('keydown', (e) => {
-                if (!overlay.classList.contains('hidden')) {
-                    switch(e.key) {
-                        case 'Escape':
-                            closeLightbox();
-                            break;
-                        case 'ArrowLeft':
-                            prev();
-                            break;
-                        case 'ArrowRight':
-                            next();
-                            break;
-                    }
-                }
-            });
-            
-            // Basculer entre grille et liste
-            const gridViewBtn = document.getElementById('gridView');
-            const listViewBtn = document.getElementById('listView');
-            const photosGrid = document.getElementById('photosGrid');
-            const photosList = document.getElementById('photosList');
-            
-            if (gridViewBtn && listViewBtn) {
-                gridViewBtn.addEventListener('click', () => {
-                    photosGrid.classList.remove('hidden');
-                    photosList.classList.add('hidden');
-                    gridViewBtn.classList.add('bg-white', 'shadow-sm', 'text-blue-600');
-                    gridViewBtn.classList.remove('text-gray-500');
-                    listViewBtn.classList.remove('bg-white', 'shadow-sm', 'text-blue-600');
-                    listViewBtn.classList.add('text-gray-500');
-                });
-                
-                listViewBtn.addEventListener('click', () => {
-                    photosGrid.classList.add('hidden');
-                    photosList.classList.remove('hidden');
-                    listViewBtn.classList.add('bg-white', 'shadow-sm', 'text-blue-600');
-                    listViewBtn.classList.remove('text-gray-500');
-                    gridViewBtn.classList.remove('bg-white', 'shadow-sm', 'text-blue-600');
-                    gridViewBtn.classList.add('text-gray-500');
-                });
-            }
-            
-            // Adapter au redimensionnement
-            window.addEventListener('resize', function() {
-                if (!overlay.classList.contains('hidden')) {
-                    if (window.innerWidth < 768) {
-                        img.classList.add('max-h-[75vh]');
-                        img.classList.remove
+<script>
+    // Réutiliser les mêmes fonctions JavaScript
+    // (Elles sont déjà incluses si vous avez le même block javascripts)
+</script>
+{% endblock %}

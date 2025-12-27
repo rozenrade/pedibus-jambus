@@ -1,7 +1,121 @@
-{# templates/public_albums/index.html.twig #}
+{# templates/public/gallery/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Photos publiques - Pedibus Jambus{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Styles pour la lightbox */
+        .lightbox-overlay {
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .lightbox-image {
+            animation: zoomIn 0.3s ease-out;
+        }
+        
+        .lightbox-thumbnail {
+            transition: all 0.2s ease;
+        }
+        
+        .lightbox-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        
+        .lightbox-thumbnail.active {
+            border-color: #3b82f6 !important;
+            transform: scale(1.05);
+        }
+        
+        /* Animation d'entrée */
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        /* Scrollbar personnalisée */
+        .scrollbar-thin::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Carte photo améliorée */
+        .photo-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .photo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Navigation horizontale */
+        .album-carousel {
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+        }
+        
+        .album-carousel-item {
+            scroll-snap-align: start;
+            flex: 0 0 auto;
+        }
+        
+        /* Boutons de navigation */
+        .carousel-nav-btn {
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+        }
+        
+        .album-carousel-container:hover .carousel-nav-btn {
+            opacity: 1;
+        }
+        
+        .carousel-nav-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Overlay image */
+        .image-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .photo-card:hover .image-overlay {
+            opacity: 1;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
 <!-- Section des photos publiques -->
@@ -39,40 +153,18 @@
             </div>
 
             {% if albums|length > 0 %}
-                <!-- Toutes les photos regroupées -->
-                <div class="mb-10">
-                    <!-- Bouton pour afficher/masquer les filtres par album -->
-                    <div class="flex justify-end mb-6">
-                        <button id="toggleFilters" class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors">
-                            <i class="fas fa-filter"></i>
-                            <span class="hidden md:inline">Filtrer par album</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Filtres par album (cachés par défaut) -->
-                    <div id="albumFilters" class="hidden mb-8 p-6 bg-gray-50 rounded-xl">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Filtrer par album :</h3>
-                        <div class="flex flex-wrap gap-3">
-                            <button class="album-filter active px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition" data-album="all">
-                                Toutes les photos
-                            </button>
-                            {% for album in albums %}
-                                <button class="album-filter px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition" data-album="{{ album.id }}">
-                                    {{ album.title|truncate(20) }} ({{ album.photos|length }})
-                                </button>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    
-                    <!-- Conteneur des photos -->
-                    <div class="relative">
-                        {% for album in albums %}
-                            {% if album.photos|length > 0 %}
-                                <!-- Titre de l'album en haut à gauche -->
-                                <div class="album-section mb-10" data-album-id="{{ album.id }}">
-                                    <div class="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200">
-                                        <div class="flex-shrink-0">
-                                            <div class="w-12 h-12 rounded-lg overflow-hidden">
+                <!-- Conteneur des albums -->
+                <div class="space-y-12">
+                    {% for album in albums %}
+                        {% if album.photos|length > 0 %}
+                            <!-- Section d'album -->
+                            <div class="album-section" data-album-id="{{ album.id }}">
+                                <!-- En-tête de l'album -->
+                                <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+                                    <div class="flex items-center gap-4">
+                                        <!-- Icône de l'album -->
+                                        <div class="relative">
+                                            <div class="w-12 h-12 rounded-lg overflow-hidden border-2 border-white shadow">
                                                 {% if album.coverImage %}
                                                     <img 
                                                         src="{{ asset('uploads/album_covers/' ~ album.coverImage) }}" 
@@ -92,150 +184,160 @@
                                                     </div>
                                                 {% endif %}
                                             </div>
+                                            <!-- Badge public -->
+                                            <span class="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                                <i class="fas fa-globe-americas text-[8px]"></i>
+                                            </span>
                                         </div>
                                         
-                                        <div class="flex-1">
+                                        <!-- Titre et infos -->
+                                        <div>
                                             <h2 class="text-xl md:text-2xl font-bold text-gray-800">
                                                 {{ album.title }}
                                             </h2>
-                                            <div class="flex flex-wrap items-center gap-3 mt-2">
-                                                <span class="text-sm text-gray-500">
-                                                    <i class="fas fa-calendar-alt mr-1"></i>
+                                            <div class="flex items-center gap-3 mt-1">
+                                                <span class="text-sm text-gray-500 flex items-center gap-1">
+                                                    <i class="fas fa-calendar-alt text-xs"></i>
                                                     {{ album.eventDate|date('d/m/Y') }}
                                                 </span>
-                                                <span class="text-sm text-gray-500">
-                                                    <i class="fas fa-images mr-1"></i>
-                                                    {{ album.photos|length }} photos
+                                                <span class="text-sm text-gray-500 flex items-center gap-1">
+                                                    <i class="fas fa-image text-xs"></i>
+                                                    {{ album.photos|length }} photo(s)
                                                 </span>
-                                                {% if album.description %}
-                                                    <span class="text-sm text-gray-500">
-                                                        {{ album.description|truncate(50) }}
-                                                    </span>
-                                                {% endif %}
                                             </div>
-                                        </div>
-                                        
-                                        <div class="hidden md:block">
-                                            <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">
-                                                <i class="fas fa-globe-americas mr-1"></i>
-                                                Public
-                                            </span>
                                         </div>
                                     </div>
                                     
-                                    <!-- Grille de photos -->
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                                    <!-- Bouton voir tout -->
+                                    <a href="{{ path('public_album_show', {id: album.id}) }}" 
+                                       class="hidden md:flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors text-sm font-medium">
+                                        <i class="fas fa-external-link-alt text-xs"></i>
+                                        Voir tout
+                                    </a>
+                                </div>
+                                
+                                <!-- Carrousel horizontal des photos -->
+                                <div class="album-carousel-container relative group">
+                                    <!-- Bouton précédent -->
+                                    <button class="carousel-nav-btn absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white hover:bg-gray-50 text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+                                            onclick="scrollAlbumLeft('carousel-{{ album.id }}')"
+                                            aria-label="Photos précédentes">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    
+                                    <!-- Carrousel -->
+                                    <div id="carousel-{{ album.id }}" 
+                                         class="album-carousel flex overflow-x-auto gap-4 md:gap-6 pb-6 scrollbar-thin scroll-smooth">
                                         {% for photo in album.photos %}
                                             <!-- Carte photo -->
-                                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 group photo-item" 
-                                                 data-album-id="{{ album.id }}"
-                                                 data-photo-index="{{ loop.index }}">
-                                                <!-- Image -->
-                                                <div class="relative overflow-hidden aspect-square">
-                                                    <img 
-                                                        src="{{ asset('uploads/photos/' ~ photo.imageName) }}" 
-                                                        alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" 
-                                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-zoom-in"
-                                                        loading="lazy"
-                                                        onclick="openLightbox('{{ album.id }}', {{ loop.index0 }})"
-                                                    >
-                                                    
-                                                    <!-- Overlay info -->
-                                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                                                        <div class="p-4 w-full text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                                            {% if photo.title %}
-                                                                <p class="text-sm font-medium mb-1 truncate">{{ photo.title }}</p>
-                                                            {% endif %}
-                                                            <p class="text-xs opacity-90">
-                                                                <i class="far fa-clock mr-1"></i>
-                                                                {{ photo.createdAt|date('d/m/Y') }}
-                                                            </p>
+                                            <div class="album-carousel-item w-[280px] flex-shrink-0">
+                                                <div class="photo-card bg-white rounded-xl shadow-md overflow-hidden h-full border border-gray-100 cursor-pointer"
+                                                     onclick="openLightbox('{{ album.id }}', {{ loop.index0 }})">
+                                                    <!-- Image -->
+                                                    <div class="relative aspect-square overflow-hidden">
+                                                        <img 
+                                                            src="{{ asset('uploads/photos/' ~ photo.imageName) }}" 
+                                                            alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" 
+                                                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                            loading="lazy"
+                                                            data-album-id="{{ album.id }}"
+                                                            data-photo-index="{{ loop.index0 }}"
+                                                        >
+                                                        
+                                                        <!-- Overlay -->
+                                                        <div class="image-overlay absolute inset-0 flex items-end p-4">
+                                                            <div class="text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                                                {% if photo.title %}
+                                                                    <p class="text-sm font-medium mb-1 truncate">{{ photo.title }}</p>
+                                                                {% endif %}
+                                                                <p class="text-xs opacity-90 flex items-center gap-1">
+                                                                    <i class="far fa-clock"></i>
+                                                                    {{ photo.createdAt|date('d/m/Y') }}
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    
-                                                    <!-- Badge si la photo a des tags -->
-                                                    {% if photo.tags|length > 0 %}
-                                                        <div class="absolute top-3 right-3">
-                                                            <span class="bg-black/70 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                                                                <i class="fas fa-tag text-xs"></i>
-                                                                {{ photo.tags|length }}
+                                                        
+                                                        <!-- Badge tags -->
+                                                        {% if photo.tags|length > 0 %}
+                                                            <div class="absolute top-3 right-3">
+                                                                <span class="bg-black/60 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                                                                    <i class="fas fa-tag text-[10px]"></i>
+                                                                    {{ photo.tags|length }}
+                                                                </span>
+                                                            </div>
+                                                        {% endif %}
+                                                        
+                                                        <!-- Numéro -->
+                                                        <div class="absolute top-3 left-3">
+                                                            <span class="bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                                                #{{ loop.index }}
                                                             </span>
                                                         </div>
-                                                    {% endif %}
-                                                    
-                                                    <!-- Numéro de la photo dans l'album -->
-                                                    <div class="absolute top-3 left-3">
-                                                        <span class="bg-black/70 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                                            #{{ loop.index }}
-                                                        </span>
                                                     </div>
-                                                </div>
-
-                                                <!-- Métadonnées (optionnel, visible au hover) -->
-                                                <div class="p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                    {% if photo.title %}
-                                                        <h3 class="font-semibold text-gray-800 mb-2 truncate">
-                                                            {{ photo.title }}
-                                                        </h3>
-                                                    {% endif %}
                                                     
-                                                    <!-- Tags -->
-                                                    {% if photo.tags|length > 0 %}
-                                                        <div class="mt-2">
+                                                    <!-- Infos basiques -->
+                                                    <div class="p-4">
+                                                        {% if photo.title %}
+                                                            <h3 class="font-semibold text-gray-800 text-sm mb-2 truncate">
+                                                                {{ photo.title }}
+                                                            </h3>
+                                                        {% endif %}
+                                                        
+                                                        {% if photo.description %}
+                                                            <p class="text-gray-600 text-xs line-clamp-2 mb-3">
+                                                                {{ photo.description }}
+                                                            </p>
+                                                        {% endif %}
+                                                        
+                                                        <!-- Tags mini -->
+                                                        {% if photo.tags|length > 0 %}
                                                             <div class="flex flex-wrap gap-1">
                                                                 {% for tag in photo.tags|slice(0, 2) %}
-                                                                    <span class="inline-block bg-blue-50 text-blue-700 text-xs px-2 py-1 rounded">
+                                                                    <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
                                                                         #{{ tag }}
                                                                     </span>
                                                                 {% endfor %}
                                                                 {% if photo.tags|length > 2 %}
-                                                                    <span class="inline-block bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">
+                                                                    <span class="inline-block bg-gray-200 text-gray-500 text-xs px-2 py-1 rounded">
                                                                         +{{ photo.tags|length - 2 }}
                                                                     </span>
                                                                 {% endif %}
                                                             </div>
-                                                        </div>
-                                                    {% endif %}
+                                                        {% endif %}
+                                                    </div>
                                                 </div>
                                             </div>
                                         {% endfor %}
                                     </div>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    
-                    <!-- Message si aucune photo -->
-                    {% set hasPhotos = false %}
-                    {% for album in albums %}
-                        {% if album.photos|length > 0 %}
-                            {% set hasPhotos = true %}
-                        {% endif %}
-                    {% endfor %}
-                    
-                    {% if not hasPhotos %}
-                        <div class="text-center py-12 md:py-16">
-                            <div class="max-w-md mx-auto">
-                                <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-8 mb-6">
-                                    <i class="fas fa-image text-5xl text-gray-300 mb-4"></i>
-                                    <h3 class="text-xl md:text-2xl font-bold text-gray-700 mb-3">
-                                        Aucune photo disponible
-                                    </h3>
-                                    <p class="text-gray-500">
-                                        Les photos seront ajoutées prochainement dans les albums publics.
-                                    </p>
+                                    
+                                    <!-- Bouton suivant -->
+                                    <button class="carousel-nav-btn absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white hover:bg-gray-50 text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+                                            onclick="scrollAlbumRight('carousel-{{ album.id }}')"
+                                            aria-label="Photos suivantes">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                    
+                                    <!-- Indicateur de scroll -->
+                                    <div class="text-center mt-4">
+                                        <div class="inline-flex items-center gap-1">
+                                            {% for i in range(1, min(album.photos|length, 5)) %}
+                                                <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+                                            {% endfor %}
+                                            {% if album.photos|length > 5 %}
+                                                <span class="text-xs text-gray-500 ml-2">+{{ album.photos|length - 5 }} autres</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 
                 <!-- Bouton retour -->
-                <div class="text-center mt-10 md:mt-12">
-                    <a 
-                        href="{{ path('app_home') }}" 
-                        class="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105"
-                    >
+                <div class="text-center mt-12">
+                    <a href="{{ path('app_home') }}" 
+                       class="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105">
                         <i class="fas fa-home"></i>
                         Retour à l'accueil
                     </a>
@@ -256,10 +358,8 @@
                             <div class="h-1 w-20 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
                         </div>
                         
-                        <a 
-                            href="{{ path('app_home') }}" 
-                            class="inline-flex items-center gap-3 bg-gray-800 hover:bg-gray-900 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg"
-                        >
+                        <a href="{{ path('app_home') }}" 
+                           class="inline-flex items-center gap-3 bg-gray-800 hover:bg-gray-900 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg">
                             <i class="fas fa-arrow-left"></i>
                             Retour à l'accueil
                         </a>
@@ -270,37 +370,98 @@
     </div>
 </section>
 
-<!-- Lightbox améliorée -->
-<div id="lightbox" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95">
-    <button id="lightbox-close" class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
-        &times;
-    </button>
+<!-- Lightbox/Fullscreen Viewer -->
+<div id="lightbox" class="fixed inset-0 z-[100] hidden">
+    <!-- Overlay sombre avec animation -->
+    <div id="lightbox-overlay" 
+         class="absolute inset-0 bg-black/0 transition-all duration-500"
+         onclick="closeLightbox()">
+    </div>
     
-    <button id="lightbox-prev" class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
-        ‹
-    </button>
-    
-    <button id="lightbox-next" class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
-        ›
-    </button>
-
-    <div class="relative z-40 flex flex-col items-center justify-center h-full p-2 md:p-4">
-        <!-- Titre de l'album -->
-        <div id="lightbox-album-title" class="text-white text-center mb-4 max-w-2xl px-4">
-            <h2 class="text-lg md:text-xl font-bold"></h2>
+    <!-- Contenu de la lightbox -->
+    <div class="relative z-10 h-full flex flex-col">
+        <!-- En-tête -->
+        <div class="flex items-center justify-between p-4 md:p-6 text-white">
+            <div class="flex items-center gap-3">
+                <button onclick="closeLightbox()" 
+                        class="p-2 rounded-full hover:bg-white/10 transition-colors"
+                        aria-label="Fermer">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+                
+                <div>
+                    <h2 id="lightbox-album-title" class="font-semibold text-lg md:text-xl"></h2>
+                    <p id="lightbox-photo-counter" class="text-sm opacity-80"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <button onclick="downloadCurrentPhoto()" 
+                        class="p-2 rounded-full hover:bg-white/10 transition-colors"
+                        aria-label="Télécharger">
+                    <i class="fas fa-download"></i>
+                </button>
+                
+                <button onclick="toggleFullscreen()" 
+                        class="p-2 rounded-full hover:bg-white/10 transition-colors"
+                        aria-label="Plein écran">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
         </div>
         
-        <!-- Image -->
-        <img id="lightbox-img" class="max-w-full max-h-[60vh] md:max-h-[70vh] object-contain rounded-lg" src="" alt="">
+        <!-- Zone d'image principale -->
+        <div class="flex-1 flex items-center justify-center p-4">
+            <!-- Bouton précédent -->
+            <button id="lightbox-prev" 
+                    onclick="prevPhoto()"
+                    class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white transition-all duration-200 opacity-0 hover:opacity-100"
+                    aria-label="Photo précédente">
+                <i class="fas fa-chevron-left text-xl"></i>
+            </button>
+            
+            <!-- Image principale -->
+            <div class="relative max-w-4xl w-full">
+                <img id="lightbox-image" 
+                     class="w-full h-auto max-h-[70vh] object-contain rounded-lg lightbox-image"
+                     src="" 
+                     alt=""
+                     onload="imageLoaded()">
+                
+                <!-- Loader -->
+                <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center">
+                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+                </div>
+                
+                <!-- Infos photo -->
+                <div id="lightbox-info" 
+                     class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 md:p-6 text-white transform translate-y-full transition-transform duration-300">
+                    <h3 id="lightbox-photo-title" class="font-bold text-lg md:text-xl mb-2"></h3>
+                    <p id="lightbox-photo-description" class="text-sm opacity-90 mb-3"></p>
+                    <div id="lightbox-photo-tags" class="flex flex-wrap gap-2"></div>
+                    <div class="mt-4 text-xs opacity-70 flex items-center gap-4">
+                        <span id="lightbox-photo-date"></span>
+                        <span id="lightbox-photo-size"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bouton suivant -->
+            <button id="lightbox-next" 
+                    onclick="nextPhoto()"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white transition-all duration-200 opacity-0 hover:opacity-100"
+                    aria-label="Photo suivante">
+                <i class="fas fa-chevron-right text-xl"></i>
+            </button>
+        </div>
         
-        <!-- Info photo -->
-        <div id="lightbox-info" class="mt-4 text-white text-center max-w-2xl px-4">
-            <h3 id="lightbox-photo-title" class="text-lg font-semibold mb-2"></h3>
-            <p id="lightbox-photo-description" class="text-sm opacity-90 mb-2"></p>
-            <div id="lightbox-photo-tags" class="flex flex-wrap justify-center gap-2 mb-2"></div>
-            <div class="text-sm opacity-80 flex items-center justify-center gap-4">
-                <span id="lightbox-photo-date"></span>
-                <span id="lightbox-photo-count" class="font-medium"></span>
+        <!-- Miniatures scrollables -->
+        <div class="p-4 border-t border-white/10">
+            <div class="max-w-4xl mx-auto">
+                <div id="lightbox-thumbnails" 
+                     class="flex overflow-x-auto gap-2 pb-2 scrollbar-thin scroll-smooth">
+                    <!-- Les miniatures seront ajoutées dynamiquement -->
+                </div>
             </div>
         </div>
     </div>
@@ -311,197 +472,352 @@
     {{ parent() }}
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Variables lightbox
-            let currentAlbumId = null;
-            let currentPhotoIndex = 0;
-            let allPhotos = [];
+        // ============================================
+        // VARIABLES GLOBALES
+        // ============================================
+        let lightboxData = {
+            currentAlbumId: null,
+            currentPhotoIndex: 0,
+            albums: {},
+            isOpen: false
+        };
+        
+        // ============================================
+        // FONCTIONS DE CARROUSEL
+        // ============================================
+        function scrollAlbumLeft(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            if (carousel) {
+                carousel.scrollBy({ left: -300, behavior: 'smooth' });
+            }
+        }
+        
+        function scrollAlbumRight(carouselId) {
+            const carousel = document.getElementById(carouselId);
+            if (carousel) {
+                carousel.scrollBy({ left: 300, behavior: 'smooth' });
+            }
+        }
+        
+        // ============================================
+        // FONCTIONS DE LIGHTBOX
+        // ============================================
+        function openLightbox(albumId, photoIndex) {
+            // Récupérer les données de l'album
+            const albumSection = document.querySelector(`.album-section[data-album-id="${albumId}"]`);
+            if (!albumSection) return;
             
-            // Récupérer toutes les données des photos
-            const photoItems = document.querySelectorAll('.photo-item');
-            photoItems.forEach(item => {
-                const albumId = item.dataset.albumId;
-                const photoIndex = parseInt(item.dataset.photoIndex) - 1;
-                const img = item.querySelector('img');
-                const title = item.querySelector('h3');
-                const tags = item.querySelectorAll('.bg-blue-50.text-blue-700');
+            // Récupérer toutes les photos de l'album
+            const photoCards = albumSection.querySelectorAll('.photo-card');
+            const photos = Array.from(photoCards).map(card => {
+                const img = card.querySelector('img');
+                const title = card.querySelector('h3')?.textContent.trim() || '';
+                const description = card.querySelector('.line-clamp-2')?.textContent.trim() || '';
+                const tags = Array.from(card.querySelectorAll('.bg-gray-100.text-gray-700')).map(tag => 
+                    tag.textContent.replace('#', '').trim()
+                );
                 
-                allPhotos.push({
-                    albumId: albumId,
-                    index: photoIndex,
+                return {
                     src: img.src,
                     alt: img.alt,
-                    title: title ? title.textContent.trim() : '',
-                    tags: Array.from(tags).map(tag => tag.textContent.trim())
-                });
+                    title: title,
+                    description: description,
+                    tags: tags,
+                    date: card.querySelector('.fa-clock')?.parentElement?.textContent.trim() || ''
+                };
             });
             
-            // Trier les photos par date (si nécessaire)
-            // allPhotos.sort((a, b) => b.index - a.index);
+            // Stocker les données
+            lightboxData.currentAlbumId = albumId;
+            lightboxData.currentPhotoIndex = photoIndex;
+            lightboxData.albums[albumId] = photos;
             
-            // Fonction pour ouvrir lightbox
-            function openLightbox(albumId, photoIndex) {
-                currentAlbumId = albumId;
-                currentPhotoIndex = photoIndex;
-                
-                // Trouver l'album
-                const albumSection = document.querySelector(`.album-section[data-album-id="${albumId}"]`);
-                const albumTitle = albumSection ? albumSection.querySelector('h2').textContent.trim() : '';
-                
-                // Récupérer toutes les photos de cet album
-                const albumPhotos = allPhotos.filter(p => p.albumId === albumId);
-                const currentPhoto = albumPhotos[photoIndex];
-                
-                // Mettre à jour la lightbox
-                const img = document.getElementById('lightbox-img');
-                const albumTitleEl = document.getElementById('lightbox-album-title').querySelector('h2');
-                const photoTitle = document.getElementById('lightbox-photo-title');
-                const photoDesc = document.getElementById('lightbox-photo-description');
-                const photoTags = document.getElementById('lightbox-photo-tags');
-                const photoDate = document.getElementById('lightbox-photo-date');
-                const photoCount = document.getElementById('lightbox-photo-count');
-                
-                img.src = currentPhoto.src;
-                img.alt = currentPhoto.alt;
-                albumTitleEl.textContent = albumTitle;
-                photoTitle.textContent = currentPhoto.title || 'Photo sans titre';
-                photoDesc.textContent = currentPhoto.description || '';
-                photoDate.textContent = 'Ajoutée récemment';
-                photoCount.textContent = `${photoIndex + 1} / ${albumPhotos.length}`;
-                
-                // Mettre à jour les tags
-                photoTags.innerHTML = '';
-                if (currentPhoto.tags && currentPhoto.tags.length > 0) {
-                    currentPhoto.tags.forEach(tag => {
-                        const tagSpan = document.createElement('span');
-                        tagSpan.className = 'inline-block bg-white/20 text-white text-xs px-2 py-1 rounded';
-                        tagSpan.textContent = tag;
-                        photoTags.appendChild(tagSpan);
-                    });
-                }
-                
-                // Afficher la lightbox
-                document.getElementById('lightbox').classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-                
-                // Gérer la navigation
-                document.getElementById('lightbox-prev').style.display = photoIndex > 0 ? 'flex' : 'none';
-                document.getElementById('lightbox-next').style.display = photoIndex < albumPhotos.length - 1 ? 'flex' : 'none';
+            // Récupérer le titre de l'album
+            const albumTitle = albumSection.querySelector('h2').textContent.trim();
+            
+            // Afficher la lightbox
+            showLightbox(albumTitle, photoIndex);
+        }
+        
+        function showLightbox(albumTitle, photoIndex) {
+            const lightbox = document.getElementById('lightbox');
+            const overlay = document.getElementById('lightbox-overlay');
+            const album = lightboxData.albums[lightboxData.currentAlbumId];
+            const photo = album[photoIndex];
+            
+            // Afficher l'overlay avec animation
+            lightbox.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.remove('bg-black/0');
+                overlay.classList.add('bg-black/95');
+            }, 10);
+            
+            // Mettre à jour les infos
+            document.getElementById('lightbox-album-title').textContent = albumTitle;
+            document.getElementById('lightbox-photo-counter').textContent = 
+                `${photoIndex + 1} / ${album.length}`;
+            
+            // Afficher l'image
+            const image = document.getElementById('lightbox-image');
+            const loader = document.getElementById('lightbox-loader');
+            
+            image.style.opacity = '0';
+            loader.classList.remove('hidden');
+            
+            image.src = photo.src;
+            image.alt = photo.alt;
+            
+            // Mettre à jour les infos photo
+            updatePhotoInfo(photo, photoIndex);
+            
+            // Mettre à jour les miniatures
+            updateThumbnails(photoIndex);
+            
+            // Activer la navigation clavier
+            lightboxData.isOpen = true;
+            document.addEventListener('keydown', handleKeyboardNavigation);
+            
+            // Empêcher le scroll du body
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function updatePhotoInfo(photo, index) {
+            // Titre
+            const titleEl = document.getElementById('lightbox-photo-title');
+            titleEl.textContent = photo.title || 'Photo sans titre';
+            
+            // Description
+            const descEl = document.getElementById('lightbox-photo-description');
+            descEl.textContent = photo.description || '';
+            descEl.style.display = photo.description ? 'block' : 'none';
+            
+            // Tags
+            const tagsEl = document.getElementById('lightbox-photo-tags');
+            tagsEl.innerHTML = '';
+            if (photo.tags && photo.tags.length > 0) {
+                photo.tags.forEach(tag => {
+                    const tagSpan = document.createElement('span');
+                    tagSpan.className = 'inline-block bg-white/20 text-white text-xs px-2 py-1 rounded-full';
+                    tagSpan.textContent = `#${tag}`;
+                    tagsEl.appendChild(tagSpan);
+                });
             }
             
-            // Navigation lightbox
-            function lightboxPrev() {
-                if (currentAlbumId && currentPhotoIndex > 0) {
-                    openLightbox(currentAlbumId, currentPhotoIndex - 1);
-                }
-            }
+            // Date
+            const dateEl = document.getElementById('lightbox-photo-date');
+            dateEl.textContent = photo.date || '';
             
-            function lightboxNext() {
-                const albumPhotos = allPhotos.filter(p => p.albumId === currentAlbumId);
-                if (currentAlbumId && currentPhotoIndex < albumPhotos.length - 1) {
-                    openLightbox(currentAlbumId, currentPhotoIndex + 1);
-                }
-            }
+            // Compteur
+            const counterEl = document.getElementById('lightbox-photo-counter');
+            const album = lightboxData.albums[lightboxData.currentAlbumId];
+            counterEl.textContent = `${index + 1} / ${album.length}`;
+        }
+        
+        function updateThumbnails(currentIndex) {
+            const container = document.getElementById('lightbox-thumbnails');
+            const album = lightboxData.albums[lightboxData.currentAlbumId];
             
-            // Fermer lightbox
-            function closeLightbox() {
-                document.getElementById('lightbox').classList.add('hidden');
+            container.innerHTML = '';
+            
+            album.forEach((photo, index) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.className = `lightbox-thumbnail w-16 h-16 object-cover rounded-lg cursor-pointer border-2 ${
+                    index === currentIndex ? 'border-blue-500' : 'border-transparent'
+                }`;
+                thumbnail.src = photo.src;
+                thumbnail.alt = `Miniature ${index + 1}`;
+                thumbnail.loading = 'lazy';
+                thumbnail.onclick = () => goToPhoto(index);
+                
+                container.appendChild(thumbnail);
+            });
+            
+            // Scroll pour centrer la miniature active
+            const activeThumb = container.children[currentIndex];
+            if (activeThumb) {
+                activeThumb.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }
+        }
+        
+        function imageLoaded() {
+            const image = document.getElementById('lightbox-image');
+            const loader = document.getElementById('lightbox-loader');
+            
+            setTimeout(() => {
+                image.style.opacity = '1';
+                image.style.transition = 'opacity 0.3s ease';
+                loader.classList.add('hidden');
+            }, 100);
+        }
+        
+        function goToPhoto(index) {
+            if (index >= 0 && index < lightboxData.albums[lightboxData.currentAlbumId].length) {
+                lightboxData.currentPhotoIndex = index;
+                
+                const albumTitle = document.getElementById('lightbox-album-title').textContent;
+                const photo = lightboxData.albums[lightboxData.currentAlbumId][index];
+                
+                // Mettre à jour l'image avec effet de transition
+                const image = document.getElementById('lightbox-image');
+                image.style.opacity = '0';
+                
+                setTimeout(() => {
+                    image.src = photo.src;
+                    image.alt = photo.alt;
+                    
+                    // Mettre à jour les infos
+                    updatePhotoInfo(photo, index);
+                    updateThumbnails(index);
+                    
+                    // Afficher l'image
+                    setTimeout(() => {
+                        image.style.opacity = '1';
+                    }, 50);
+                }, 200);
+            }
+        }
+        
+        function prevPhoto() {
+            if (lightboxData.currentPhotoIndex > 0) {
+                goToPhoto(lightboxData.currentPhotoIndex - 1);
+            }
+        }
+        
+        function nextPhoto() {
+            const album = lightboxData.albums[lightboxData.currentAlbumId];
+            if (lightboxData.currentPhotoIndex < album.length - 1) {
+                goToPhoto(lightboxData.currentPhotoIndex + 1);
+            }
+        }
+        
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const overlay = document.getElementById('lightbox-overlay');
+            
+            // Animation de fermeture
+            overlay.classList.remove('bg-black/95');
+            overlay.classList.add('bg-black/0');
+            
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                lightboxData.isOpen = false;
+                
+                // Réactiver le scroll du body
                 document.body.style.overflow = '';
-            }
+                
+                // Supprimer l'écouteur clavier
+                document.removeEventListener('keydown', handleKeyboardNavigation);
+            }, 500);
+        }
+        
+        // ============================================
+        // FONCTIONS AUXILIAIRES
+        // ============================================
+        function handleKeyboardNavigation(e) {
+            if (!lightboxData.isOpen) return;
             
-            // Exposer les fonctions globalement
-            window.openLightbox = openLightbox;
-            window.closeLightbox = closeLightbox;
-            window.lightboxPrev = lightboxPrev;
-            window.lightboxNext = lightboxNext;
-            
-            // Événements lightbox
-            document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
-            document.getElementById('lightbox-prev').addEventListener('click', lightboxPrev);
-            document.getElementById('lightbox-next').addEventListener('click', lightboxNext);
-            
-            // Navigation clavier
-            document.addEventListener('keydown', (e) => {
-                if (!document.getElementById('lightbox').classList.contains('hidden')) {
-                    switch(e.key) {
-                        case 'Escape':
-                            closeLightbox();
-                            break;
-                        case 'ArrowLeft':
-                            lightboxPrev();
-                            break;
-                        case 'ArrowRight':
-                            lightboxNext();
-                            break;
-                    }
-                }
-            });
-            
-            // Fermer en cliquant sur l'overlay
-            document.getElementById('lightbox').addEventListener('click', function(e) {
-                if (e.target === this) {
+            switch(e.key) {
+                case 'Escape':
                     closeLightbox();
-                }
-            });
-            
-            // Filtres par album
-            const toggleFiltersBtn = document.getElementById('toggleFilters');
-            const albumFilters = document.getElementById('albumFilters');
-            const albumFilterBtns = document.querySelectorAll('.album-filter');
-            
-            if (toggleFiltersBtn) {
-                toggleFiltersBtn.addEventListener('click', () => {
-                    albumFilters.classList.toggle('hidden');
-                });
+                    break;
+                case 'ArrowLeft':
+                    prevPhoto();
+                    break;
+                case 'ArrowRight':
+                    nextPhoto();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    nextPhoto();
+                    break;
             }
+        }
+        
+        function downloadCurrentPhoto() {
+            const photo = lightboxData.albums[lightboxData.currentAlbumId][lightboxData.currentPhotoIndex];
+            const link = document.createElement('a');
+            link.href = photo.src;
+            link.download = `photo-${lightboxData.currentAlbumId}-${lightboxData.currentPhotoIndex + 1}.jpg`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        function toggleFullscreen() {
+            const lightbox = document.getElementById('lightbox');
             
-            albumFilterBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const albumId = this.dataset.album;
-                    
-                    // Mettre à jour les boutons actifs
-                    albumFilterBtns.forEach(b => {
-                        b.classList.remove('active', 'bg-blue-600', 'text-white');
-                        b.classList.add('bg-gray-100', 'text-gray-700');
-                    });
-                    this.classList.remove('bg-gray-100', 'text-gray-700');
-                    this.classList.add('active', 'bg-blue-600', 'text-white');
-                    
-                    // Filtrer les albums
-                    const albumSections = document.querySelectorAll('.album-section');
-                    if (albumId === 'all') {
-                        albumSections.forEach(section => {
-                            section.style.display = 'block';
-                        });
-                    } else {
-                        albumSections.forEach(section => {
-                            if (section.dataset.albumId === albumId) {
-                                section.style.display = 'block';
-                            } else {
-                                section.style.display = 'none';
-                            }
-                        });
+            if (!document.fullscreenElement) {
+                lightbox.requestFullscreen().catch(err => {
+                    console.log(`Erreur plein écran: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // ============================================
+        // INITIALISATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ajouter des écouteurs pour les carrousels
+            document.querySelectorAll('.album-carousel').forEach(carousel => {
+                carousel.addEventListener('wheel', function(e) {
+                    if (e.deltaY !== 0) {
+                        e.preventDefault();
+                        this.scrollLeft += e.deltaY;
                     }
                 });
             });
             
-            // Animation au scroll
+            // Cacher les boutons de navigation quand pas besoin
+            document.querySelectorAll('.album-carousel').forEach(carousel => {
+                const checkButtons = () => {
+                    const prevBtn = carousel.previousElementSibling;
+                    const nextBtn = carousel.nextElementSibling;
+                    
+                    if (carousel.scrollLeft <= 10) {
+                        prevBtn?.classList.add('opacity-0', 'pointer-events-none');
+                    } else {
+                        prevBtn?.classList.remove('opacity-0', 'pointer-events-none');
+                    }
+                    
+                    if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 10) {
+                        nextBtn?.classList.add('opacity-0', 'pointer-events-none');
+                    } else {
+                        nextBtn?.classList.remove('opacity-0', 'pointer-events-none');
+                    }
+                };
+                
+                carousel.addEventListener('scroll', checkButtons);
+                checkButtons(); // Initial check
+            });
+            
+            // Animation des cartes au scroll
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.classList.add('fade-in');
                     }
                 });
             }, { threshold: 0.1 });
             
-            const albumSections = document.querySelectorAll('.album-section');
-            albumSections.forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(20px)';
-                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(section);
+            document.querySelectorAll('.photo-card').forEach(card => {
+                observer.observe(card);
             });
         });
+        
+        // ============================================
+        // EXPOSITION DES FONCTIONS GLOBALES
+        // ============================================
+        window.openLightbox = openLightbox;
+        window.closeLightbox = closeLightbox;
+        window.prevPhoto = prevPhoto;
+        window.nextPhoto = nextPhoto;
+        window.scrollAlbumLeft = scrollAlbumLeft;
+        window.scrollAlbumRight = scrollAlbumRight;
     </script>
 {% endblock %}
