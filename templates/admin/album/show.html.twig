@@ -44,7 +44,9 @@
 		{% if album.coverImage %}
 			<div class="mb-8">
 				<h2 class="text-xl font-semibold text-gray-900 mb-4">Couverture</h2>
-				<img src="{{ asset('uploads/albums/covers/' ~ album.coverImage) }}" alt="{{ album.title }}" class="w-full max-w-md rounded-lg shadow-sm">
+				<a href="{{ asset('uploads/albums/covers/' ~ album.coverImage) }}" target="_blank" rel="noopener noreferrer">
+					<img src="{{ asset('uploads/albums/covers/' ~ album.coverImage) }}" alt="{{ album.title }}" class="w-full max-w-md rounded-lg shadow-sm">
+				</a>
 			</div>
 		{% endif %}
 
@@ -107,7 +109,9 @@
 						<div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
 							{% if photo.imageName %}
 								<div class="aspect-square overflow-hidden bg-gray-100">
-									<img src="{{ asset('uploads/photos/' ~ photo.imageName) }}" alt="Photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+									<a href="{{ asset('uploads/photos/' ~ photo.imageName) }}" target="_blank" ref="noopener noreferrer">
+										<img src="{{ asset('uploads/photos/' ~ photo.imageName) }}" alt="Photo" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+									</a>
 								</div>
 							{% endif %}
 							<div class="p-3">

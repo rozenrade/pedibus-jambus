@@ -40,7 +40,9 @@
 					<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
 						{% if album.coverImage %}
 							<div class="h-48 overflow-hidden">
-								<img src="{{ asset('uploads/albums/covers/' ~ album.coverImage) }}" alt="{{ album.title }}" class="w-full h-full object-cover">
+								<a href="{{ asset('uploads/albums/covers/' ~ album.coverImage) }}" target="_blank" rel="noopener noreferrer">
+									<img src="{{ asset('uploads/albums/covers/' ~ album.coverImage) }}" alt="{{ album.title }}" class="w-full h-full object-cover">
+								</a>
 							</div>
 						{% else %}
 							<div class="h-48 bg-gray-100 flex items-center justify-center">

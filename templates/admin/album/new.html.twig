@@ -45,7 +45,7 @@
 
 				<div id="coverPreview" class="mt-4 hidden">
 					<p class="text-sm text-gray-600 mb-2">Aperçu :</p>
-					<img id="coverPreviewImage" class="max-w-xs rounded border border-gray-200" src="" alt="Aperçu">
+						<img id="coverPreviewImage" src="" alt="Aperçu">
 				</div>
 			</div>
 
@@ -63,26 +63,28 @@
 	</div>
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-const coverInput = document.querySelector('# {{ form.coverImageFile.vars.id }}');
-const previewDiv = document.getElementById('coverPreview');
-const previewImg = document.getElementById('coverPreviewImage');
+document.addEventListener('DOMContentLoaded', function () {
+    // Get the file input
+    const coverInput = document.querySelector('#{{ form.coverImageFile.vars.id }}');
+    const previewDiv = document.getElementById('coverPreview');
+    const previewImg = document.getElementById('coverPreviewImage');
 
-if (coverInput) {
-coverInput.addEventListener('change', function (e) {
-const file = e.target.files[0];
-if (file) {
-const reader = new FileReader();
-reader.onload = function (e) {
-previewImg.src = e.target.result;
-previewDiv.classList.remove('hidden');
-}
-reader.readAsDataURL(file);
-} else {
-previewDiv.classList.add('hidden');
-}
+    if (coverInput) {
+        coverInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    previewDiv.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                previewDiv.classList.add('hidden');
+                previewImg.src = '';
+            }
+        });
+    }
 });
-}
-});
-	</script>
+</script>
 {% endblock %}

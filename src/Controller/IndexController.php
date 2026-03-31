@@ -34,4 +34,12 @@ class IndexController extends AbstractController
   {
     return $this->render('about-us/index.html.twig', []);
   }
+
+  #[Route('/album/{id}', name: 'album_show')]
+  public function showAlbum(Album $album): Response
+  {
+    return $this->render('album/show.html.twig', [
+      'album' => $album,
+    ]);
+  }
 }
