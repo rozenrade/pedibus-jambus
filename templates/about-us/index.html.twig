@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Qui sommes-nous{% endblock %}
+
+{% block body %}
+
+<!-- CONTENT CARD -->
+<section class="py-20">
+    <div class="max-w-4xl mx-auto px-6">
+
+        <div class="bg-white rounded-2xl shadow-xl p-10 space-y-12">
+
+            <!-- CARTE IDENTITE -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+                    Carte d'identité
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-y-4 gap-x-8 text-gray-700">
+                    <p><span class="font-medium">Nom :</span> PEDIBUS</p>
+                    <p><span class="font-medium">Prénom :</span> JAMBUS</p>
+
+                    <p><span class="font-medium">Création :</span> 1er janvier 1994</p>
+                    <p><span class="font-medium">Adhérents :</span> 80 à 100 membres</p>
+
+                    <p><span class="font-medium">Nationalité :</span> Multinationale</p>
+                    <p><span class="font-medium">Moyenne d'âge :</span> 60 ans 🙂</p>
+                </div>
+            </div>
+
+            <!-- OBJECTIF -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                    Notre objectif
+                </h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Découvrir les paysages les plus variés, partager les rêves et idées entre amis
+                    dans une ambiance conviviale et accessible à tous.
+                </p>
+            </div>
+
+            <!-- SORTIES -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                    Nos sorties
+                </h2>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Randonnées le week-end (samedi ou dimanche)</li>
+                    <li>Sorties mensuelles en semaine : lundi, mardi et jeudi</li>
+                    <li>Mars → novembre : sorties journée avec pique-nique</li>
+                    <li>Novembre → mars : sorties demi-journée</li>
+                    <li>18 à 25 km (journée)</li>
+                    <li>10 à 15 km (demi-journée)</li>
+                </ul>
+            </div>
+
+            <!-- PROGRAMMES -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                    Programmes
+                </h2>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>4 programmes trimestriels</li>
+                    <li>Programme annuel « Grandes Évasions »</li>
+                    <li>Programme « Horizons Lointains »</li>
+                    <li>Programmes spécifiques occasionnels</li>
+                </ul>
+            </div>
+
+            <!-- CONTACT -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">
+                    Contact
+                </h2>
+                <div class="text-gray-700 space-y-1">
+                    <p>PEDIBUS JAMBUS</p>
+                    <p>8 rue des Andains</p>
+                    <p>77380 Combs-la-Ville</p>
+                    <p class="pt-2">📞 Christiane : 06 69 47 00 16</p>
+                    <p>✉ pedibusjambus77380@gmail.com</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
