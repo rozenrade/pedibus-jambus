@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte{% endblock %}
+
+{% block body %}
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-blue-50 p-4">
+
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+
+        {# Header #}
+        <div class="bg-gradient-to-r from-green-500 to-blue-500 text-white text-center p-8">
+            <h1 class="text-3xl font-bold text-gray-900">Créer un compte</h1>
+            <p class="text-sm mt-2 opacity-90 text-gray-900">
+                Rejoignez la plateforme Pedibus Jambus
+            </p>
+        </div>
+
+        <div class="p-8">
+
+            {# Flash success message (email confirmation sent) #}
+            {% for message in app.flashes('success') %}
+                <div class="mb-6 p-4 bg-green-100 border border-green-300 rounded-lg text-green-800">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {# Flash email verification errors #}
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="mb-6 p-4 bg-red-100 border border-red-300 rounded-lg text-red-700">
+                    {{ flash_error }}
+                </div>
+            {% endfor %}
+
+            {# Global form errors #}
+            {% if form_errors(registrationForm) %}
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                    {{ form_errors(registrationForm) }}
+                </div>
+            {% endif %}
+
+            {{ form_start(registrationForm, {
+                attr: {
+                    class: 'space-y-6'
+                }
+            }) }}
+
+            {# Email #}
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Adresse email
+                </label>
+
+                {{ form_widget(registrationForm.email, {
+                    attr: {
+                        class: 'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500',
+                        placeholder: 'exemple@email.com'
+                    }
+                }) }}
+
+                <div class="text-red-500 text-sm mt-1">
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+            </div>
+
+
+            {# Password #}
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Mot de passe
+                </label>
+
+                {{ form_widget(registrationForm.plainPassword, {
+                    attr: {
+                        class: 'w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500',
+                        placeholder: 'Minimum 6 caractères'
+                    }
+                }) }}
+
+                <div class="text-red-500 text-sm mt-1">
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
+            </div>
+
+
+            {# Terms checkbox #}
+            <div class="flex items-start">
+
+                {{ form_widget(registrationForm.agreeTerms, {
+                    attr: {
+                        class: 'mt-1 mr-3'
+                    }
+                }) }}
+
+                <label class="text-sm text-gray-600">
+                    J'accepte les conditions d'utilisation
+                </label>
+
+            </div>
+
+            <div class="text-red-500 text-sm">
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+
+
+            {# Submit button #}
+            <button
+                type="submit"
+                class="w-full bg-gradient-to-r from-green-500 to-blue-500 text-black font-semibold py-3 rounded-lg shadow-md hover:opacity-90 transition"
+            >
+                Créer mon compte
+            </button>
+
+            {{ form_end(registrationForm) }}
+
+
+            {# Divider #}
+            <div class="my-6 text-center text-sm text-gray-500">
+                Déjà inscrit ?
+            </div>
+
+
+            {# Login link #}
+            <a
+                href="{{ path('app_login') }}"
+                class="block text-center border border-green-500 text-green-600 py-3 rounded-lg hover:bg-green-50 transition"
+            >
+                Se connecter
+            </a>
+
+        </div>
+    </div>
+
+</section>
+{% endblock %}
