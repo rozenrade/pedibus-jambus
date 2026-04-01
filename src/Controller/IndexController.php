@@ -17,19 +17,13 @@ class IndexController extends AbstractController
     return $this->render('home/index.html.twig', ['albums' => $albums]);
   }
 
-  #[Route('/outlings', name: 'app_outlings')]
+  #[Route('/sorties', name: 'app_outlings')]
   public function outlings(): Response
   {
     return $this->render('outlings/index.html.twig', []);
   }
 
-  #[Route('/auth', name: 'app_auth')]
-  public function auth(): Response
-  {
-    return $this->render('auth/index.html.twig', []);
-  }
-
-  #[Route('/about-us', name: 'app_about_us')]
+  #[Route('/a-propos', name: 'app_about_us')]
   public function aboutUs(): Response
   {
     return $this->render('about-us/index.html.twig', []);
