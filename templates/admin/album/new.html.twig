@@ -1,88 +1,440 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvel album - Administration
-{% endblock %}
+{% block title %}Nouvel album - Administration{% endblock %}
 
 {% block body %}
-	<div class="container mx-auto px-4 py-8 max-w-4xl">
-		<div class="mb-8">
-			<h1 class="text-3xl font-bold text-gray-900">Nouvel album</h1>
-			<p class="text-gray-600 mt-2">Créez un nouvel album pour organiser vos photos</p>
-		</div>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <!-- Header avec navigation -->
+    <div class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <a href="{{ path('admin_dashboard') }}" class="text-gray-600 hover:text-gray-900">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                    </a>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Nouvel album</h1>
+                        <p class="text-gray-600 mt-1">Créez un album pour organiser vos photos</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500">{{ "now"|date("d/m/Y") }}</span>
+                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                        {{ app.user.email|first|upper }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-			{{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+    <!-- Contenu principal avec sidebar -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar d'aide (1/4) -->
+            <div class="lg:w-1/4 space-y-6">
+                <!-- Card d'aide -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="ml-3 font-semibold text-gray-900">Conseils</h3>
+                    </div>
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li class="flex items-start">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span>Donnez un titre clair et descriptif</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span>Ajoutez une date d'événement précise</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span>Choisissez une belle photo de couverture</span>
+                        </li>
+                    </ul>
+                </div>
 
-			<div>
-				{{ form_label(form.title, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
-				{{ form_widget(form.title, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
-				{{ form_errors(form.title) }}
-			</div>
+                <!-- Progression -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="font-semibold text-gray-900 mb-4">Étapes de création</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                                1
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-gray-900">Informations</p>
+                                <p class="text-xs text-gray-500">Titre et description</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-sm font-bold">
+                                2
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-gray-500">Paramètres</p>
+                                <p class="text-xs text-gray-400">Date et visibilité</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-sm font-bold">
+                                3
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-gray-500">Couverture</p>
+                                <p class="text-xs text-gray-400">Image principale</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-			<div>
-				{{ form_label(form.description, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
-				{{ form_widget(form.description, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500', 'rows': 4}}) }}
-				{{ form_errors(form.description) }}
-			</div>
+                <!-- Actions rapides -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <h3 class="font-semibold text-gray-900 mb-4">Actions rapides</h3>
+                    <div class="space-y-3">
+                        <a href="{{ path('admin_album_index') }}" class="flex items-center text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                            </svg>
+                            Voir tous les albums
+                        </a>
+                        <a href="{{ path('admin_photo_new') }}" class="flex items-center text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                            Créer une photo seule
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-			<div>
-				{{ form_label(form.eventDate, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
-				{{ form_widget(form.eventDate, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
-				{{ form_errors(form.eventDate) }}
-			</div>
+            <!-- Formulaire principal (3/4) -->
+            <div class="lg:w-3/4">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <!-- En-tête du formulaire -->
+                    <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-900">Création d'un nouvel album</h2>
+                                <p class="text-gray-600 mt-1">Remplissez les informations ci-dessous</p>
+                            </div>
+                            <div class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                                Étape 1/3
+                            </div>
+                        </div>
+                    </div>
 
-			<div class="flex items-center">
-				{{ form_widget(form.isPublic, {'attr': {'class': 'h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500'}}) }}
-				{{ form_label(form.isPublic, null, {'label_attr': {'class': 'ml-2 text-gray-900'}}) }}
-				{{ form_errors(form.isPublic) }}
-			</div>
+                    <!-- Corps du formulaire -->
+                    <div class="p-8">
+                        {{ form_start(form, {'attr': {'class': 'space-y-8'}}) }}
 
-			<div>
-				{{ form_label(form.coverImageFile, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
-				{{ form_widget(form.coverImageFile, {'attr': {'class': 'w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
-				{{ form_errors(form.coverImageFile) }}
-				<p class="text-sm text-gray-500 mt-1">Optionnel. Formats : JPG, PNG, WebP. Max 5MB.</p>
+                        <!-- Section 1 : Informations de base -->
+                        <div class="space-y-6">
+                            <div class="flex items-center mb-6">
+                                <div class="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">Informations de base</h3>
+                                    <p class="text-gray-600">Définissez le titre et la description de votre album</p>
+                                </div>
+                            </div>
 
+<<<<<<< HEAD
+                            <div class="grid grid-cols-1 gap-6">
+                                <!-- Titre -->
+                                <div>
+                                    {{ form_label(form.title, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900 mb-2'}}) }}
+                                    <div class="relative">
+                                        {{ form_widget(form.title, {'attr': {
+                                            'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+                                            'placeholder': 'Ex: Randonnée printanière en forêt'
+                                        }}) }}
+                                        <div class="absolute right-3 top-3">
+                                            <span class="text-xs text-gray-500">{{ form.title.vars.value|length|default(0) }}/255</span>
+                                        </div>
+                                    </div>
+                                    {{ form_errors(form.title) }}
+                                    <p class="mt-2 text-sm text-gray-500">Un titre clair aide à identifier rapidement l'album</p>
+                                </div>
+=======
 				<div id="coverPreview" class="mt-4 hidden">
 					<p class="text-sm text-gray-600 mb-2">Aperçu :</p>
 						<img id="coverPreviewImage" src="" alt="Aperçu">
 				</div>
 			</div>
+>>>>>>> main
 
-			<div class="flex justify-between pt-6 border-t border-gray-200">
-				<a href="{{ path('admin_album_index') }}" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-					Annuler
-				</a>
-				<button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
-					Créer l'album
-				</button>
-			</div>
+                                <!-- Description -->
+                                <div>
+                                    {{ form_label(form.description, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900 mb-2'}}) }}
+                                    {{ form_widget(form.description, {'attr': {
+                                        'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
+                                        'rows': 4,
+                                        'placeholder': 'Décrivez le contexte de cet album...'
+                                    }}) }}
+                                    {{ form_errors(form.description) }}
+                                    <p class="mt-2 text-sm text-gray-500">Optionnel. Partagez des détails sur l\'événement ou le lieu.</p>
+                                </div>
+                            </div>
+                        </div>
 
-			{{ form_end(form) }}
-		</div>
-	</div>
+                        <!-- Section 2 : Paramètres -->
+                        <div class="space-y-6 pt-8 border-t border-gray-200">
+                            <div class="flex items-center mb-6">
+                                <div class="flex-shrink-0 w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">Paramètres</h3>
+                                    <p class="text-gray-600">Configurez la date et la visibilité</p>
+                                </div>
+                            </div>
 
-	<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Get the file input
-    const coverInput = document.querySelector('#{{ form.coverImageFile.vars.id }}');
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Date -->
+                                <div>
+                                    {{ form_label(form.eventDate, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900 mb-2'}}) }}
+                                    {{ form_widget(form.eventDate, {'attr': {
+                                        'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                                    }}) }}
+                                    {{ form_errors(form.eventDate) }}
+                                    <p class="mt-2 text-sm text-gray-500">Date à laquelle les photos ont été prises</p>
+                                </div>
+
+                                <!-- Visibilité -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-900 mb-2">Visibilité</label>
+                                    <div class="bg-gray-50 rounded-lg p-4">
+                                        <div class="flex items-center">
+                                            {{ form_widget(form.isPublic, {'attr': {
+                                                'class': 'h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500'
+                                            }}) }}
+                                            {{ form_label(form.isPublic, null, {'label_attr': {
+                                                'class': 'ml-3 text-sm font-medium text-gray-900'
+                                            }}) }}
+                                        </div>
+                                        {{ form_errors(form.isPublic) }}
+                                        <div class="mt-4 p-3 bg-blue-50 rounded border border-blue-100">
+                                            <div class="flex">
+                                                <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                                </svg>
+                                                <p class="ml-2 text-sm text-blue-700">
+                                                    {{ form.isPublic.vars.checked ? 'L\'album sera visible par tous les visiteurs' : 'L\'album ne sera visible que par les administrateurs' }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 3 : Couverture -->
+                        <div class="space-y-6 pt-8 border-t border-gray-200">
+                            <div class="flex items-center mb-6">
+                                <div class="flex-shrink-0 w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">Photo de couverture</h3>
+                                    <p class="text-gray-600">Choisissez une image représentative (optionnel)</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                {{ form_label(form.coverImageFile, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-900 mb-2'}}) }}
+                                
+                                <!-- Zone de drop -->
+                                <div id="dropZone" class="mt-1 border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer">
+                                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                                    </svg>
+                                    <div class="mt-4">
+                                        <p class="text-sm text-gray-600">
+                                            <span class="font-medium text-blue-600">Cliquez pour télécharger</span>
+                                            ou glissez-déposez
+                                        </p>
+                                        <p class="text-xs text-gray-500 mt-1">PNG, JPG, WebP jusqu'à 5MB</p>
+                                    </div>
+                                    {{ form_widget(form.coverImageFile, {'attr': {
+                                        'class': 'hidden'
+                                    }}) }}
+                                </div>
+                                {{ form_errors(form.coverImageFile) }}
+
+                                <!-- Aperçu -->
+                                <div id="coverPreview" class="mt-6 hidden">
+                                    <p class="text-sm font-medium text-gray-900 mb-3">Aperçu de la couverture :</p>
+                                    <div class="relative inline-block">
+                                        <img id="coverPreviewImage" class="h-48 rounded-lg shadow-md border border-gray-200" src="" alt="Aperçu de la couverture">
+                                        <button type="button" id="removePreview" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="pt-8 border-t border-gray-200">
+                            <div class="flex flex-col-reverse sm:flex-row justify-between items-center gap-4">
+                                <a href="{{ path('admin_album_index') }}" class="w-full sm:w-auto px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-center font-medium transition-colors">
+                                    Annuler
+                                </a>
+                                <div class="flex space-x-4 w-full sm:w-auto">
+                                    <button type="reset" class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium transition-colors">
+                                        Réinitialiser
+                                    </button>
+                                    <button type="submit" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 font-medium shadow-sm transition-all transform hover:-translate-y-0.5">
+                                        <div class="flex items-center">
+                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            Créer l'album
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+                <!-- Footer info -->
+                <div class="mt-6 bg-gradient-to-r from-blue-50 to-transparent rounded-lg p-6 border border-blue-100">
+                    <div class="flex">
+                        <svg class="w-6 h-6 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        <div class="ml-4">
+                            <h4 class="font-medium text-gray-900">Après la création</h4>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Une fois l'album créé, vous pourrez ajouter des photos directement depuis l'interface de l'album.
+                                Vous pourrez également modifier ces paramètres à tout moment.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.querySelector('#{{ form.coverImageFile.vars.id }}');
     const previewDiv = document.getElementById('coverPreview');
     const previewImg = document.getElementById('coverPreviewImage');
+    const removeBtn = document.getElementById('removePreview');
 
-    if (coverInput) {
-        coverInput.addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    previewImg.src = e.target.result;
-                    previewDiv.classList.remove('hidden');
-                }
-                reader.readAsDataURL(file);
-            } else {
-                previewDiv.classList.add('hidden');
-                previewImg.src = '';
+    // Gestion du drop zone
+    if (dropZone && fileInput) {
+        // Clique sur la zone
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        // Changement de fichier
+        fileInput.addEventListener('change', function(e) {
+            handleFileSelect(e.target.files[0]);
+        });
+
+        // Drag & drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropZone.classList.add('border-blue-500', 'bg-blue-50');
+        }
+
+        function unhighlight() {
+            dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+        }
+
+        dropZone.addEventListener('drop', function(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            handleFileSelect(files[0]);
+        });
+    }
+
+    // Gestion de l'aperçu
+    function handleFileSelect(file) {
+        if (file && file.type.match('image.*')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewDiv.classList.remove('hidden');
+                dropZone.classList.add('hidden');
             }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Suppression de l'aperçu
+    if (removeBtn) {
+        removeBtn.addEventListener('click', function() {
+            previewDiv.classList.add('hidden');
+            dropZone.classList.remove('hidden');
+            fileInput.value = '';
+        });
+    }
+
+    // Compteur de caractères pour le titre
+    const titleInput = document.querySelector('#{{ form.title.vars.id }}');
+    if (titleInput) {
+        titleInput.addEventListener('input', function() {
+            const counter = this.parentElement.querySelector('.text-xs');
+            if (counter) {
+                counter.textContent = this.value.length + '/255';
+            }
+        });
+    }
+
+    // Mise à jour du message de visibilité
+    const visibilityCheckbox = document.querySelector('#{{ form.isPublic.vars.id }}');
+    const visibilityMessage = document.querySelector('.text-blue-700');
+    if (visibilityCheckbox && visibilityMessage) {
+        visibilityCheckbox.addEventListener('change', function() {
+            visibilityMessage.textContent = this.checked 
+                ? 'L\'album sera visible par tous les visiteurs'
+                : 'L\'album ne sera visible que par les administrateurs';
         });
     }
 });

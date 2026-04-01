@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\AlbumRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,7 +10,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: AlbumRepository::class)]
 #[Vich\Uploadable] // Si vous utilisez VichUploaderBundle pour la couverture
 class Album
 {
@@ -57,6 +58,7 @@ class Album
     private \DateTimeInterface $createdAt;
 
     #[ORM\OneToMany(mappedBy: 'album', targetEntity: Photo::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])] 
     private Collection $photos;
 
     public function __construct()

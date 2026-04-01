@@ -3,13 +3,15 @@
 
 namespace App\Entity;
 
+use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: PhotoRepository::class)] 
 #[Vich\Uploadable]
+#[ORM\Index(columns: ['created_at'], name: 'idx_created_at')] // ← DÉPLACÉ ICI (au niveau de la classe)
 class Photo
 {
     #[ORM\Id]
@@ -38,13 +40,14 @@ class Photo
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
-    #[ORM\JoinColumn(nullable: true)] // ← CHANGÉ ICI : nullable: true
+    #[ORM\JoinColumn(nullable: true)] 
     private ?Album $album = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(type: 'datetime')]
+    // SUPPRIMER cette ligne: #[ORM\Index(name: 'idx_created_at')]
     private \DateTimeInterface $createdAt;
 
     #[ORM\Column(type: 'json', nullable: true)]
@@ -87,13 +90,15 @@ class Photo
         return $this->imageFile;
     }
 
-    public function setImageFile(?File $imageFile = null): void
+    public function setImageFile(?File $imageFile = null): self // Changer void en self
     {
         $this->imageFile = $imageFile;
 
         if (null !== $imageFile) {
             $this->updatedAt = new \DateTimeImmutable();
         }
+        
+        return $this; // Ajouter cette ligne
     }
 
     public function getDescription(): ?string

@@ -1,0 +1,80 @@
+{# templates/public/gallery/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ album.title }} - Pedibus Jambus{% endblock %}
+
+{% block body %}
+<section class="w-full px-4 py-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+            <!-- En-tête de l'album -->
+            <div class="mb-8">
+                <a href="{{ path('public_album') }}" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-4">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour à la galerie
+                </a>
+                
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ album.title }}</h1>
+                <div class="flex flex-wrap items-center gap-4 text-gray-600">
+                    <span class="flex items-center gap-2">
+                        <i class="fas fa-calendar-alt"></i>
+                        {{ album.eventDate|date('d/m/Y') }}
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <i class="fas fa-images"></i>
+                        {{ album.photos|length }} photos
+                    </span>
+                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+                        <i class="fas fa-globe-americas mr-1"></i>
+                        Public
+                    </span>
+                </div>
+                
+                {% if album.description %}
+                    <p class="mt-4 text-gray-600">{{ album.description }}</p>
+                {% endif %}
+            </div>
+            
+            <!-- Photos de l'album en grille -->
+            {% if album.photos|length > 0 %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {% for photo in album.photos %}
+                        <div class="photo-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 cursor-pointer"
+                             onclick="openLightbox('{{ album.id }}', {{ loop.index0 }})">
+                            <img 
+                                src="{{ asset('uploads/photos/' ~ photo.imageName) }}" 
+                                alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" 
+                                class="w-full h-64 object-cover"
+                                loading="lazy"
+                                data-album-id="{{ album.id }}"
+                                data-photo-index="{{ loop.index0 }}"
+                            >
+                            <div class="p-4">
+                                {% if photo.title %}
+                                    <h3 class="font-semibold text-gray-800 mb-2 truncate">{{ photo.title }}</h3>
+                                {% endif %}
+                                <p class="text-sm text-gray-500">{{ photo.createdAt|date('d/m/Y') }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-12">
+                    <i class="fas fa-image text-5xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-500">Aucune photo dans cet album</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Inclure la lightbox depuis le template principal -->
+<div id="lightbox" class="fixed inset-0 z-[100] hidden">
+    <!-- Le même code que dans index.html.twig -->
+</div>
+
+<script>
+    // Réutiliser les mêmes fonctions JavaScript
+    // (Elles sont déjà incluses si vous avez le même block javascripts)
+</script>
+{% endblock %}
