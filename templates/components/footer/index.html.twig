@@ -1,0 +1,115 @@
+<footer class="bg-white border-t border-gray-100 mt-16">
+	<div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-8">
+
+		<!-- Brand -->
+		<div>
+			<div class="flex items-center gap-2 text-lg font-semibold text-gray-800">
+				<span class="text-xl">🚌</span>
+				Pedibus Jambus
+			</div>
+
+			<p class="mt-3 text-sm text-gray-500 leading-relaxed">
+				Association de randonnée conviviale. Découvrez nos sorties,
+				programmes annuels et événements organisés pour tous les niveaux.
+			</p>
+		</div>
+
+
+		<!-- Navigation -->
+		<div>
+			<h3 class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+				Navigation
+			</h3>
+
+			<ul class="space-y-2 text-sm text-gray-600">
+
+				<li>
+					<a href="/about-us" class="hover:text-green-600 transition">
+						Qui sommes-nous
+					</a>
+				</li>
+
+				<li>
+					<a href="/outlings" class="hover:text-green-600 transition">
+						Sorties
+					</a>
+				</li>
+
+				<li>
+					<a href="/programs" class="hover:text-green-600 transition">
+						Programmes
+					</a>
+				</li>
+
+				<li>
+					<a href="/photos" class="hover:text-green-600 transition">
+						Photos
+					</a>
+				</li>
+
+				{% if is_granted('ROLE_ADMIN') %}
+				<li>
+					<a href="/admin/dashboard"
+					   class="text-green-600 font-medium hover:underline">
+						Panneau Administratif
+					</a>
+				</li>
+				{% endif %}
+
+			</ul>
+		</div>
+
+
+		<!-- Contact -->
+		<div>
+			<h3 class="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+				Contact
+			</h3>
+
+			<ul class="space-y-2 text-sm text-gray-600">
+
+				<li class="flex items-center gap-2">
+					<i class="fa-solid fa-envelope text-green-600"></i>
+					pedibusjambus77380@gmail.com
+				</li>
+
+				<li class="flex items-center gap-2">
+					<i class="fa-solid fa-location-dot text-green-600"></i>
+					Combs-la-Ville — France
+				</li>
+
+				<li class="flex items-center gap-2">
+					<i class="fa-solid fa-calendar text-green-600"></i>
+					Sorties toute l'année
+				</li>
+
+			</ul>
+		</div>
+
+	</div>
+
+
+	<!-- Bottom bar -->
+	<div class="border-t border-gray-100">
+		<div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+
+			<p>
+				© {{ "now"|date("Y") }} Pedibus Jambus — Tous droits réservés
+			</p>
+
+			<div class="flex gap-4 mt-2 md:mt-0">
+
+				<a href="#" class="hover:text-green-600 transition">
+					Mentions légales
+				</a>
+
+				<a href="#" class="hover:text-green-600 transition">
+					Politique de confidentialité
+				</a>
+
+			</div>
+
+		</div>
+	</div>
+
+</footer>

@@ -20,15 +20,21 @@ class IndexController extends AbstractController
         ]);
     }
 
-    #[Route('/outlings', name:'app_outlings')]
+    #[Route('/sorties', name:'app_outlings')]
     public function outlings(): Response
     {
         return $this->render('public/outlings/index.html.twig', []);
     }
 
-    #[Route('/about-us', name:'app_about_us')]
+    #[Route('/a-propos', name:'app_about_us')]
     public function aboutUs(): Response
     {
         return $this->render('public/about-us/index.html.twig', []);
+    }
+
+    #[Route('/mon-compte', name:'my_account')]
+    public function programs(): Response
+    {
+        return $this->render('public/profile/index.html.twig', []);
     }
 }

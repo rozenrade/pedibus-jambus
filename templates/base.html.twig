@@ -10,12 +10,11 @@
 		</title>
 		<link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 		<script src="https://cdn.tailwindcss.com"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-		
+		<link
+		rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
 		<!-- Désactiver Turbo pour éviter les problèmes -->
-		<meta name="turbo-cache-control" content="no-cache">
-		
-		{% block stylesheets %}{% endblock %}
+		<meta name="turbo-cache-control" content="no-cache"> {% block stylesheets %}{% endblock %}
 		{% block javascripts %}
 			{% block importmap %}
 				{{ importmap('app') }}
@@ -31,6 +30,7 @@
 			{{ include('components/navbar/index.html.twig') }}
 
 			{% block body %}{% endblock %}
+			{{ include('components/footer/index.html.twig') }}
 		</div>
 
 	</body>

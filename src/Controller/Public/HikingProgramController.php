@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HikingProgramController extends AbstractController
 {
-    #[Route('/programs', name: 'public_programs_index', methods: ['GET'])]
+    #[Route('/programmes', name: 'public_programs_index', methods: ['GET'])]
     public function index(HikingProgramRepository $repository): Response
     {
         // Récupérer tous les programmes triés par année (décroissant) et trimestre
