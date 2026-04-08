@@ -1,284 +1,325 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedibus Jambus</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    
-    <style>
-        /* Animation pour le menu burger */
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Pedibus Jambus</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-        @keyframes slideOut {
-            from {
-                transform: translateX(0);
-            }
-            to {
-                transform: translateX(100%);
-            }
-        }
+		<style>
+			/* Animation pour le menu burger */
+			@keyframes slideIn {
+				from {
+					transform: translateX(100%);
+				}
+				to {
+					transform: translateX(0);
+				}
+			}
 
-        .animate-slideIn {
-            animation: slideIn 0.3s ease-out forwards;
-        }
+			@keyframes slideOut {
+				from {
+					transform: translateX(0);
+				}
+				to {
+					transform: translateX(100%);
+				}
+			}
 
-        .animate-slideOut {
-            animation: slideOut 0.3s ease-out forwards;
-        }
-    </style>
-</head>
-<body class="bg-gray-50 min-h-screen">
-    <!-- Navbar améliorée pour tablette -->
-    <nav class="bg-white shadow-lg w-full">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex-shrink-0">
-                    <a href="/" class="text-xl sm:text-2xl font-bold text-gray-800 hover:text-green-600 transition-colors duration-300">
-                        🚌 Pedibus Jambus
-                    </a>
-                </div>
+			.animate-slideIn {
+				animation: slideIn 0.3s ease-out forwards;
+			}
 
-                <!-- Menu Desktop - Visible à partir de 1024px (lg) -->
-                <div class="hidden lg:flex lg:items-center lg:space-x-4 xl:space-x-6">
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="/admin/dashboard" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
-                            <i class="fas fa-cog mr-2"></i>Panneau Admin
-                        </a>
-                    {% endif %}
-                    
-                    <a href="/a-propos" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
-                        <i class="fas fa-info-circle mr-2"></i>Qui sommes-nous
-                    </a>
-                    
-                    <a href="/sorties" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
-                        <i class="fas fa-hiking mr-2"></i>Sorties
-                    </a>
-                    
-                    <a href="/programmes" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
-                        <i class="fas fa-calendar-alt mr-2"></i>Programmes
-                    </a>
-                    
-                    <a href="/galerie" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
-                        <i class="fas fa-images mr-2"></i>Photos
-                    </a>
+			.animate-slideOut {
+				animation: slideOut 0.3s ease-out forwards;
+			}
+		</style>
+	</head>
+	<body
+		class="bg-gray-50 min-h-screen">
+		<!-- Navbar améliorée pour tablette -->
+		<nav class="bg-white shadow-lg w-full">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div
+					class="flex justify-between items-center h-16">
+					<!-- Logo -->
+					<div class="flex-shrink-0">
+						<a href="/" class="text-xl sm:text-2xl font-bold text-gray-800 hover:text-green-600 transition-colors duration-300">
+							🚌 Pedibus Jambus
+						</a>
+					</div>
 
-                    <!-- Authentification Desktop -->
-                    <div class="ml-2 flex items-center space-x-3">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a href="/deconnexion" class="px-3 py-2 text-sm xl:text-base bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
-                                <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
-                            </a>
-                        {% else %}
-                            <a href="/connexion" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
-                                <i class="fas fa-sign-in-alt mr-2"></i>Connexion
-                            </a>
-                            <a href="/inscription" class="px-3 py-2 text-sm xl:text-base bg-green-600 text-white hover:bg-green-700 rounded-lg transition-all duration-300 font-medium shadow-md hover:shadow-lg whitespace-nowrap">
-                                <i class="fas fa-user-plus mr-2"></i>Inscription
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
+					<!-- Menu Desktop - Visible à partir de 1024px (lg) -->
+					<div class="hidden lg:flex lg:items-center lg:space-x-4 xl:space-x-6">
+						{% if is_granted('ROLE_ADMIN') %}
+							<div class="relative group">
+								<a href="{{ path('admin_dashboard') }}" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap flex items-center">
+									<i class="fas fa-cog mr-2"></i>
+									Panneau Admin
+									<i class="fas fa-chevron-down ml-2 text-xs"></i>
+								</a>
 
-                <!-- Menu pour tablette (768px à 1024px) - Version compacte -->
-                <div class="hidden md:flex lg:hidden md:items-center md:space-x-2">
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="/admin/dashboard" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Panneau Admin">
-                            <i class="fas fa-cog"></i>
-                        </a>
-                    {% endif %}
-                    
-                    <a href="/a-propos" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Qui sommes-nous">
-                        <i class="fas fa-info-circle"></i>
-                    </a>
-                    
-                    <a href="/sorties" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Sorties">
-                        <i class="fas fa-hiking"></i>
-                    </a>
-                    
-                    <a href="/programmes" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Programmes">
-                        <i class="fas fa-calendar-alt"></i>
-                    </a>
-                    
-                    <a href="/galerie" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Photos">
-                        <i class="fas fa-images"></i>
-                    </a>
+								<div class="absolute left-0 mt-2 w-64 bg-white shadow-lg rounded-xl opacity-0 invisible
+																																																		                group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
 
-                    <!-- Authentification tablette -->
-                    <div class="ml-2 flex items-center space-x-2 border-l border-gray-200 pl-2">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <a href="/deconnexion" class="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-all duration-300" title="Déconnexion">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </a>
-                        {% else %}
-                            <a href="/connexion" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Connexion">
-                                <i class="fas fa-sign-in-alt"></i>
-                            </a>
-                            <a href="/inscription" class="p-2 bg-green-600 text-white hover:bg-green-700 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg" title="Inscription">
-                                <i class="fas fa-user-plus"></i>
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
+									<a href="{{ path('admin_album_new') }}" class="block px-4 py-2 hover:bg-gray-100">
+										Créer un album
+									</a>
 
-                <!-- Bouton Menu Burger - Visible seulement sur mobile (< 768px) -->
-                <div class="md:hidden">
-                    <button id="burger-btn" class="bg-green-100 text-green-700 p-3 rounded-lg hover:bg-green-200 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
-                        <i id="burger-icon" class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+									<a href="{{ path('admin_photo_new') }}" class="block px-4 py-2 hover:bg-gray-100">
+										Ajouter une photo
+									</a>
 
-    <!-- Menu Mobile (Full Screen) - Uniquement sur mobile -->
-    <div id="mobile-menu" class="md:hidden fixed inset-0 bg-white z-50 hidden">
-        <!-- En-tête du Menu Mobile -->
-        <div class="flex justify-between items-center p-6 border-b">
-            <h2 class="text-2xl font-bold text-gray-800">Menu</h2>
-            <button id="close-menu" class="text-gray-500 hover:text-red-500 p-2 rounded-full hover:bg-gray-100 transition-colors duration-300">
-                <i class="fas fa-times text-2xl"></i>
-            </button>
-        </div>
+									<a href="{{ path('admin_programs_new') }}" class="block px-4 py-2 hover:bg-gray-100">
+										Ajouter un programme
+									</a>
 
-        <!-- Contenu du Menu Mobile -->
-        <div class="p-6 h-full overflow-y-auto">
-            <div class="space-y-4">
-                {% if is_granted('ROLE_ADMIN') %}
-                    <a href="/admin/dashboard" class="flex items-center p-4 bg-green-50 text-green-700 rounded-xl hover:bg-green-100 transition-all duration-300">
-                        <i class="fas fa-cog text-xl mr-4"></i>
-                        <span class="text-lg font-medium">Panneau Administratif</span>
-                    </a>
-                {% endif %}
-                
-                <a href="/a-propos" class="flex items-center p-4 bg-gray-50 text-gray-700 rounded-xl hover:bg-gray-100 transition-all duration-300">
-                    <i class="fas fa-info-circle text-xl mr-4"></i>
-                    <span class="text-lg font-medium">Qui sommes-nous</span>
-                </a>
-                
-                <a href="/sorties" class="flex items-center p-4 bg-blue-50 text-blue-700 rounded-xl hover:bg-blue-100 transition-all duration-300">
-                    <i class="fas fa-hiking text-xl mr-4"></i>
-                    <span class="text-lg font-medium">Sorties</span>
-                </a>
-                
-                <a href="/programmes" class="flex items-center p-4 bg-purple-50 text-purple-700 rounded-xl hover:bg-purple-100 transition-all duration-300">
-                    <i class="fas fa-calendar-alt text-xl mr-4"></i>
-                    <span class="text-lg font-medium">Programmes</span>
-                </a>
-                
-                <a href="/galerie" class="flex items-center p-4 bg-yellow-50 text-yellow-700 rounded-xl hover:bg-yellow-100 transition-all duration-300">
-                    <i class="fas fa-images text-xl mr-4"></i>
-                    <span class="text-lg font-medium">Voir toutes les photos</span>
-                </a>
-            </div>
+									<div class="border-t my-1"></div>
 
-            <!-- Section Authentification Mobile -->
-            <div class="mt-8 pt-8 border-t">
-                <div class="space-y-4">
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <a href="/deconnexion" class="flex items-center justify-center p-4 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition-all duration-300">
-                            <i class="fas fa-sign-out-alt text-xl mr-3"></i>
-                            <span class="text-lg font-medium">Me déconnecter</span>
-                        </a>
-                    {% else %}
-                        <a href="/connexion" class="flex items-center justify-center p-4 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-300">
-                            <i class="fas fa-sign-in-alt text-xl mr-3"></i>
-                            <span class="text-lg font-medium">Me connecter</span>
-                        </a>
-                        <a href="/inscription" class="flex items-center justify-center p-4 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-all duration-300 shadow-md hover:shadow-lg">
-                            <i class="fas fa-user-plus text-xl mr-3"></i>
-                            <span class="text-lg font-medium">M'inscrire</span>
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
+									<a href="{{ path('admin_album_index') }}" class="block px-4 py-2 hover:bg-gray-100">
+										Gérer les albums
+									</a>
 
-            <!-- Pied de page du menu mobile -->
-            <div class="mt-12 text-center text-gray-500">
-                <p class="text-sm">© 2024 Pedibus Jambus. Tous droits réservés.</p>
-            </div>
-        </div>
-    </div>
+									<a href="{{ path('admin_photo_index') }}" class="block px-4 py-2 hover:bg-gray-100">
+										Gérer les photos
+									</a>
 
-    <!-- Overlay pour fermer le menu -->
-    <div id="overlay" class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+									<a href="{{ path('admin_programs_new') }}" class="block px-4 py-2 hover:bg-gray-100">
+										Gérer les programmes
+									</a>
 
-    <!-- CONTENU DE VOTRE PAGE ICI -->
-    {% block body %}{% endblock %}
+								</div>
+							</div>
+						{% endif %}
 
-    <!-- SCRIPT SIMPLIFIÉ ET FONCTIONNEL -->
-    <script>
-        // Version simplifiée du menu burger
-        document.addEventListener('DOMContentLoaded', function() {
-            initBurgerMenu();
-        });
-        
-        // Pour Turbo Drive
-        document.addEventListener('turbo:load', initBurgerMenu);
-        
-        function initBurgerMenu() {
-            const burgerBtn = document.getElementById('burger-btn');
-            const closeMenuBtn = document.getElementById('close-menu');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const overlay = document.getElementById('overlay');
-            const burgerIcon = document.getElementById('burger-icon');
-            
-            if (!burgerBtn || !mobileMenu || !burgerIcon) return;
-            
-            let menuOpen = false;
-            
-            function openMobileMenu() {
-                menuOpen = true;
-                mobileMenu.classList.remove('hidden');
-                overlay.classList.remove('hidden');
-                burgerIcon.classList.replace('fa-bars', 'fa-times');
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function closeMobileMenu() {
-                menuOpen = false;
-                mobileMenu.classList.add('hidden');
-                overlay.classList.add('hidden');
-                burgerIcon.classList.replace('fa-times', 'fa-bars');
-                document.body.style.overflow = '';
-            }
-            
-            // Attacher les événements
-            burgerBtn.onclick = openMobileMenu;
-            closeMenuBtn.onclick = closeMobileMenu;
-            overlay.onclick = closeMobileMenu;
-            
-            // Fermer avec Échap
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && menuOpen) {
-                    closeMobileMenu();
-                }
-            });
-            
-            // Fermer automatiquement au redimensionnement
-            window.addEventListener('resize', function() {
-                if (window.innerWidth >= 768 && menuOpen) {
-                    closeMobileMenu();
-                }
-            });
-            
-            // Fermer le menu quand on clique sur un lien
-            const menuLinks = mobileMenu.querySelectorAll('a');
-            menuLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    setTimeout(closeMobileMenu, 200);
-                });
-            });
-        }
-    </script>
-</body>
+						<a href="/a-propos" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
+							<i class="fas fa-info-circle mr-2"></i>Qui sommes-nous
+						</a>
+
+						<a href="/sorties" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
+							<i class="fas fa-hiking mr-2"></i>Sorties
+						</a>
+
+						<a href="/programmes" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
+							<i class="fas fa-calendar-alt mr-2"></i>Programmes
+						</a>
+
+						<a href="/galerie" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
+							<i class="fas fa-images mr-2"></i>Photos
+						</a>
+
+						<!-- Authentification Desktop -->
+						<div class="ml-2 flex items-center space-x-3">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								<a href="/deconnexion" class="px-3 py-2 text-sm xl:text-base bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
+									<i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
+								</a>
+							{% else %}
+								<a href="/connexion" class="px-3 py-2 text-sm xl:text-base text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300 font-medium whitespace-nowrap">
+									<i class="fas fa-sign-in-alt mr-2"></i>Connexion
+								</a>
+								<a href="/inscription" class="px-3 py-2 text-sm xl:text-base bg-green-600 text-white hover:bg-green-700 rounded-lg transition-all duration-300 font-medium shadow-md hover:shadow-lg whitespace-nowrap">
+									<i class="fas fa-user-plus mr-2"></i>Inscription
+								</a>
+							{% endif %}
+						</div>
+					</div>
+
+					<!-- Menu pour tablette (768px à 1024px) - Version compacte -->
+					<div class="hidden md:flex lg:hidden md:items-center md:space-x-2">
+						{% if is_granted('ROLE_ADMIN') %}
+							<a href="/admin/dashboard" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Panneau Admin">
+								<i class="fas fa-cog"></i>
+							</a>
+						{% endif %}
+
+						<a href="/a-propos" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Qui sommes-nous">
+							<i class="fas fa-info-circle"></i>
+						</a>
+
+						<a href="/sorties" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Sorties">
+							<i class="fas fa-hiking"></i>
+						</a>
+
+						<a href="/programmes" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Programmes">
+							<i class="fas fa-calendar-alt"></i>
+						</a>
+
+						<a href="/galerie" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Photos">
+							<i class="fas fa-images"></i>
+						</a>
+
+						<!-- Authentification tablette -->
+						<div class="ml-2 flex items-center space-x-2 border-l border-gray-200 pl-2">
+							{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+								<a href="/deconnexion" class="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-all duration-300" title="Déconnexion">
+									<i class="fas fa-sign-out-alt"></i>
+								</a>
+							{% else %}
+								<a href="/connexion" class="p-2 text-gray-700 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-300" title="Connexion">
+									<i class="fas fa-sign-in-alt"></i>
+								</a>
+								<a href="/inscription" class="p-2 bg-green-600 text-white hover:bg-green-700 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg" title="Inscription">
+									<i class="fas fa-user-plus"></i>
+								</a>
+							{% endif %}
+						</div>
+					</div>
+
+					<!-- Bouton Menu Burger - Visible seulement sur mobile (< 768px) -->
+					<div class="md:hidden">
+						<button id="burger-btn" class="bg-green-100 text-green-700 p-3 rounded-lg hover:bg-green-200 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+							<i id="burger-icon" class="fas fa-bars text-xl"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Menu Mobile (Full Screen) - Uniquement sur mobile -->
+		<div
+			id="mobile-menu" class="md:hidden fixed inset-0 bg-white z-50 hidden">
+			<!-- En-tête du Menu Mobile -->
+			<div class="flex justify-between items-center p-6 border-b">
+				<h2 class="text-2xl font-bold text-gray-800">Menu</h2>
+				<button id="close-menu" class="text-gray-500 hover:text-red-500 p-2 rounded-full hover:bg-gray-100 transition-colors duration-300">
+					<i class="fas fa-times text-2xl"></i>
+				</button>
+			</div>
+
+			<!-- Contenu du Menu Mobile -->
+			<div class="p-6 h-full overflow-y-auto">
+				<div class="space-y-4">
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="/admin/dashboard" class="flex items-center p-4 bg-green-50 text-green-700 rounded-xl hover:bg-green-100 transition-all duration-300">
+							<i class="fas fa-cog text-xl mr-4"></i>
+							<span class="text-lg font-medium">Panneau Administratif</span>
+						</a>
+					{% endif %}
+
+					<a href="/a-propos" class="flex items-center p-4 bg-gray-50 text-gray-700 rounded-xl hover:bg-gray-100 transition-all duration-300">
+						<i class="fas fa-info-circle text-xl mr-4"></i>
+						<span class="text-lg font-medium">Qui sommes-nous</span>
+					</a>
+
+					<a href="/sorties" class="flex items-center p-4 bg-blue-50 text-blue-700 rounded-xl hover:bg-blue-100 transition-all duration-300">
+						<i class="fas fa-hiking text-xl mr-4"></i>
+						<span class="text-lg font-medium">Sorties</span>
+					</a>
+
+					<a href="/programmes" class="flex items-center p-4 bg-purple-50 text-purple-700 rounded-xl hover:bg-purple-100 transition-all duration-300">
+						<i class="fas fa-calendar-alt text-xl mr-4"></i>
+						<span class="text-lg font-medium">Programmes</span>
+					</a>
+
+					<a href="/galerie" class="flex items-center p-4 bg-yellow-50 text-yellow-700 rounded-xl hover:bg-yellow-100 transition-all duration-300">
+						<i class="fas fa-images text-xl mr-4"></i>
+						<span class="text-lg font-medium">Voir toutes les photos</span>
+					</a>
+				</div>
+
+				<!-- Section Authentification Mobile -->
+				<div class="mt-8 pt-8 border-t">
+					<div class="space-y-4">
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<a href="/deconnexion" class="flex items-center justify-center p-4 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition-all duration-300">
+								<i class="fas fa-sign-out-alt text-xl mr-3"></i>
+								<span class="text-lg font-medium">Me déconnecter</span>
+							</a>
+						{% else %}
+							<a href="/connexion" class="flex items-center justify-center p-4 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-300">
+								<i class="fas fa-sign-in-alt text-xl mr-3"></i>
+								<span class="text-lg font-medium">Me connecter</span>
+							</a>
+							<a href="/inscription" class="flex items-center justify-center p-4 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-all duration-300 shadow-md hover:shadow-lg">
+								<i class="fas fa-user-plus text-xl mr-3"></i>
+								<span class="text-lg font-medium">M'inscrire</span>
+							</a>
+						{% endif %}
+					</div>
+				</div>
+
+				<!-- Pied de page du menu mobile -->
+				<div class="mt-12 text-center text-gray-500">
+					<p class="text-sm">© 2024 Pedibus Jambus. Tous droits réservés.</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Overlay pour fermer le menu -->
+		<div id="overlay" class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+		<!-- CONTENU DE VOTRE PAGE ICI -->
+		{% block body %}{% endblock %}
+
+		<!-- SCRIPT SIMPLIFIÉ ET FONCTIONNEL -->
+		<script>
+			// Version simplifiée du menu burger
+document.addEventListener('DOMContentLoaded', function () {
+initBurgerMenu();
+});
+
+// Pour Turbo Drive
+document.addEventListener('turbo:load', initBurgerMenu);
+
+function initBurgerMenu() {
+const burgerBtn = document.getElementById('burger-btn');
+const closeMenuBtn = document.getElementById('close-menu');
+const mobileMenu = document.getElementById('mobile-menu');
+const overlay = document.getElementById('overlay');
+const burgerIcon = document.getElementById('burger-icon');
+
+if (! burgerBtn || ! mobileMenu || ! burgerIcon) 
+return;
+
+
+
+let menuOpen = false;
+
+function openMobileMenu() {
+menuOpen = true;
+mobileMenu.classList.remove('hidden');
+overlay.classList.remove('hidden');
+burgerIcon.classList.replace('fa-bars', 'fa-times');
+document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+menuOpen = false;
+mobileMenu.classList.add('hidden');
+overlay.classList.add('hidden');
+burgerIcon.classList.replace('fa-times', 'fa-bars');
+document.body.style.overflow = '';
+}
+
+// Attacher les événements
+burgerBtn.onclick = openMobileMenu;
+closeMenuBtn.onclick = closeMobileMenu;
+overlay.onclick = closeMobileMenu;
+
+// Fermer avec Échap
+document.addEventListener('keydown', function (e) {
+if (e.key === 'Escape' && menuOpen) {
+closeMobileMenu();
+}
+});
+
+// Fermer automatiquement au redimensionnement
+window.addEventListener('resize', function () {
+if (window.innerWidth >= 768 && menuOpen) {
+closeMobileMenu();
+}
+});
+
+// Fermer le menu quand on clique sur un lien
+const menuLinks = mobileMenu.querySelectorAll('a');
+menuLinks.forEach(link => {
+link.addEventListener('click', function () {
+setTimeout(closeMobileMenu, 200);
+});
+});
+}
+		</script>
+	</body>
 </html>
