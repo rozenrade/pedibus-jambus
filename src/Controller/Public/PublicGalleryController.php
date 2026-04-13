@@ -1,15 +1,16 @@
-<?php 
+<?php
 
 namespace App\Controller\Public;
 
 use App\Entity\Album;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\AlbumRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PublicGalleryController extends AbstractController
 {
@@ -21,30 +22,36 @@ class PublicGalleryController extends AbstractController
             ['isPublic' => true],
             ['eventDate' => 'DESC', 'createdAt' => 'DESC']
         );
-        
+
         return $this->render('public/gallery/index.html.twig', [
             'albums' => $albums,
         ]);
     }
-    
-    #[Route('/galerie/{id}', name: 'public_album_show', requirements: ['id' => '\d+'])]
-    public function show(int $id, AlbumRepository $albumRepository): Response
+
+    #[Route('/galerie/{id}', name: 'public_album_show', methods: ['GET', 'POST'])]
+    public function show(Album $album, Request $request, EntityManagerInterface $em): Response
     {
-        // Récupérer l'album par ID
-        $album = $albumRepository->find($id);
-        
-        // Vérifier si l'album existe et s'il est public
-        if (!$album) {
-            throw $this->createNotFoundException('Album non trouvé');
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($this->getUser() && $form->isSubmitted() && $form->isValid()) {
+
+            $comment->setAuthor($this->getUser());
+            $comment->setAlbum($album);
+
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute('public_album_show', [
+                'id' => $album->getId()
+            ]);
         }
-        
-        if (!$album->isPublic()) {
-            throw $this->createAccessDeniedException('Cet album n\'est pas public');
-        }
-        
-        // Les photos sont déjà triées grâce au OrderBy dans l'entité Album
+
         return $this->render('public/gallery/show.html.twig', [
             'album' => $album,
+            'commentForm' => $form->createView()
         ]);
     }
 }

@@ -35,15 +35,6 @@ class PhotoMultipleType extends AbstractType
                         ])
                     ])
                 ],
-            ])
-            ->add('tags', TextType::class, [
-                'label' => 'Tags pour toutes les photos (séparés par des virgules)',
-                'required' => false,
-                'mapped' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'ex: école, sortie, enfants, nature'
-                ]
             ]);
     }
 

@@ -98,18 +98,6 @@
 								photo(s)</p>
 						</div>
 					{% endif %}
-					{% if photo.tags is not empty %}
-						<div class="col-span-2">
-							<p class="text-gray-600 mb-1">Tags</p>
-							<div class="flex flex-wrap gap-1">
-								{% for tag in photo.tags %}
-									<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
-										{{ tag }}
-									</span>
-								{% endfor %}
-							</div>
-						</div>
-					{% endif %}
 				</div>
 			</div>
 
@@ -127,44 +115,10 @@
 
 					<form method="post">
 						<input type="hidden" name="_token" value="{{ csrf_token('delete-photo-' ~ photo.id) }}">
-						<button type="submit" onclick="return confirm('Êtes-vous ABSOLUMENT sûr de vouloir supprimer cette photo ? Cette action ne peut pas être annulée.')" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
+						<button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
 							Oui, supprimer définitivement
 						</button>
 					</form>
-				</div>
-			</div>
-
-			<!-- Alternative -->
-			<div class="mt-6 pt-6 border-t border-gray-200">
-				<h3 class="text-sm font-medium text-gray-900 mb-3">Alternative à la suppression</h3>
-				<div class="space-y-2">
-					{% if photo.album %}
-						<p class="text-sm text-gray-600">
-							Au lieu de supprimer, vous pouvez :
-						</p>
-						<div class="flex flex-wrap gap-2">
-							<a href="{{ path('admin_photo_move_to_album', {'id': photo.id}) }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
-								Déplacer vers un autre album
-							</a>
-							<span class="text-gray-300">•</span>
-							<a href="{{ path('admin_photo_edit', {'id': photo.id}) }}" class="text-sm text-gray-600 hover:text-gray-800 font-medium">
-								Modifier la photo
-							</a>
-						</div>
-					{% else %}
-						<p class="text-sm text-gray-600">
-							Cette photo n'a pas d'album. Vous pouvez :
-						</p>
-						<div class="flex flex-wrap gap-2">
-							<a href="{{ path('admin_photo_assign_to_album', {'id': photo.id}) }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
-								L'assigner à un album
-							</a>
-							<span class="text-gray-300">•</span>
-							<a href="{{ path('admin_photo_edit', {'id': photo.id}) }}" class="text-sm text-gray-600 hover:text-gray-800 font-medium">
-								Modifier la photo
-							</a>
-						</div>
-					{% endif %}
 				</div>
 			</div>
 		</div>

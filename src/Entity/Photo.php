@@ -34,6 +34,10 @@ class Photo
         mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
         mimeTypesMessage: 'Veuillez télécharger une image valide (JPG, PNG, WebP ou GIF)'
     )]
+    #[Assert\NotBlank(
+        message: "Veuillez télécharger une image",
+        groups: ['create']
+    )]
     private ?File $imageFile = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
@@ -47,16 +51,13 @@ class Photo
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(type: 'datetime')]
-    // SUPPRIMER cette ligne: #[ORM\Index(name: 'idx_created_at')]
     private \DateTimeInterface $createdAt;
 
     #[ORM\Column(type: 'json', nullable: true)]
-    private array $tags = [];
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->tags = [];
     }
 
     public function getId(): ?int
@@ -145,54 +146,10 @@ class Photo
         return $this;
     }
 
-    public function getTags(): array
-    {
-        return $this->tags ?? [];
-    }
-
-    public function setTags(array $tags): self
-    {
-        $this->tags = $tags;
-        return $this;
-    }
-
-    public function addTag(string $tag): self
-    {
-        if (!in_array($tag, $this->tags, true)) {
-            $this->tags[] = $tag;
-        }
-        return $this;
-    }
-
-    public function removeTag(string $tag): self
-    {
-        if (($key = array_search($tag, $this->tags, true)) !== false) {
-            unset($this->tags[$key]);
-            $this->tags = array_values($this->tags);
-        }
-        return $this;
-    }
-
     // Méthodes utilitaires
     public function __toString(): string
     {
         return $this->title ?? 'Photo #' . $this->id;
-    }
-
-    public function getTagsAsString(): string
-    {
-        return implode(', ', $this->tags);
-    }
-
-    public function setTagsFromString(string $tagsString): self
-    {
-        $tags = array_map('trim', explode(',', $tagsString));
-        $tags = array_filter($tags, function($tag) {
-            return !empty($tag);
-        });
-        $this->tags = array_unique($tags);
-        
-        return $this;
     }
 
     public function getImageUrl(): ?string
@@ -201,10 +158,5 @@ class Photo
             return null;
         }
         return '/uploads/photos/' . $this->imageName;
-    }
-
-    public function hasTags(): bool
-    {
-        return !empty($this->tags);
     }
 }

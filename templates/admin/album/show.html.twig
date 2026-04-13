@@ -50,30 +50,6 @@
 			</div>
 		{% endif %}
 
-		<!-- Actions -->
-		<div class="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
-			<h2 class="text-lg font-semibold text-blue-900 mb-3">Actions rapides</h2>
-			<div class="flex flex-wrap gap-3">
-				<a href="{{ path('admin_photo_multiple_to_album', {'albumId': album.id}) }}" class="bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium">
-					Upload multiple
-				</a>
-				<a href="{{ path('admin_album_stats', {'id': album.id}) }}" class="bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium">
-					Statistiques
-				</a>
-
-				<form action="{{ path('admin_album_toggle_visibility', {'id': album.id}) }}" method="post" class="inline">
-					<input type="hidden" name="_token" value="{{ csrf_token('toggle-visibility-' ~ album.id) }}">
-					<button type="submit" class="bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium">
-						{{ album.isPublic ? 'Rendre privé' : 'Rendre public' }}
-					</button>
-				</form>
-
-				<a href="{{ path('admin_album_delete', {'id': album.id}) }}" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 px-4 py-2 rounded-lg font-medium">
-					Supprimer l'album
-				</a>
-			</div>
-		</div>
-
 		<!-- Photos -->
 		<div>
 			<div class="flex justify-between items-center mb-4">
@@ -99,7 +75,7 @@
 							+ Ajouter une photo
 						</a>
 						<a href="{{ path('admin_photo_multiple_to_album', {'albumId': album.id}) }}" class="bg-white hover:bg-gray-50 border border-gray-300 text-gray-800 px-4 py-2 rounded-lg font-medium">
-							Upload multiple
+							Ajouter plusieurs photos
 						</a>
 					</div>
 				</div>

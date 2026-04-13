@@ -39,12 +39,6 @@ class PhotoController extends AbstractController
             dump($photo->getImageFile());  // Fichier uploadé
             dump($photo->getImageName());  // Nom du fichier (doit être rempli par Vich)
 
-            // Gestion des tags
-            $tagsString = $form->get('tags')->getData();
-            if ($tagsString) {
-                $photo->setTagsFromString($tagsString);
-            }
-
             $em->persist($photo);
             $em->flush();
 
@@ -117,7 +111,6 @@ class PhotoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $images = $form->get('images')->getData();
-            $tags = $form->get('tags')->getData();
 
             $count = 0;
             foreach ($images as $imageFile) {
@@ -152,20 +145,12 @@ class PhotoController extends AbstractController
     #[Route('/{id}/edit', name: 'admin_photo_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Photo $photo, EntityManagerInterface $em): Response
     {
-        // Récupérer les tags actuels sous forme de string
-        $currentTags = $photo->getTagsAsString();
 
-        $form = $this->createForm(PhotoType::class, $photo);
-        $form->get('tags')->setData($currentTags); // Pré-remplir les tags
+        $form = $this->createForm(PhotoType::class, $photo, ['is_edit' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Gestion des tags
-            $tagsString = $form->get('tags')->getData();
-            if ($tagsString) {
-                $photo->setTagsFromString($tagsString);
-            }
 
             $em->flush();
 

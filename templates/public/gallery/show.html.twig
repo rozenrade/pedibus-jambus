@@ -1,80 +1,210 @@
 {# templates/public/gallery/show.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ album.title }} - Pedibus Jambus{% endblock %}
+{% block title %}
+	{{ album.title }}
+	- Pedibus Jambus
+{% endblock %}
 
 {% block body %}
-<section class="w-full px-4 py-8">
-    <div class="max-w-7xl mx-auto">
-        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-            <!-- En-tête de l'album -->
-            <div class="mb-8">
-                <a href="{{ path('public_album') }}" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-4">
-                    <i class="fas fa-arrow-left"></i>
-                    Retour à la galerie
-                </a>
-                
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ album.title }}</h1>
-                <div class="flex flex-wrap items-center gap-4 text-gray-600">
-                    <span class="flex items-center gap-2">
-                        <i class="fas fa-calendar-alt"></i>
-                        {{ album.eventDate|date('d/m/Y') }}
-                    </span>
-                    <span class="flex items-center gap-2">
-                        <i class="fas fa-images"></i>
-                        {{ album.photos|length }} photos
-                    </span>
-                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
-                        <i class="fas fa-globe-americas mr-1"></i>
-                        Public
-                    </span>
-                </div>
-                
-                {% if album.description %}
-                    <p class="mt-4 text-gray-600">{{ album.description }}</p>
-                {% endif %}
-            </div>
-            
-            <!-- Photos de l'album en grille -->
-            {% if album.photos|length > 0 %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {% for photo in album.photos %}
-                        <div class="photo-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 cursor-pointer"
-                             onclick="openLightbox('{{ album.id }}', {{ loop.index0 }})">
-                            <img 
-                                src="{{ asset('uploads/photos/' ~ photo.imageName) }}" 
-                                alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" 
-                                class="w-full h-64 object-cover"
-                                loading="lazy"
-                                data-album-id="{{ album.id }}"
-                                data-photo-index="{{ loop.index0 }}"
-                            >
-                            <div class="p-4">
-                                {% if photo.title %}
-                                    <h3 class="font-semibold text-gray-800 mb-2 truncate">{{ photo.title }}</h3>
-                                {% endif %}
-                                <p class="text-sm text-gray-500">{{ photo.createdAt|date('d/m/Y') }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="text-center py-12">
-                    <i class="fas fa-image text-5xl text-gray-300 mb-4"></i>
-                    <p class="text-gray-500">Aucune photo dans cet album</p>
-                </div>
-            {% endif %}
-        </div>
-    </div>
-</section>
+	<section class="w-full px-4 py-8">
+		<div class="max-w-7xl mx-auto">
+			<div
+				class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+				<!-- En-tête de l'album -->
+				<div class="mb-8">
+					<a href="{{ path('public_album') }}" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-4">
+						<i class="fas fa-arrow-left"></i>
+						Retour à la galerie
+					</a>
 
-<!-- Inclure la lightbox depuis le template principal -->
-<div id="lightbox" class="fixed inset-0 z-[100] hidden">
-    <!-- Le même code que dans index.html.twig -->
-</div>
+					<h1 class="text-3xl font-bold text-gray-800 mb-2">{{ album.title }}</h1>
+					<div class="flex flex-wrap items-center gap-4 text-gray-600">
+						<span class="flex items-center gap-2">
+							<i class="fas fa-calendar-alt"></i>
+							{{ album.eventDate|date('d/m/Y') }}
+						</span>
+						<span class="flex items-center gap-2">
+							<i class="fas fa-images"></i>
+							{{ album.photos|length }}
+							photos
+						</span>
+						<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+							<i class="fas fa-globe-americas mr-1"></i>
+							Public
+						</span>
+					</div>
 
-<script>
-    // Réutiliser les mêmes fonctions JavaScript
-    // (Elles sont déjà incluses si vous avez le même block javascripts)
-</script>
+					{% if album.description %}
+						<p class="mt-4 text-gray-600">{{ album.description }}</p>
+					{% endif %}
+				</div>
+
+				<!-- Photos de l'album en grille -->
+				{% if album.photos|length > 0 %}
+					<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-start">
+						{% for photo in album.photos %}
+							<div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+
+								<a href="{{ asset('uploads/photos/' ~ photo.imageName) }}" target="_blank" class="block">
+
+									<img src="{{ asset('uploads/photos/' ~ photo.imageName) }}" alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" class="w-full h-auto" loading="lazy">
+
+								</a>
+
+								<div class="p-4">
+
+									{% if photo.title %}
+										<h3 class="font-semibold text-gray-800 mb-2">
+											{{ photo.title }}
+										</h3>
+									{% endif %}
+									{% if photo.description %}
+										<h3 class="text-gray-500 mb-2">
+											{{ photo.description }}
+										</h3>
+									{% endif %}
+									<p class="text-sm text-blue-300">
+										{{ photo.createdAt|date('d/m/Y') }}
+									</p>
+
+								</div>
+
+							</div>
+						{% endfor %}
+					</div>
+				{% else %}
+					<div class="text-center py-12">
+						<i class="fas fa-image text-5xl text-gray-300 mb-4"></i>
+						<p class="text-gray-500">Aucune photo dans cet album</p>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</section>
+
+	<hr class="my-12 border-gray-200">
+
+	<div class="max-w-3xl mx-auto">
+
+		<div class="flex items-center justify-between mb-6">
+			<h2 class="text-2xl font-bold text-gray-800">
+				Commentaires
+			</h2>
+
+			<span class="bg-blue-50 text-blue-600 text-sm px-3 py-1 rounded-full">
+				{{ album.comments|length }}
+				message{{ album.comments|length > 1 ? 's' : '' }}
+			</span>
+		</div>
+
+
+		<div class="space-y-5 mb-8">
+
+			{% for comment in album.comments %}
+
+				<div
+					class="flex gap-3">
+
+					<!-- Avatar simulé -->
+					<div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+						{{ comment.author.email|first|upper }}
+					</div>
+
+					<!-- Bulle commentaire -->
+					<div class="bg-white border border-gray-200 shadow-sm rounded-xl px-4 py-3 w-full max-h-32">
+
+						<div class="flex items-center justify-between mb-1">
+
+							<span class="font-medium text-gray-800">
+								{{ comment.author.email }}
+							</span>
+
+							<span class="text-xs text-gray-400">
+								{{ comment.createdAt|date('d/m/Y • H:i') }}
+							</span>
+
+						</div>
+
+						<p class="text-gray-700 leading-relaxed break-words">
+							{{ comment.content }}
+						</p>
+
+					</div>
+
+				</div>
+
+			{% else %}
+
+				<div class="text-center text-gray-400 py-6">
+					Aucun commentaire pour cet album pour le moment.
+				</div>
+
+			{% endfor %}
+
+		</div>
+
+
+		{% if app.user %}
+
+			<!-- Zone écriture commentaire -->
+
+			<div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-4">
+
+				<div class="flex items-center gap-3 mb-3">
+
+					<div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+						{{ app.user.email|first|upper }}
+					</div>
+
+					<p class="text-sm text-gray-500">
+						Publier en tant que
+						<span class="font-medium text-gray-700">
+							{{ app.user.email }}
+						</span>
+					</p>
+
+				</div>
+
+
+				{{ form_start(commentForm) }}
+
+				<div class="flex gap-2">
+
+					{{ form_widget(commentForm.content, {
+                attr: {
+                    placeholder: "Écrire un commentaire...",
+                    class: "flex-1 rounded-lg border-gray-300 h-32 focus:outline-none"
+                }
+            }) }}
+
+					<button class="bg-blue-600 text-white px-5 rounded-lg hover:bg-blue-700 transition">
+						Envoyer
+					</button>
+
+				</div>
+
+				{{ form_end(commentForm) }}
+
+			</div>
+
+
+		{% else %}
+
+			<div class="bg-gray-50 border border-gray-200 rounded-xl text-center py-5">
+
+				<p class="text-gray-500">
+					Connectez-vous pour participer à la discussion
+				</p>
+
+				<a href="/connexion" class="inline-block mt-2 text-blue-600 hover:text-blue-800 font-medium">
+					Se connecter
+				</a>
+
+			</div>
+
+		{% endif %}
+
+	</div>
+
 {% endblock %}

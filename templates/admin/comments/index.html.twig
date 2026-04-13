@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Gestion des commentaires
+{% endblock %}
+
+{% block body %}
+
+	<div class="max-w-6xl mx-auto py-10">
+
+		<h1 class="text-3xl font-bold mb-6">
+			Gestion des commentaires
+		</h1>
+
+
+		<table class="w-full bg-white shadow rounded-xl overflow-hidden">
+
+			<thead class="bg-gray-100">
+
+				<tr>
+
+					<th class="p-4 text-left">Auteur</th>
+					<th class="p-4 text-left">Commentaire</th>
+					<th class="p-4 text-left">Album</th>
+					<th class="p-4 text-left">Date</th>
+					<th class="p-4 text-right">Action</th>
+
+				</tr>
+
+			</thead>
+
+			<tbody>
+
+				{% for comment in comments %}
+
+					<tr class="border-t">
+
+						<td class="p-4 text-sm text-gray-700">
+							{{ comment.author.email }}
+						</td>
+
+
+						<td class="p-4 text-gray-800 max-w-md break-words">
+							{{ comment.content }}
+						</td>
+
+
+						<td class="p-4 text-blue-600">
+
+							<a href="{{ path('public_album_show', {id: comment.album.id}) }}" target="_blank" class="hover:underline">
+
+								{{ comment.album.title }}
+
+							</a>
+
+						</td>
+
+
+						<td class="p-4 text-sm text-gray-500">
+
+							{{ comment.createdAt|date('d/m/Y H:i') }}
+
+						</td>
+
+
+						<td class="p-4 text-right">
+
+							<form method="post" action="{{ path('admin_comment_delete', {id: comment.id}) }}" onsubmit="return confirm('Supprimer ce commentaire ?');">
+
+								<input type="hidden" name="_token" value="{{ csrf_token('delete-comment-' ~ comment.id) }}">
+
+								<button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+
+									Supprimer
+
+								</button>
+
+							</form>
+
+						</td>
+
+					</tr>
+
+				{% else %}
+
+					<tr>
+
+						<td colspan="5" class="p-6 text-center text-gray-400">
+
+							Aucun commentaire trouvé
+
+						</td>
+
+					</tr>
+
+				{% endfor %}
+
+			</tbody>
+
+		</table>
+
+	</div>
+
+{% endblock %}

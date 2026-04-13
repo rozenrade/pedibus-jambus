@@ -37,15 +37,6 @@
 							Ajoutée le
 							{{ photo.createdAt|date('d/m/Y à H:i') }}
 						</p>
-						{% if photo.tags %}
-							<div class="mt-2 flex flex-wrap gap-1">
-								{% for tag in photo.tags %}
-									<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
-										{{ tag }}
-									</span>
-								{% endfor %}
-							</div>
-						{% endif %}
 					</div>
 				</div>
 			</div>
