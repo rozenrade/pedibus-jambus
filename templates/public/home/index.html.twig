@@ -1,45 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Pedibus Jambus
+	Pedibus Jambus – Association de randonnée pédestre à Combs-la-Ville (Seine-et-Marne)
 {% endblock %}
 
 {% block body %}
-	<!-- Section supérieure -->
 	<section class="w-full px-4 py-8 relative">
 		<div class="max-w-7xl mx-auto">
-			<!-- Conteneur avec fond blanc semi-transparent -->
 			<div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8 lg:p-10">
-				<!-- Titre principal -->
 				<div class="text-center mb-8">
 					<div class="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 mb-6">
 						<p class="text-xl md:text-2xl lg:text-3xl font-medium text-gray-800">
-							Association de randonnée pédestre
+							Mieux connaître
 						</p>
 						<span class="hidden md:inline text-gray-400">•</span>
 						<p class="text-xl md:text-2xl lg:text-3xl font-medium text-gray-800">
-							77380 Combs-la-Ville
+							notre association
 						</p>
 					</div>
 					<h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-red-600 mb-8">
-						Mieux connaître notre association
+						Randonnée pédestre à Combs-la-Ville – Pedibus Jambus
 					</h1>
 				</div>
 
-				<!-- Contenu principal -->
 				<div class="space-y-8">
-					<!-- Introduction -->
 					<div class="bg-green-50/80 rounded-2xl p-6 md:p-8">
 						<p class="text-lg md:text-xl lg:text-2xl text-gray-700 leading-relaxed">
-							Pedibus Jambus est une association régie par la loi du 1er juillet 1901.
-							Elle a pour objet la pratique et la promotion de la randonnée pédestre en tant qu'activité sportive et
-							culturelle de plein air.
+							Pedibus Jambus est une association régie par la loi du 1er juillet 1901. Elle a pour objet la pratique et la promotion de la randonnée pédestre en tant qu'activité sportive et culturelle de plein air.
 						</p>
 					</div>
 
-					<!-- Contenu avec image -->
 					<div class="flex flex-col lg:flex-row gap-8 items-start">
-						<!-- Texte -->
 						<div class="lg:w-2/3 space-y-6">
 							<div class="bg-blue-50/80 rounded-xl p-6">
 								<blockquote class="text-xl md:text-2xl lg:text-3xl text-blue-600 font-bold italic text-center">
@@ -49,24 +40,17 @@
 
 							<div class="space-y-4 text-gray-700">
 								<p class="text-base md:text-lg lg:text-xl leading-relaxed">
-									Aujourd'hui, les preuves scientifiques de cette affirmation s'accumulent. Si vous aimez la randonnée,
-									la faune, la flore, notre club de randonnée pédestre "Pedibus Jambus" et ses animateurs vous feront
-									découvrir les forêts et les sites de l'Île de France ainsi que des circuits originaux sur Paris ou la
-									banlieue.
+									Aujourd'hui, les preuves scientifiques de cette affirmation s'accumulent. Si vous aimez la randonnée, la faune, la flore, notre club de randonnée pédestre "Pedibus Jambus" et ses animateurs vous feront découvrir les forêts et les sites de l'Île de France ainsi que des circuits originaux sur Paris ou la banlieue.
 								</p>
 
 								<p class="text-base md:text-lg lg:text-xl leading-relaxed">
-									Contrairement au sport de compétition ou de haut niveau qui aggrave le stress et l'anxiété,
-									une activité physique modérée comme la randonnée renforce l'estime de soi, redonne éventuellement
-									confiance et permet une meilleure intégration dans la vie sociale, d'où une meilleure qualité de la
-									vie.
+									Contrairement au sport de compétition ou de haut niveau qui aggrave le stress et l'anxiété, une activité physique modérée comme la randonnée renforce l'estime de soi, redonne éventuellement confiance et permet une meilleure intégration dans la vie sociale, d'où une meilleure qualité de la vie.
 								</p>
 
 								<p class="text-base md:text-lg lg:text-xl leading-relaxed">
 									La bonne humeur règne chez
 									<span class="text-green-600 font-bold">"Pedibus Jambus"</span>
-									et l'imagination de nos animateurs pour nous concocter de belles randonnées n'est plus à démontrer. Amis
-									visiteurs, nous espérons que ce site répondra à vos attentes.
+									et l'imagination de nos animateurs pour nous concocter de belles randonnées n'est plus à démontrer. Amis visiteurs, nous espérons que ce site répondra à vos attentes.
 								</p>
 							</div>
 						</div>
@@ -74,11 +58,7 @@
 						<!-- Image -->
 						<div class="lg:w-1/3">
 							<div class="sticky top-8">
-								<img 
-									src="{{ asset('img/flower-main.jpg') }}" 
-									alt="Image d'accueil" 
-									class="w-full h-auto rounded-2xl shadow-lg object-cover max-h-[400px] lg:max-h-[500px] border-4 border-white"
-								/>
+								<img src="{{ asset('img/flower-main.jpg') }}" alt="Randonnée pédestre en Île-de-France avec l'association Pedibus Jambus" class="w-full h-auto rounded-2xl shadow-lg object-cover max-h-[400px] lg:max-h-[500px] border-4 border-white"/>
 								<div class="mt-4 text-center text-gray-600 text-sm font-medium">
 									<p>Les chemins de l'Île-de-France</p>
 								</div>
@@ -86,7 +66,6 @@
 						</div>
 					</div>
 
-					<!-- Signature -->
 					<div class="border-t border-green-200 pt-8 mt-8">
 						<div class="text-center space-y-4">
 							<p class="text-xl md:text-2xl lg:text-3xl text-gray-700 italic">
@@ -102,33 +81,28 @@
 		</div>
 	</section>
 
-	<!-- Section des albums -->
 	<section class="w-full px-4 py-8 relative">
 		<div class="max-w-7xl mx-auto">
-			<!-- Conteneur avec fond blanc semi-transparent -->
 			<div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8">
-				<!-- Titre -->
 				<div class="text-center mb-10">
 					<h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
-						Les évènements récents
+						Albums photos de nos randonnées en Île-de-France
 					</h2>
 					<p class="text-gray-600 text-lg md:text-xl">
 						Découvrez les souvenirs de nos dernières randonnées
 					</p>
 				</div>
 
-				<!-- Grille des albums -->
 				{% if albums|length > 0 %}
 					<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
 						{% for album in albums %}
-							<!-- Carte album -->
 							<div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100/50">
-								<!-- Entête -->
+
 								<div class="p-5 md:p-6">
 									<h3 class="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 mb-3 line-clamp-2">
 										{{ album.title }}
 									</h3>
-									
+
 									<p class="text-gray-600 text-sm md:text-base mb-4 line-clamp-3">
 										{% if album.description %}
 											{{ album.description }}
@@ -137,13 +111,14 @@
 
 									<div class="flex justify-between items-center text-sm text-gray-500">
 										<div class="flex items-center gap-2">
-											<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-											<path fill-rule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+											<svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20">
+												<path fill-rule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
 											</svg>
-											<span>{{ album.photos|length }} photo(s)</span>
+											<span>{{ album.photos|length }}
+												photo(s)</span>
 										</div>
 										<div class="flex items-center gap-2">
-											<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+											<svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20">
 												<path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
 											</svg>
 											<span>{{ album.eventDate|date('d/m/Y') }}</span>
@@ -151,24 +126,16 @@
 									</div>
 								</div>
 
-								<!-- Miniatures -->
 								<div class="px-5 md:px-6 pb-5 md:pb-6">
 									<h4 class="text-sm font-semibold text-gray-700 mb-3">Photos récentes :</h4>
 									<div class="grid grid-cols-3 gap-3">
 										{% for photo in album.photos|slice(0, 3) %}
 											<div class="aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer group">
 												{% if photo.imageName %}
-													<img 
-														src="{{ asset('uploads/photos/' ~ photo.imageName) }}" 
-														alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" 
-														class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 lightbox-image"
-														data-album="{{ album.id }}"
-														data-photo-id="{{ photo.id }}"
-														data-index="{{ loop.index0 }}"
-													>
+													<img src="{{ asset('uploads/photos/' ~ photo.imageName) }}" alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 lightbox-image" data-album="{{ album.id }}" data-photo-id="{{ photo.id }}" data-index="{{ loop.index0 }}">
 												{% else %}
 													<div class="w-full h-full flex items-center justify-center bg-gray-200">
-														<svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 															<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
 														</svg>
 													</div>
@@ -178,7 +145,7 @@
 											{% for i in 1..3 %}
 												<div class="aspect-square overflow-hidden rounded-lg bg-gray-100">
 													<div class="w-full h-full flex items-center justify-center bg-gray-200">
-														<svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+														<svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 															<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
 														</svg>
 													</div>
@@ -190,20 +157,17 @@
 									{% if album.photos|length > 0 %}
 										<div class="mt-4 text-center">
 											<span class="inline-block text-sm text-green-600 font-medium bg-green-50/80 px-4 py-2 rounded-full">
-												{{ album.photos|length }} photo(s) disponible(s)
+												{{ album.photos|length }}
+												photo(s) disponible(s)
 											</span>
 										</div>
 									{% endif %}
 								</div>
 
-								<!-- Bouton -->
 								<div class="px-5 md:px-6 pb-5 md:pb-6">
-									<a 
-										href="{{ path('public_album_show', {'id': album.id}) }}" 
-										class="block w-full text-center bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg"
-									>
+									<a href="{{ path('public_album_show', {'id': album.id}) }}" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg">
 										<span class="flex items-center justify-center gap-2">
-											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
 											</svg>
@@ -215,10 +179,9 @@
 						{% endfor %}
 					</div>
 				{% else %}
-					<!-- Message si aucun album -->
 					<div class="text-center py-12 md:py-16">
 						<div class="max-w-md mx-auto">
-							<svg class="w-16 h-16 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<svg class="w-16 h-16 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
 							</svg>
 							<h3 class="text-xl md:text-2xl font-bold text-gray-700 mb-3">
@@ -232,14 +195,10 @@
 					</div>
 				{% endif %}
 
-				<!-- Bouton Voir tous -->
 				{% if albums|length > 0 %}
 					<div class="text-center mt-10 md:mt-12">
-						<a 
-							href="{{ path('admin_album_index') }}" 
-							class="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105"
-						>
-							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<a href="{{ path('public_album') }}" class="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105">
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
 							</svg>
 							Voir tous nos albums de randonnées
@@ -250,17 +209,29 @@
 		</div>
 	</section>
 
-	<!-- Lightbox -->
-	<div id="lightbox" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95">
+	<section>
+		<h2>Club de randonnée pédestre en Seine-et-Marne (77)</h2>
+
+		<p>
+			Notre association Pedibus Jambus propose des randonnées pédestres encadrées autour de Combs-la-Ville, en Seine-et-Marne et plus largement en Île-de-France. Nos sorties permettent de découvrir la nature locale, la faune, la flore et le patrimoine régional.
+		</p>
+
+		<p>
+			Que vous soyez débutant ou randonneur confirmé, vous pouvez rejoindre notre club pour pratiquer la randonnée dans un cadre convivial et sécurisé.
+		</p>
+	</section>
+
+	<div
+		id="lightbox" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95">
 		<!-- Boutons -->
 		<button id="lightbox-close" class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
 			&times;
 		</button>
-		
+
 		<button id="lightbox-prev" class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
 			‹
 		</button>
-		
+
 		<button id="lightbox-next" class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
 			›
 		</button>
@@ -282,113 +253,128 @@
 
 	<script>
 		// Lightbox responsive
-		document.addEventListener('DOMContentLoaded', function () {
-			let images = [];
-			let currentIndex = 0;
-			
-			// Récupérer toutes les images des albums
-			images = Array.from(document.querySelectorAll('.lightbox-image'));
-			
-			// Références
-			const overlay = document.getElementById('lightbox');
-			const img = document.getElementById('lightbox-img');
-			const counter = document.getElementById('lightbox-counter');
-			const closeBtn = document.getElementById('lightbox-close');
-			const prevBtn = document.getElementById('lightbox-prev');
-			const nextBtn = document.getElementById('lightbox-next');
-			
-			// Ouvrir lightbox
-			function openLightbox(index) {
-				currentIndex = index;
-				img.src = images[currentIndex].src;
-				img.alt = images[currentIndex].alt;
-				counter.textContent = `${currentIndex + 1} / ${images.length}`;
-				
-				// Gestion des boutons navigation
-				prevBtn.style.display = currentIndex > 0 ? 'flex' : 'none';
-				nextBtn.style.display = currentIndex < images.length - 1 ? 'flex' : 'none';
-				
-				// Afficher
-				overlay.classList.remove('hidden');
-				document.body.style.overflow = 'hidden';
-				
-				// Adapter la taille sur mobile
-				if (window.innerWidth < 768) {
-					img.classList.add('max-h-[75vh]');
-					img.classList.remove('max-h-[90vh]');
-				} else {
-					img.classList.remove('max-h-[75vh]');
-					img.classList.add('max-h-[90vh]');
-				}
-			}
-			
-			// Fermer lightbox
-			function closeLightbox() {
-				overlay.classList.add('hidden');
-				document.body.style.overflow = '';
-			}
-			
-			// Navigation
-			function prev() {
-				if (currentIndex > 0) openLightbox(currentIndex - 1);
-			}
-			
-			function next() {
-				if (currentIndex < images.length - 1) openLightbox(currentIndex + 1);
-			}
-			
-			// Événements sur les images
-			images.forEach((image, index) => {
-				image.style.cursor = 'zoom-in';
-				image.addEventListener('click', () => openLightbox(index));
-			});
-			
-			// Événements boutons
-			closeBtn.addEventListener('click', closeLightbox);
-			prevBtn.addEventListener('click', prev);
-			nextBtn.addEventListener('click', next);
-			
-			// Fermer en cliquant sur l'overlay
-			overlay.addEventListener('click', function (e) {
-				if (e.target === overlay) {
-					closeLightbox();
-				}
-			});
-			
-			// Empêcher la fermeture quand on clique sur le contenu
-			[img, closeBtn, prevBtn, nextBtn, counter].forEach(element => {
-				element.addEventListener('click', (e) => e.stopPropagation());
-			});
-			
-			// Navigation clavier
-			document.addEventListener('keydown', (e) => {
-				if (!overlay.classList.contains('hidden')) {
-					switch(e.key) {
-						case 'Escape':
-							closeLightbox();
-							break;
-						case 'ArrowLeft':
-							prev();
-							break;
-						case 'ArrowRight':
-							next();
-							break;
-					}
-				}
-			});
-			
-			// Adapter au redimensionnement
-			window.addEventListener('resize', function() {
-				if (!overlay.classList.contains('hidden')) {
-					if (window.innerWidth < 768) {
-						img.classList.add('max-h-[75vh]');
-						img.classList.remove('max-h-[90vh]');
-					} else {
-						img.classList.remove('max-h-[75vh]');
-						img.classList.add('max-h-[90vh]');
-					}
-				}
-			});
-		});
+document.addEventListener('DOMContentLoaded', function () {
+let images = [];
+let currentIndex = 0;
+
+// Récupérer toutes les images des albums
+images = Array.from(document.querySelectorAll('.lightbox-image'));
+
+// Références
+const overlay = document.getElementById('lightbox');
+const img = document.getElementById('lightbox-img');
+const counter = document.getElementById('lightbox-counter');
+const closeBtn = document.getElementById('lightbox-close');
+const prevBtn = document.getElementById('lightbox-prev');
+const nextBtn = document.getElementById('lightbox-next');
+
+// Ouvrir lightbox
+function openLightbox(index) {
+currentIndex = index;
+img.src = images[currentIndex].src;
+img.alt = images[currentIndex].alt;
+counter.textContent = `${
+currentIndex + 1
+} / ${
+images.length
+}`;
+
+// Gestion des boutons navigation
+prevBtn.style.display = currentIndex > 0 ? 'flex' : 'none';
+nextBtn.style.display = currentIndex < images.length - 1 ? 'flex' : 'none';
+
+// Afficher
+overlay.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+
+// Adapter la taille sur mobile
+if (window.innerWidth < 768) {
+img.classList.add('max-h-[75vh]');
+img.classList.remove('max-h-[90vh]');
+} else {
+img.classList.remove('max-h-[75vh]');
+img.classList.add('max-h-[90vh]');
+}
+}
+
+// Fermer lightbox
+function closeLightbox() {
+overlay.classList.add('hidden');
+document.body.style.overflow = '';
+}
+
+// Navigation
+function prev() {
+if (currentIndex > 0) 
+openLightbox(currentIndex - 1);
+
+
+
+}
+
+function next() {
+if (currentIndex < images.length - 1) 
+openLightbox(currentIndex + 1);
+
+
+
+}
+
+// Événements sur les images
+images.forEach((image, index) => {
+image.style.cursor = 'zoom-in';
+image.addEventListener('click', () => openLightbox(index));
+});
+
+// Événements boutons
+closeBtn.addEventListener('click', closeLightbox);
+prevBtn.addEventListener('click', prev);
+nextBtn.addEventListener('click', next);
+
+// Fermer en cliquant sur l'overlay
+overlay.addEventListener('click', function (e) {
+if (e.target === overlay) {
+closeLightbox();
+}
+});
+
+// Empêcher la fermeture quand on clique sur le contenu
+[
+img,
+closeBtn,
+prevBtn,
+nextBtn,
+counter
+].forEach(element => {
+element.addEventListener('click', (e) => e.stopPropagation());
+});
+
+// Navigation clavier
+document.addEventListener('keydown', (e) => {
+if (! overlay.classList.contains('hidden')) {
+switch (e.key) {
+case 'Escape': closeLightbox();
+break;
+case 'ArrowLeft': prev();
+break;
+case 'ArrowRight': next();
+break;
+}
+}
+});
+
+// Adapter au redimensionnement
+window.addEventListener('resize', function () {
+if (! overlay.classList.contains('hidden')) {
+if (window.innerWidth < 768) {
+img.classList.add('max-h-[75vh]');
+img.classList.remove('max-h-[90vh]');
+} else {
+img.classList.remove('max-h-[75vh]');
+img.classList.add('max-h-[90vh]');
+}
+}
+});
+});
 	</script>
 {% endblock %}

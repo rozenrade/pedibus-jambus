@@ -13,8 +13,8 @@
 		<link
 		rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-		<!-- Désactiver Turbo pour éviter les problèmes -->
-		<meta name="turbo-cache-control" content="no-cache"> {% block stylesheets %}{% endblock %}
+		<meta name="turbo-cache-control" content="no-cache"> 
+		<meta name="description" content="content="Pedibus Jambus est une association de randonnée pédestre à Combs-la-Ville (77). Randonnées en Île-de-France, sorties nature encadrées, activité conviviale accessible à tous.">{% block stylesheets %}{% endblock %}
 		{% block javascripts %}
 			{% block importmap %}
 				{{ importmap('app') }}
@@ -23,7 +23,6 @@
 	</head>
 
 	<body class="bg-cyan-100 min-h-screen" data-turbo="false">
-
 
 		<img src="{{ asset('img/blue-mountain.jpg') }}" class="fixed w-auto h-auto min-w-full min-h-full object-cover z-0" alt=""/>
 
