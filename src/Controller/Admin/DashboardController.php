@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin')]
 class DashboardController extends AbstractController
 {
-    #[Route('/panel-administrateur', name: 'admin_dashboard')]
+    #[Route('/panel', name: 'admin_dashboard')]
     public function index(
         EntityManagerInterface $em,
         HikingProgramRepository $programRepository

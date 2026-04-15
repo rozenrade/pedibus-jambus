@@ -103,36 +103,46 @@
 
 			{% for comment in album.comments %}
 
-				<div
-					class="flex gap-3">
+				<turbo-frame id="comment_{{ comment.id }}">
+					<div
+						class="flex gap-3 mb-3">
 
-					<!-- Avatar simulé -->
-					<div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
-						{{ comment.author.email|first|upper }}
-					</div>
-
-					<!-- Bulle commentaire -->
-					<div class="bg-white border border-gray-200 shadow-sm rounded-xl px-4 py-3 w-full min-w-0 ">
-
-						<div class="flex items-center sm:justify-between flex-wrap mb-1">
-
-							<span class="font-medium text-gray-800">
-								{{ comment.author.email }}
-							</span>
-
-							<span class="text-xs text-gray-400">
-								{{ comment.createdAt|date('d/m/Y • H:i') }}
-							</span>
-
+						<!-- Avatar simulé -->
+						<div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+							{{ comment.author.email|first|upper }}
 						</div>
 
-						<p class="text-gray-700 leading-relaxed break-words">
-							{{ comment.content }}
-						</p>
+						<!-- Bulle commentaire -->
+						<div class="bg-white border border-gray-200 shadow-sm rounded-xl px-4 py-3 w-full min-w-0 ">
 
+							<div class="flex items-center sm:justify-between flex-wrap mb-1">
+
+								<span class="font-medium text-gray-800">
+									{{ comment.author.email }}
+								</span>
+
+								<span class="text-xs text-gray-400">
+									{{ comment.createdAt|date('d/m/Y • H:i') }}
+								</span>
+
+							</div>
+
+							<p class="text-gray-700 leading-relaxed break-words">
+								{{ comment.content }}
+							</p>
+
+						</div>
+						{% if app.user == comment.author or is_granted('ROLE_ADMIN') %}
+							<form method="POST" action="{{ path('public_comment_delete', {id: comment.id}) }}" onsubmit="return confirm('Supprimer ce commentaire ?');" class="flex items-start" data-turbo-frame="comment_{{ comment.id }}">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete-comment-' ~ comment.id) }}">
+
+								<button type="submit" class="text-gray-400 hover:text-red-600 transition text-sm ml-2" title="Supprimer mon commentaire" aria-label="Supprimer le commentaire">
+									Supprimer
+								</button>
+							</form>
+						{% endif %}
 					</div>
-
-				</div>
+				</turbo-frame>
 
 			{% else %}
 
