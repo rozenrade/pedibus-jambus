@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Album;
 use App\Form\AlbumType;
+use App\Repository\AlbumRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,8 +79,10 @@ class AlbumController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'admin_album_delete', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
-    public function delete(Request $request, Album $album, EntityManagerInterface $em): Response
+    public function delete(Request $request, Album $album, EntityManagerInterface $em, AlbumRepository $albumRepository): Response
     {
+
+        $photoCount = $albumRepository->countPhotos($album->getId());
         if ($request->isMethod('POST')) {
             $submittedToken = $request->request->get('_token');
 
@@ -95,6 +98,7 @@ class AlbumController extends AbstractController
 
         return $this->render('admin/album/delete.html.twig', [
             'album' => $album,
+            'photoCount' => $photoCount,
         ]);
     }
 

@@ -24,14 +24,14 @@
 					<li>• Date :
 						{{ album.eventDate|date('d/m/Y') }}</li>
 					<li>• Photos :
-						{{ album.photos|length }}
+						{{ photoCount }}
 						photo(s)</li>
 					<li>• Statut :
 						{{ album.isPublic ? 'Public' : 'Privé' }}</li>
 				</ul>
 			</div>
 
-			{% if album.photos|length > 0 %}
+			{% if photoCount > 0 %}
 				<div class="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
 					<div class="flex">
 						<svg class="w-5 h-5 text-yellow-600 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20">
@@ -41,7 +41,7 @@
 							<h3 class="text-sm font-medium text-yellow-800">Attention !</h3>
 							<div class="mt-1 text-sm text-yellow-700">
 								<p>Cet album contient
-									{{ album.photos|length }}
+									{{ photoCount }}
 									photo(s). Toutes les photos seront également supprimées.</p>
 								<p class="mt-1">Si vous souhaitez conserver les photos, supprimez-les d'abord individuellement.</p>
 							</div>

@@ -12,96 +12,100 @@ use App\Repository\HikingProgramRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 #[Route('/admin')]
 class DashboardController extends AbstractController
 {
     #[Route('/panel', name: 'admin_dashboard')]
-    public function index(
-        EntityManagerInterface $em,
-        HikingProgramRepository $programRepository
-    ): Response {
-        // Statistiques générales
-        $totalAlbums = $em->getRepository(Album::class)->count([]);
-        $totalPhotos = $em->getRepository(Photo::class)->count([]);
-        $totalUsers = $em->getRepository(User::class)->count([]);
-        $totalComments = $em->getRepository(Comment::class)->count([]);
-        
-        // Albums récents (5 derniers)
-        $recentAlbums = $em->getRepository(Album::class)->findBy(
-            [],
-            ['createdAt' => 'DESC'],
-            5
-        );
+    public function index(EntityManagerInterface $em, HikingProgramRepository $programRepository, CacheInterface $cache): Response
+    {
 
-        // Photos récentes (5 dernières)
-        $recentPhotos = $em->getRepository(Photo::class)->findBy(
-            [],
-            ['updatedAt' => 'DESC'],
-            5
-        );
+        $data = $cache->get('admin_dashboard', function (ItemInterface $item) use ($em, $programRepository) {
 
-        // Statistiques par visibilité
-        $publicAlbums = $em->getRepository(Album::class)->count(['isPublic' => true]);
-        $privateAlbums = $em->getRepository(Album::class)->count(['isPublic' => false]);
+            $item->expiresAfter(300);
 
-        // Albums avec le plus de photos
-        $qb = $em->createQueryBuilder();
-        $topAlbums = $qb->select('a as album', 'COUNT(p.id) as photoCount')
-            ->from(Album::class, 'a')
-            ->leftJoin('a.photos', 'p')
-            ->groupBy('a.id')
-            ->orderBy('photoCount', 'DESC')
-            ->setMaxResults(5)
-            ->getQuery()
-            ->getResult();
+            $totalAlbums = $em->getRepository(Album::class)->count([]);
+            $totalPhotos = $em->getRepository(Photo::class)->count([]);
+            $totalUsers = $em->getRepository(User::class)->count([]);
+            $totalComments = $em->getRepository(Comment::class)->count([]);
 
-        // Statistiques temporelles
-        $lastMonth = new \DateTime('-1 month');
-        $recentAlbumsCount = $em->getRepository(Album::class)->createQueryBuilder('a')
-            ->select('COUNT(a.id)')
-            ->where('a.createdAt >= :lastMonth')
-            ->setParameter('lastMonth', $lastMonth)
-            ->getQuery()
-            ->getSingleScalarResult();
+            $recentAlbums = $em->createQueryBuilder()
+                ->select('a', 'COUNT(p.id) as photoCount')
+                ->from(Album::class, 'a')
+                ->leftJoin('a.photos', 'p')
+                ->groupBy('a.id')
+                ->orderBy('a.createdAt', 'DESC')
+                ->setMaxResults(5)
+                ->getQuery()
+                ->getResult();
 
-        $recentPhotosCount = $em->getRepository(Photo::class)->createQueryBuilder('p')
-            ->select('COUNT(p.id)')
-            ->where('p.updatedAt >= :lastMonth')
-            ->setParameter('lastMonth', $lastMonth)
-            ->getQuery()
-            ->getSingleScalarResult();
+            $recentPhotos = $em->getRepository(Photo::class)->findBy(
+                [],
+                ['updatedAt' => 'DESC'],
+                5
+            );
 
+            $publicAlbums = $em->getRepository(Album::class)->count(['isPublic' => true]);
+            $privateAlbums = $em->getRepository(Album::class)->count(['isPublic' => false]);
 
+            $qb = $em->createQueryBuilder();
+            $topAlbums = $qb->select('a as album', 'COUNT(p.id) as photoCount')
+                ->from(Album::class, 'a')
+                ->leftJoin('a.photos', 'p')
+                ->groupBy('a.id')
+                ->orderBy('photoCount', 'DESC')
+                ->setMaxResults(5)
+                ->getQuery()
+                ->getResult();
 
-        $totalPrograms = $programRepository->count([]);
-        $recentProgramsCount = $programRepository->countRecent(30); // 30 derniers jours
-        $programsByYear = $programRepository->countByYear();
+            $lastMonth = new \DateTime('-1 month');
+            $recentAlbumsCount = $em->getRepository(Album::class)->createQueryBuilder('a')
+                ->select('COUNT(a.id)')
+                ->where('a.createdAt >= :lastMonth')
+                ->setParameter('lastMonth', $lastMonth)
+                ->getQuery()
+                ->getSingleScalarResult();
 
-        // Récupérez les derniers programmes
-        $recentPrograms = $programRepository->findBy(
-            [],
-            ['updateAt' => 'DESC'],
-            5
-        );
+            $recentPhotosCount = $em->getRepository(Photo::class)->createQueryBuilder('p')
+                ->select('COUNT(p.id)')
+                ->where('p.updatedAt >= :lastMonth')
+                ->setParameter('lastMonth', $lastMonth)
+                ->getQuery()
+                ->getSingleScalarResult();
 
-        return $this->render('admin/dashboard/index.html.twig', [
-            'totalAlbums' => $totalAlbums,
-            'totalPhotos' => $totalPhotos,
-            'totalUsers' => $totalUsers,
-            'recentAlbums' => $recentAlbums,
-            'recentPhotos' => $recentPhotos,
-            'publicAlbums' => $publicAlbums,
-            'privateAlbums' => $privateAlbums,
-            'topAlbums' => $topAlbums,
-            'recentAlbumsCount' => $recentAlbumsCount,
-            'recentPhotosCount' => $recentPhotosCount,
-            'totalPrograms' => $totalPrograms,
-            'recentProgramsCount' => $recentProgramsCount,
-            'programsByYear' => $programsByYear,
-            'recentPrograms' => $recentPrograms,
-            'totalComments' => $totalComments,
-        ]);
+            $totalPrograms = $programRepository->count([]);
+            $recentProgramsCount = $programRepository->countRecent(30);
+            $programsByYear = $programRepository->countByYear();
+
+            $recentPrograms = $programRepository->findBy(
+                [],
+                ['updateAt' => 'DESC'],
+                5
+            );
+
+            return [
+                'totalAlbums' => $totalAlbums,
+                'totalPhotos' => $totalPhotos,
+                'totalUsers' => $totalUsers,
+                'totalComments' => $totalComments,
+                'recentAlbums' => $recentAlbums,
+                'recentPhotos' => $recentPhotos,
+                'publicAlbums' => $publicAlbums,
+                'privateAlbums' => $privateAlbums,
+                'topAlbums' => $topAlbums,
+                'recentAlbumsCount' => $recentAlbumsCount,
+                'recentPhotosCount' => $recentPhotosCount,
+                'totalPrograms' => $totalPrograms,
+                'recentProgramsCount' => $recentProgramsCount,
+                'programsByYear' => $programsByYear,
+                'recentPrograms' => $recentPrograms,
+
+            ];
+        });
+
+        return $this->render('admin/dashboard/index.html.twig', $data);
     }
 
     #[Route('/actions-rapides', name: 'admin_quick_actions')]
@@ -113,15 +117,18 @@ class DashboardController extends AbstractController
     #[Route('/stats-widget', name: 'admin_stats_widget')]
     public function statsWidget(EntityManagerInterface $em): Response
     {
-        $stats = [
-            'albums' => $em->getRepository(Album::class)->count([]),
-            'photos' => $em->getRepository(Photo::class)->count([]),
-            'users' => $em->getRepository(User::class)->count([]),
-        ];
+        $stats = $em->createQueryBuilder()
+            ->select("
+        COUNT(a.id) as total,
+        SUM(CASE WHEN a.isPublic = true THEN 1 ELSE 0 END) as publicCount,
+        SUM(CASE WHEN a.isPublic = false THEN 1 ELSE 0 END) as privateCount
+    ")
+            ->from(Album::class, 'a')
+            ->getQuery()
+            ->getSingleResult();
 
         return $this->render('admin/dashboard/_stats_widget.html.twig', [
             'stats' => $stats,
         ]);
     }
-
 }

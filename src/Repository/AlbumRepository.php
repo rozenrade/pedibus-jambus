@@ -49,20 +49,25 @@ class AlbumRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findPublicAlbumsWithPhotos(int $limit = null): array
+    public function findRecentPublicAlbums(int $limit = 6): array
     {
-        $qb = $this->createQueryBuilder('a')
-            ->leftJoin('a.photos', 'p')
-            ->addSelect('p')
+        return $this->createQueryBuilder('a')
             ->where('a.isPublic = :public')
             ->setParameter('public', true)
             ->orderBy('a.eventDate', 'DESC')
-            ->addOrderBy('p.createdAt', 'DESC'); // Tri des photos du plus récent au plus ancien
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 
-        if ($limit) {
-            $qb->setMaxResults($limit);
-        }
-
-        return $qb->getQuery()->getResult();
+    public function countPhotos(int $albumId): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(p.id)')
+            ->leftJoin('a.photos', 'p')
+            ->where('a.id = :id')
+            ->setParameter('id', $albumId)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }
