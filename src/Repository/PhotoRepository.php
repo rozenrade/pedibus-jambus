@@ -30,19 +30,6 @@ class PhotoRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByTagInPublicAlbums(string $tag): array
-    {
-        return $this->createQueryBuilder('p')
-            ->join('p.album', 'a')
-            ->where('a.isPublic = :public')
-            ->andWhere('JSON_CONTAINS(p.tags, :tag) = 1')
-            ->setParameter('public', true)
-            ->setParameter('tag', '"' . $tag . '"')
-            ->orderBy('p.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
-
     public function findRecentPublicPhotos(int $limit = 12): array
     {
         return $this->createQueryBuilder('p')

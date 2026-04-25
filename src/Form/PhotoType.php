@@ -11,25 +11,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Vich\UploaderBundle\Form\Type\VichImageType; // <-- IMPORTANT
-use Vich\UploaderBundle\Form\Type\VichFileType;   // Alternative
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PhotoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('imageFile', VichImageType::class, [ // <-- REMPLACER FileType par VichImageType
+            ->add('imageFile', VichImageType::class, [
                 'label' => 'Photo *',
-                'required' => true,
-                'allow_delete' => false,   // Cacher le bouton de suppression
-                'download_uri' => false,   // Cacher le lien de téléchargement
-                'image_uri' => false,      // Cacher la prévisualisation
+                'required' => !$options['is_edit'],
+                'allow_delete' => false,
+                'download_uri' => false,
+                'image_uri' => false,
                 'attr' => [
                     'class' => 'form-control-file',
                     'accept' => 'image/*'
                 ],
-                // Optionnel : ajouter une contrainte de validation
                 'constraints' => [
                     new \Symfony\Component\Validator\Constraints\Image([
                         'maxSize' => '10M',
@@ -64,15 +62,6 @@ class PhotoType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ]
-            ])
-            ->add('tags', TextType::class, [
-                'label' => 'Tags (séparés par des virgules)',
-                'required' => false,
-                'mapped' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'ex: école, sortie, enfants, nature'
-                ]
             ]);
     }
 
@@ -80,6 +69,7 @@ class PhotoType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Photo::class,
+            'is_edit' => false,
         ]);
     }
 }

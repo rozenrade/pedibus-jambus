@@ -1,9 +1,9 @@
-{# templates/public/gallery/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Photos publiques - Pedibus Jambus{% endblock %}
 
-{% block stylesheets %}
+{# {% block stylesheets %}
     {{ parent() }}
     <style>
         /* Styles pour la lightbox */
@@ -115,7 +115,7 @@
             opacity: 1;
         }
     </style>
-{% endblock %}
+{% endblock %} #}
 
 {% block body %}
 <!-- Section des photos publiques -->
@@ -167,7 +167,7 @@
                                             <div class="w-12 h-12 rounded-lg overflow-hidden border-2 border-white shadow">
                                                 {% if album.coverImage %}
                                                     <img 
-                                                        src="{{ asset('uploads/album_covers/' ~ album.coverImage) }}" 
+                                                        src="{{ asset('uploads/albums/covers/' ~ album.coverImage) }}" 
                                                         alt="{{ album.title }}" 
                                                         class="w-full h-full object-cover"
                                                     >
@@ -256,17 +256,7 @@
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        
-                                                        <!-- Badge tags -->
-                                                        {% if photo.tags|length > 0 %}
-                                                            <div class="absolute top-3 right-3">
-                                                                <span class="bg-black/60 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                                                                    <i class="fas fa-tag text-[10px]"></i>
-                                                                    {{ photo.tags|length }}
-                                                                </span>
-                                                            </div>
-                                                        {% endif %}
-                                                        
+                                                
                                                         <!-- Numéro -->
                                                         <div class="absolute top-3 left-3">
                                                             <span class="bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -289,21 +279,6 @@
                                                             </p>
                                                         {% endif %}
                                                         
-                                                        <!-- Tags mini -->
-                                                        {% if photo.tags|length > 0 %}
-                                                            <div class="flex flex-wrap gap-1">
-                                                                {% for tag in photo.tags|slice(0, 2) %}
-                                                                    <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
-                                                                        #{{ tag }}
-                                                                    </span>
-                                                                {% endfor %}
-                                                                {% if photo.tags|length > 2 %}
-                                                                    <span class="inline-block bg-gray-200 text-gray-500 text-xs px-2 py-1 rounded">
-                                                                        +{{ photo.tags|length - 2 }}
-                                                                    </span>
-                                                                {% endif %}
-                                                            </div>
-                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
@@ -331,6 +306,8 @@
                                 </div>
                             </div>
                         {% endif %}
+
+                        <p>{{ album.comments|length }} commentaires</p>
                     {% endfor %}
                 </div>
                 
@@ -438,7 +415,6 @@
                      class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 md:p-6 text-white transform translate-y-full transition-transform duration-300">
                     <h3 id="lightbox-photo-title" class="font-bold text-lg md:text-xl mb-2"></h3>
                     <p id="lightbox-photo-description" class="text-sm opacity-90 mb-3"></p>
-                    <div id="lightbox-photo-tags" class="flex flex-wrap gap-2"></div>
                     <div class="mt-4 text-xs opacity-70 flex items-center gap-4">
                         <span id="lightbox-photo-date"></span>
                         <span id="lightbox-photo-size"></span>
@@ -513,16 +489,12 @@
                 const img = card.querySelector('img');
                 const title = card.querySelector('h3')?.textContent.trim() || '';
                 const description = card.querySelector('.line-clamp-2')?.textContent.trim() || '';
-                const tags = Array.from(card.querySelectorAll('.bg-gray-100.text-gray-700')).map(tag => 
-                    tag.textContent.replace('#', '').trim()
-                );
                 
                 return {
                     src: img.src,
                     alt: img.alt,
                     title: title,
                     description: description,
-                    tags: tags,
                     date: card.querySelector('.fa-clock')?.parentElement?.textContent.trim() || ''
                 };
             });
@@ -590,18 +562,6 @@
             const descEl = document.getElementById('lightbox-photo-description');
             descEl.textContent = photo.description || '';
             descEl.style.display = photo.description ? 'block' : 'none';
-            
-            // Tags
-            const tagsEl = document.getElementById('lightbox-photo-tags');
-            tagsEl.innerHTML = '';
-            if (photo.tags && photo.tags.length > 0) {
-                photo.tags.forEach(tag => {
-                    const tagSpan = document.createElement('span');
-                    tagSpan.className = 'inline-block bg-white/20 text-white text-xs px-2 py-1 rounded-full';
-                    tagSpan.textContent = `#${tag}`;
-                    tagsEl.appendChild(tagSpan);
-                });
-            }
             
             // Date
             const dateEl = document.getElementById('lightbox-photo-date');

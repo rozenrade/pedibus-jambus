@@ -4,6 +4,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Album;
+use App\Entity\Comment;
 use App\Entity\Photo;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin')]
 class DashboardController extends AbstractController
 {
-    #[Route('/dashboard', name: 'admin_dashboard')]
+    #[Route('/panel', name: 'admin_dashboard')]
     public function index(
         EntityManagerInterface $em,
         HikingProgramRepository $programRepository
@@ -24,7 +25,8 @@ class DashboardController extends AbstractController
         $totalAlbums = $em->getRepository(Album::class)->count([]);
         $totalPhotos = $em->getRepository(Photo::class)->count([]);
         $totalUsers = $em->getRepository(User::class)->count([]);
-
+        $totalComments = $em->getRepository(Comment::class)->count([]);
+        
         // Albums récents (5 derniers)
         $recentAlbums = $em->getRepository(Album::class)->findBy(
             [],
@@ -98,10 +100,11 @@ class DashboardController extends AbstractController
             'recentProgramsCount' => $recentProgramsCount,
             'programsByYear' => $programsByYear,
             'recentPrograms' => $recentPrograms,
+            'totalComments' => $totalComments,
         ]);
     }
 
-    #[Route('/quick-actions', name: 'admin_quick_actions')]
+    #[Route('/actions-rapides', name: 'admin_quick_actions')]
     public function quickActions(): Response
     {
         return $this->render('admin/dashboard/_quick_actions.html.twig');
@@ -120,4 +123,5 @@ class DashboardController extends AbstractController
             'stats' => $stats,
         ]);
     }
+
 }

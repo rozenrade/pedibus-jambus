@@ -10,11 +10,32 @@
 		</title>
 		<link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 		<script src="https://cdn.tailwindcss.com"></script>
-		<link
-		rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-		<!-- Désactiver Turbo pour éviter les problèmes -->
-		<meta name="turbo-cache-control" content="no-cache"> {% block stylesheets %}{% endblock %}
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+		<meta name="description" content="pedibus jambus est une association de randonnée pédestre à combs-la-ville (77). randonnées en île-de-france, sorties nature encadrées, activité conviviale accessible à tous.">
+		{% block stylesheets %}
+
+			<style>
+
+				h1, h2, h3, h4, h5, h6 {
+					font-family: 'Merriweather', serif;
+				}
+				
+				p {
+					font-family: 'Inter', sans-serif;
+				}
+
+			</style>
+
+		{% endblock %}
 		{% block javascripts %}
 			{% block importmap %}
 				{{ importmap('app') }}
@@ -28,8 +49,20 @@
 
 		<div class="relative z-10">
 			{{ include('components/navbar/index.html.twig') }}
+			{% for label, messages in app.flashes %}
 
+				{% for message in messages %}
+
+					<div class="max-w-4xl mx-auto mt-4 px-4 py-3 rounded-lg{% if label == 'success' %} bg-green-100/50 text-center text-green-800 border border-green-200{% elseif label == 'error' %} bg-red-100/50 text-center text-red-800 border border-red-200{% else %} bg-blue-100/50 text-center text-blue-800 border border-blue-200{% endif %}">
+
+						{{ message }}
+
+					</div>
+
+				{% endfor %}
+			{% endfor %}
 			{% block body %}{% endblock %}
+
 			{{ include('components/footer/index.html.twig') }}
 		</div>
 
