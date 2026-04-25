@@ -1,7 +1,22 @@
-<turbo-stream action="replace" target="comment_{{ commentId }}">
+<turbo-stream action="remove" target="comment_{{ commentId }}">
+	<template></template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="comments-{{ album.id }}">
 	<template>
-		<div id="comment_{{ commentId }}" data-controller="auto-remove" class="text-sm text-green-600 bg-green-50 border border-green-200 rounded-lg p-3">
-			Message supprimé avec succès
-		</div>
+		<span id="comments-{{ album.id }}" class="bg-blue-50 text-blue-600 text-sm px-3 py-1 rounded-full">
+			{{ count}}
+			message{{ count > 1 ? 's' : '' }}
+		</span>
 	</template>
 </turbo-stream>
+
+{% if count == 0 %}
+    <turbo-stream action="append" target="comment-list-{{ album.id }}">
+        <template>
+            <div id="no-comments-message-{{ album.id }}" class="text-center text-gray-400 py-6">
+                Aucun commentaire pour cet album pour le moment. Soyez la première personne à laisser un commentaire !
+            </div>
+        </template>
+    </turbo-stream>
+{% endif %}

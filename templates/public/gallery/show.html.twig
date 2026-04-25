@@ -92,14 +92,14 @@
 				Commentaires
 			</h2>
 
-			<span class="bg-blue-50 text-blue-600 text-sm px-3 py-1 rounded-full">
+			<span id="comments-{{ album.id }}" class="bg-blue-50 text-blue-600 text-sm px-3 py-1 rounded-full">
 				{{ album.comments|length }}
 				message{{ album.comments|length > 1 ? 's' : '' }}
 			</span>
 		</div>
 
 
-		<div class="space-y-5 mb-8">
+		<div id="comment-list-{{ album.id }}" class="space-y-5 mb-8">
 
 			{% for comment in album.comments %}
 
@@ -133,7 +133,7 @@
 
 						</div>
 						{% if app.user == comment.author or is_granted('ROLE_ADMIN') %}
-							<form method="POST" action="{{ path('public_comment_delete', {id: comment.id}) }}" onsubmit="return confirm('Supprimer ce commentaire ?');" class="flex items-start" data-turbo-frame="comment_{{ comment.id }}">
+							<form method="POST" action="{{ path('public_comment_delete', {id: comment.id}) }}" onsubmit="return confirm('Supprimer ce commentaire ?');" class="flex items-start" data-turbo="true">
 								<input type="hidden" name="_token" value="{{ csrf_token('delete-comment-' ~ comment.id) }}">
 
 								<button type="submit" class="text-gray-400 hover:text-red-600 transition text-sm ml-2" title="Supprimer mon commentaire" aria-label="Supprimer le commentaire">
@@ -145,10 +145,9 @@
 				</turbo-frame>
 
 			{% else %}
-
-				<div class="text-center text-gray-400 py-6">
-					Aucun commentaire pour cet album pour le moment. Soyez la première personne à laisser un commentaire !
-				</div>
+					<div id="no-comments-message-{{ album.id }}"class="text-center text-gray-400 py-6">
+						Aucun commentaire pour cet album pour le moment. Soyez la première personne à laisser un commentaire !
+					</div>
 
 			{% endfor %}
 
@@ -157,45 +156,46 @@
 
 		{% if app.user %}
 
-			<div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-4">
+			<turbo-frame id="comment_form">
+				<div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-4">
 
-				<div class="flex items-center gap-3 mb-3">
+					<div class="flex items-center gap-3 mb-3">
 
-					<div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
-						{{ app.user.email|first|upper }}
+						<div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
+							{{ app.user.email|first|upper }}
+						</div>
+
+						<p class="text-sm text-gray-500">
+							Publier en tant que
+							<span class="font-medium text-gray-700">
+								{{ app.user.email }}
+							</span>
+						</p>
+
 					</div>
 
-					<p class="text-sm text-gray-500">
-						Publier en tant que
-						<span class="font-medium text-gray-700">
-							{{ app.user.email }}
-						</span>
-					</p>
 
-				</div>
+					{{ form_start(commentForm, {'attr': {'data-turbo': 'true', action: path('public_comment_submit', {id: album.id})}}) }}
 
+					<div class="flex gap-2">
 
-				{{ form_start(commentForm) }}
-
-				<div class="flex gap-2">
-
-					{{ form_widget(commentForm.content, {
+						{{ form_widget(commentForm.content, {
                     attr: {
                         placeholder: "Écrire un commentaire...",
                         class: "flex-1 rounded-lg border-gray-300 h-32 focus:outline-none"
                     }
                 }) }}
 
-					<button class="bg-blue-600 text-white px-5 rounded-lg hover:bg-blue-700 transition">
-						Envoyer
-					</button>
+						<button class="bg-blue-600 text-white px-5 rounded-lg hover:bg-blue-700 transition">
+							Envoyer
+						</button>
+
+					</div>
+
+					{{ form_end(commentForm) }}
 
 				</div>
-
-				{{ form_end(commentForm) }}
-
-			</div>
-
+			</turbo-frame>
 		{% else %}
 
 			<div class="bg-gray-50 border border-gray-200 rounded-xl text-center py-5">

@@ -17,7 +17,6 @@ class PublicGalleryController extends AbstractController
     #[Route('/galerie', name: 'public_album')]
     public function gallery(AlbumRepository $albumRepository): Response
     {
-        // Récupérer uniquement les albums publics, triés par date d'événement (plus récent d'abord)
         $albums = $albumRepository->findBy(
             ['isPublic' => true],
             ['eventDate' => 'DESC', 'createdAt' => 'DESC']
@@ -28,26 +27,10 @@ class PublicGalleryController extends AbstractController
         ]);
     }
 
-    #[Route('/galerie/{id}', name: 'public_album_show', methods: ['GET', 'POST'])]
-    public function show(Album $album, Request $request, EntityManagerInterface $em): Response
+    #[Route('/galerie/{id}', name: 'public_album_show', methods: ['GET'])]
+    public function show(Album $album): Response
     {
-        $comment = new Comment();
-
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($this->getUser() && $form->isSubmitted() && $form->isValid()) {
-
-            $comment->setAuthor($this->getUser());
-            $comment->setAlbum($album);
-
-            $em->persist($comment);
-            $em->flush();
-
-            return $this->redirectToRoute('public_album_show', [
-                'id' => $album->getId()
-            ]);
-        }
+        $form = $this->createForm(CommentType::class, new Comment());
 
         return $this->render('public/gallery/show.html.twig', [
             'album' => $album,
