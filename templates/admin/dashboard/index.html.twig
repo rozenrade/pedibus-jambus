@@ -276,7 +276,9 @@
 							</a>
 						</div>
 						<div class="divide-y divide-gray-200">
-							{% for album in recentAlbums %}
+							{% for item in recentAlbums %}
+								{% set album = item[0] %}
+								{% set photoCount = item.photoCount %}
 								<div class="px-6 py-4 hover:bg-gray-50">
 									<div class="flex items-center">
 										{% if album.coverImage %}
@@ -297,7 +299,7 @@
 													<p class="text-sm text-gray-500">
 														{{ album.eventDate|date('d/m/Y') }}
 														•
-														{{ album.photos|length }}
+														{{ photoCount }}
 														photo(s)
 													</p>
 												</div>
