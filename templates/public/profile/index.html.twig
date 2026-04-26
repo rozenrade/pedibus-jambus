@@ -1,25 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My Profile{% endblock %}
+{% block title %}Mon profil - Pedibus Jambus {% endblock %}
 
 {% block body %}
-    <h1>My Profile</h1>
 
-    <div class="card mb-4" style="max-width: 500px;">
-        <div class="card-body">
-            <h5 class="card-title">{{ app.user.userIdentifier }}</h5>
-            <p class="card-text">
-                Roles: {{ app.user.roles|join(', ') }}<br>
-                Verified: {{ app.user.isVerified ? 'Yes' : 'No' }}
-            </p>
-        </div>
-    </div>
-
-    <h2>Danger Zone</h2>
-    <p>If you delete your account, this action is <strong>irreversible</strong>.</p>
-
-    <form method="post" action="{{ path('app_delete_account') }}" onsubmit="return confirm('Are you sure you want to delete your account? This cannot be undone.');">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete-account') }}">
-        <button type="submit" class="btn btn-danger">Delete My Account</button>
-    </form>
 {% endblock %}

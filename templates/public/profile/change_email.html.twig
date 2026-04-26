@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Changer d'email - Pedibus Jambus
+{% endblock %}
+
+{% block body %}
+	<h1>Changer mon email</h1>
+
+	{{ form_start(form) }}
+	{{ form_row(form.email) }}
+	{{ form_row(form.nickname) }}
+	{{ form_row(form.password) }}
+
+	<button class="btn btn-primary">Modifier</button>
+	{{ form_end(form) }}
+{% endblock %}
