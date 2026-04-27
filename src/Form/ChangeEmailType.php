@@ -16,7 +16,8 @@ class ChangeEmailType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'mapped' => false,
+                'mapped' => false, 
+                'label' => 'Email',
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Email(),
@@ -26,6 +27,7 @@ class ChangeEmailType extends AbstractType
             ->add('nickname', TextType::class, [
                 'mapped' => false,
                 'required' => false,
+                'label' => 'Pseudonyme',
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length([
@@ -36,6 +38,7 @@ class ChangeEmailType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'mapped' => false,
+                'label' => 'Mot de passe',
                 'constraints' => [
                     new Assert\NotBlank(),
                 ],

@@ -4,11 +4,15 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Changer mon email</h1>
+	<h1>Changer mes informations personnelles</h1>
 
 	{{ form_start(form) }}
 	{{ form_row(form.email) }}
+
+	<p>Vous pouvez ajouter un pseudonyme qui sera visible lorsque vous publierez des commentaires.</p>
 	{{ form_row(form.nickname) }}
+
+	<p>Veuillez confirmer votre mot de passe afin que vos modifications soient prises en compte.</p>
 	{{ form_row(form.password) }}
 
 	<button class="btn btn-primary">Modifier</button>

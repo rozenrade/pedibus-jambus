@@ -1,7 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon profil - Pedibus Jambus {% endblock %}
+{% block title %}Mon profil - Pedibus Jambus
+{% endblock %}
 
 {% block body %}
+	<h1>Mon profil</h1>
 
+	<p>Bienvenue sur votre page de profil !</p>
+
+	<h2>Ici vous pouvez modifier vos informations personnelles.</h2>
+
+	<p>Cliquez ici pour modifier votre mot de passe
+		<a href="{{ path('app_profile_change_password')}}">ici</a>.
+	</p>
+
+	<p>Cliquez ici pour modifier votre adresse email
+		<a href="{{ path('app_profile_change_email')}}">ici</a>.
+	</p>
 {% endblock %}

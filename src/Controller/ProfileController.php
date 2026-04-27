@@ -12,6 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 
+
 #[Route('/mon-profil')]
 class ProfileController extends AbstractController
 {
