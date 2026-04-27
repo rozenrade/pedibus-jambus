@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)] 
 #[Vich\Uploadable]
-#[ORM\Index(columns: ['created_at'], name: 'idx_created_at')] // ← DÉPLACÉ ICI (au niveau de la classe)
+#[ORM\Index(columns: ['created_at'], name: 'idx_created_at')] 
 class Photo
 {
     #[ORM\Id]

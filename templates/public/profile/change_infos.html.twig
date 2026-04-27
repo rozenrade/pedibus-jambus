@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modifier mes informations personnelles - Pedibus Jambus
+{% endblock %}
+
+{% block body %}
+    <h1>Changer mes informations personnelles</h1>
+
+    {{ form_start(userForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+    <p>Modifier mes informations :</p>
+    {{ form_row(userForm.email) }}
+
+    <p>Créer un pseudonyme :</p>
+    <p>A noter que votre pseudonyme doit être unique et faire entre 3 et 16 caractères. Il sera affiché lorsque vous posterez un commentaire!</p>
+    {{ form_row(userForm.nickname) }}
+
+    <p>Veuillez confirmer votre mot de passe afin que vos modifications soient prises en compte.</p>
+    {{ form_row(userForm.password) }}
+
+    <button class="btn btn-primary">Modifier mes informations</button>
+    {{ form_end(userForm) }}
+
+    <hr>
+
+    <h1>Modifier mon mot de passe</h1>
+    {{ form_start(passwordForm) }}
+
+    <p>Veuillez saisir votre ancien mot de passe afin de modifier votre mot de passe.</p>
+    {{ form_row(passwordForm.oldPassword) }}
+
+    <p>Veuillez saisir votre nouveau mot de passe afin de modifier votre mot de passe.</p>
+    {{ form_row(passwordForm.newPassword) }}
+
+    <p>Confirmez votre nouveau mot de passe</p>
+    {{ form_row(passwordForm.confirmPassword) }}
+
+    <button class="btn btn-primary">Changer mon mot de passe</button>
+    {{ form_end(passwordForm) }}
+{% endblock %}

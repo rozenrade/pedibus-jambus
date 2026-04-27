@@ -15,6 +15,7 @@ class ChangePasswordType extends AbstractType
         $builder
             ->add('oldPassword', PasswordType::class, [
                 'mapped' => false,
+                'label' => 'Ancien mot de passe',
                 'constraints' => [
                     new Assert\NotBlank(),
                 ],
@@ -22,6 +23,7 @@ class ChangePasswordType extends AbstractType
 
             ->add('newPassword', PasswordType::class, [
                 'mapped' => false,
+                'label' => 'Nouveau mot de passe',
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length([
@@ -32,6 +34,7 @@ class ChangePasswordType extends AbstractType
 
             ->add('confirmPassword', PasswordType::class, [
                 'mapped' => false,
+                'label' => 'Confirmez votre nouveau mot de passe',
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length([

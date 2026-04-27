@@ -2,22 +2,25 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class ChangeEmailType extends AbstractType
+class ChangeDataType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email', EmailType::class, [
-                'mapped' => false, 
                 'label' => 'Email',
+                'required' => false,
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Email(),
@@ -25,9 +28,8 @@ class ChangeEmailType extends AbstractType
             ])
 
             ->add('nickname', TextType::class, [
-                'mapped' => false,
-                'required' => false,
                 'label' => 'Pseudonyme',
+                'required' => false,
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\Length([
@@ -36,12 +38,20 @@ class ChangeEmailType extends AbstractType
                     ]),
                 ],
             ])
+
             ->add('password', PasswordType::class, [
-                'mapped' => false,
                 'label' => 'Mot de passe',
+                'mapped' => false,
+                'required' => true,
                 'constraints' => [
                     new Assert\NotBlank(),
                 ],
+            ])
+
+            ->add('avatarFile', VichImageType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'download_uri' => false,
             ])
         ;
     }
@@ -49,7 +59,7 @@ class ChangeEmailType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => User::class,
         ]);
     }
 }
