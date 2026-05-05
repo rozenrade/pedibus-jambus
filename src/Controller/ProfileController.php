@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\ChangeEmailType;
+use App\Form\ChangeDataType;
 use App\Form\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,8 +27,8 @@ class ProfileController extends AbstractController
         return $this->render('public/profile/index.html.twig', []);
     }
 
-    #[Route('/changer-mot-de-passe', name: 'app_profile_change_password')]
-    public function changePassword(HttpFoundationRequest $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
+    #[Route('/mes-informations', name: 'app_profile_change_data')]
+    public function changeEmail(HttpFoundationRequest $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -36,28 +36,28 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        $passwordForm = $this->createForm(ChangePasswordType::class);
+        $passwordForm->handleRequest($request);
 
-        $form = $this->createForm(ChangePasswordType::class);
-        $form->handleRequest($request);
+        # Password Logic
+        if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            if (!$passwordHasher->isPasswordValid($user, $form->get('oldPassword')->getData())) {
+            if (!$passwordHasher->isPasswordValid($user, $passwordForm->get('oldPassword')->getData())) {
 
                 $this->addFlash('error', 'Le mot de passe actuel est incorrect.');
 
                 return $this->redirectToRoute('app_profile_change_password');
             }
 
-            if ($form->get('newPassword')->getData() !== $form->get('confirmPassword')->getData()) {
+            if ($passwordForm->get('newPassword')->getData() !== $passwordForm->get('confirmPassword')->getData()) {
 
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
 
                 return $this->redirectToRoute('app_profile_change_password');
             }
 
-            $hashedPassword = $passwordHasher->hashPassword($user, $form->get('newPassword')->getData());
-            
+            $hashedPassword = $passwordHasher->hashPassword($user, $passwordForm->get('newPassword')->getData());
+
             $user->setPassword($hashedPassword);
 
             $em->persist($user);
@@ -68,33 +68,27 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile_index');
         }
 
-        return $this->render('public/profile/change_password.html.twig', ['form' => $form->createView()]);
-    }
+        $userForm = $this->createForm(ChangeDataType::class, $user);
+        $userForm->handleRequest($request);
 
-    #[Route('/changer-email', name: 'app_profile_change_email')]
-    public function changeEmail(HttpFoundationRequest $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em): Response
-    {
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-        if (!$user) {
-            return $this->redirectToRoute('app_home');
-        }
+        # User data Logic
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
 
-        $form = $this->createForm(ChangeEmailType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            if (!$passwordHasher->isPasswordValid($user, $form->get('password')->getData())) {
+            if (!$passwordHasher->isPasswordValid($user, $userForm->get('password')->getData())) {
 
                 $this->addFlash('error', 'Le mot de passe actuel est incorrect.');
 
-                return $this->redirectToRoute('app_profile_change_email');
+                return $this->redirectToRoute('app_profile_change_data');
             }
 
-            $user->setEmail($form->get('email')->getData());
-            if($form->get('nickname')) {
-                $user->setNickname($form->get('nickname')->getData());
+            // If user decides to change email
+            if ($userForm->get('email')->getData()) {
+                $user->setEmail($userForm->get('email')->getData());
+            }
+
+            // If user decides to add a nickname
+            if ($userForm->get('nickname')->getData()) {
+                $user->setNickname($userForm->get('nickname')->getData());
             }
 
             $em->persist($user);
@@ -105,6 +99,6 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile_index');
         }
 
-        return $this->render('public/profile/change_email.html.twig', ['form' => $form->createView()]);
+        return $this->render('public/profile/change_infos.html.twig', ['userForm' => $userForm, 'passwordForm' => $passwordForm->createView()]);
     }
 }
