@@ -24,7 +24,7 @@ class CommentController extends AbstractController
         $em->remove($comment);
         $em->flush();
 
-        $this->addFlash('success', 'Commentaire supprimé avec succès !');
+        $this->addFlash('success', 'Le commentaire a bien été supprimé.');
         return $this->redirectToRoute('admin_comments');
     }
 }

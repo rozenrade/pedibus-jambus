@@ -24,6 +24,7 @@ class DashboardController extends AbstractController
 
         $data = $cache->get('admin_dashboard', function (ItemInterface $item) use ($em, $programRepository) {
 
+            // Cache for 5 minutes
             $item->expiresAfter(300);
 
             $totalAlbums = $em->getRepository(Album::class)->count([]);

@@ -36,7 +36,7 @@ class AlbumController extends AbstractController
             $em->persist($album);
             $em->flush();
 
-            $this->addFlash('success', 'Album créé avec succès !');
+            $this->addFlash('success', 'Votre album a bien été créé !');
 
             return $this->redirectToRoute('admin_album_index');
         }
@@ -65,7 +65,7 @@ class AlbumController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            $this->addFlash('success', 'Album modifié avec succès !');
+            $this->addFlash('success', 'Les modifications ont bien été enregistrées.');
 
             return $this->redirectToRoute('admin_album_show', [
                 'id' => $album->getId(),
@@ -90,7 +90,7 @@ class AlbumController extends AbstractController
                 $em->remove($album);
                 $em->flush();
 
-                $this->addFlash('success', 'Album et ses photos supprimés avec succès !');
+                $this->addFlash('success', "L'album ainsi que ses photos ont bien été supprimées.");
 
                 return $this->redirectToRoute('admin_album_index');
             }
@@ -149,7 +149,7 @@ class AlbumController extends AbstractController
 
                     $em->flush();
 
-                    $this->addFlash('success', 'Photo définie comme couverture de l\'album !');
+                    $this->addFlash('success', 'Photo définie comme couverture de l\'album.');
                 }
             }
         }
