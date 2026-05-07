@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260427075811 extends AbstractMigration
+final class Version20260507131311 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,14 @@ final class Version20260427075811 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE user ADD avatar_name VARCHAR(255) DEFAULT NULL, ADD updated_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('DROP INDEX UNIQ_14B78418D17F50A6 ON photo');
+        $this->addSql('ALTER TABLE photo ADD photo_alt VARCHAR(255) DEFAULT NULL, DROP uuid');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE `user` DROP avatar_name, DROP updated_at');
+        $this->addSql('ALTER TABLE photo ADD uuid VARCHAR(36) NOT NULL, DROP photo_alt');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_14B78418D17F50A6 ON photo (uuid)');
     }
 }

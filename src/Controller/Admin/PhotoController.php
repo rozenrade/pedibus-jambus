@@ -118,6 +118,8 @@ class PhotoController extends AbstractController
                 $photo->setAlbum($album);
                 $photo->setImageFile($imageFile); // VichUploader gère l'upload
 
+                $photo->setPhotoAlt(sprintf('%s - photo %d', $album->getTitle(), $count + 1));
+
                 $em->persist($photo);
                 $count++;
             }

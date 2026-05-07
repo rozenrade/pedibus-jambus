@@ -53,7 +53,8 @@ class Photo
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $createdAt;
 
-    #[ORM\Column(type: 'json', nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photoAlt = null;
 
     public function __construct()
     {
@@ -158,5 +159,25 @@ class Photo
             return null;
         }
         return '/uploads/photos/' . $this->imageName;
+    }
+
+    /**
+     * Get the value of photoAlt
+     */ 
+    public function getPhotoAlt()
+    {
+        return $this->photoAlt;
+    }
+
+    /**
+     * Set the value of photoAlt
+     *
+     * @return  self
+     */ 
+    public function setPhotoAlt(?String $photoAlt)
+    {
+        $this->photoAlt = $photoAlt;
+
+        return $this;
     }
 }
