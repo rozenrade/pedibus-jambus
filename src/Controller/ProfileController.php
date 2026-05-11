@@ -71,7 +71,7 @@ class ProfileController extends AbstractController
         $userForm = $this->createForm(ChangeDataType::class, $user);
         $userForm->handleRequest($request);
 
-        # User data Logic
+        # Edit user data
         if ($userForm->isSubmitted() && $userForm->isValid()) {
 
             if (!$passwordHasher->isPasswordValid($user, $userForm->get('password')->getData())) {

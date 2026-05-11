@@ -5,37 +5,164 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Changer mes informations personnelles</h1>
+    <div class="min-h-screen flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-    {{ form_start(userForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+            {# FORMULAIRE INFORMATIONS #}
+            <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl shadow-2xl p-8 text-white">
 
-    <p>Modifier mes informations :</p>
-    {{ form_row(userForm.email) }}
+                <h1 class="text-3xl font-semibold mb-8 text-center">
+                    Mes informations
+                </h1>
 
-    <p>Créer un pseudonyme :</p>
-    <p>A noter que votre pseudonyme doit être unique et faire entre 3 et 16 caractères. Il sera affiché lorsque vous posterez un commentaire!</p>
-    {{ form_row(userForm.nickname) }}
+                {{ form_start(userForm, {'attr': {'enctype': 'multipart/form-data', 'class': 'space-y-6'}}) }}
 
-    <p>Veuillez confirmer votre mot de passe afin que vos modifications soient prises en compte.</p>
-    {{ form_row(userForm.password) }}
+                <div class="space-y-2">
+                    <p class="text-sm uppercase tracking-wide text-gray-300">
+                        Adresse e-mail
+                    </p>
 
-    <button class="btn btn-primary">Modifier mes informations</button>
-    {{ form_end(userForm) }}
+                    <div class="text-black">
+                        {{ form_row(userForm.email) }}
+                    </div>
+                </div>
 
-    <hr>
+                <div class="space-y-2">
+                    <p class="text-sm uppercase tracking-wide text-gray-300">
+                        Pseudonyme
+                    </p>
 
-    <h1>Modifier mon mot de passe</h1>
-    {{ form_start(passwordForm) }}
+                    <p class="text-sm text-gray-400">
+                        Entre 3 et 16 caractères, unique pour chaque utilisateur.
+                    </p>
 
-    <p>Veuillez saisir votre ancien mot de passe afin de modifier votre mot de passe.</p>
-    {{ form_row(passwordForm.oldPassword) }}
+                    <div class="text-black">
+                        {{ form_row(userForm.nickname) }}
+                    </div>
+                </div>
 
-    <p>Veuillez saisir votre nouveau mot de passe afin de modifier votre mot de passe.</p>
-    {{ form_row(passwordForm.newPassword) }}
+                <div class="space-y-2">
+                    <p class="text-sm uppercase tracking-wide text-gray-300">
+                        Photo de profil
+                    </p>
 
-    <p>Confirmez votre nouveau mot de passe</p>
-    {{ form_row(passwordForm.confirmPassword) }}
+                    <div class="text-white">
+                        {{ form_row(userForm.avatarFile) }}
+                    </div>
 
-    <button class="btn btn-primary">Changer mon mot de passe</button>
-    {{ form_end(passwordForm) }}
-{% endblock %}
+                    {# Aperçu nouvelle image #}
+                    <img id="avatar-preview"
+                        src="#"
+                        alt="Aperçu"
+                        class="mt-3 max-h-40 rounded-xl hidden" />
+
+                    {# Avatar actuel #}
+                    {% if app.user.avatarName %}
+                        <p class="mt-2 text-sm text-gray-400">
+                            Image actuelle :
+                        </p>
+
+                        <img src="{{ vich_uploader_asset(app.user, 'avatarFile') }}"
+                            alt="Avatar actuel"
+                            class="mt-1 max-h-40 rounded-xl">
+                        {% endif %}
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-sm uppercase tracking-wide text-gray-300">
+                            Confirmation du mot de passe
+                        </p>
+
+                        <div class="text-black">
+                            {{ form_row(userForm.password) }}
+                        </div>
+                    </div>
+
+                    <button class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 transition border border-white/20 text-white font-medium">
+                        Modifier mes informations
+                    </button>
+
+                    {{ form_end(userForm) }}
+
+                </div>
+
+                {# FORMULAIRE MOT DE PASSE #}
+                <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl shadow-2xl p-8 text-white">
+
+                    <h2 class="text-3xl font-semibold mb-8 text-center">
+                        Mot de passe
+                    </h2>
+
+                    {{ form_start(passwordForm, {'attr': {'class': 'space-y-6'}}) }}
+
+                    <div class="space-y-2">
+                        <p class="text-sm uppercase tracking-wide text-gray-300">
+                            Ancien mot de passe
+                        </p>
+
+                        <div class="text-black">
+                            {{ form_row(passwordForm.oldPassword) }}
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-sm uppercase tracking-wide text-gray-300">
+                            Nouveau mot de passe
+                        </p>
+
+                        <div class="text-black">
+                            {{ form_row(passwordForm.newPassword) }}
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-sm uppercase tracking-wide text-gray-300">
+                            Confirmation du nouveau mot de passe
+                        </p>
+
+                        <div class="text-black">
+                            {{ form_row(passwordForm.confirmPassword) }}
+                        </div>
+                    </div>
+
+                    <button class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 transition border border-white/20 text-white font-medium">
+                        Changer mon mot de passe
+                    </button>
+
+                    {{ form_end(passwordForm) }}
+                </div>
+
+            </div>
+        </div>
+
+        {% block javascripts %}
+            {{ parent() }}
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const avatarInput = document.querySelector('#{{ userForm.avatarFile.vars.id }}');
+                    const preview = document.getElementById('avatar-preview');
+
+                    if (avatarInput) {
+                        avatarInput.addEventListener('change', function() {
+                            const file = this.files[0];
+
+                            if (file) {
+                                const reader = new FileReader();
+
+                                reader.onload = function(e) {
+                                    preview.src = e.target.result;
+                                    preview.classList.remove('hidden');
+                                };
+
+                                reader.readAsDataURL(file);
+                                } else {
+                                // Si l'utilisateur réinitialise le champ
+                                preview.src = '#';
+                                preview.classList.add('hidden');
+                            }
+                        });
+                    }
+                });
+            </script>
+        {% endblock %}
+    {% endblock %}
