@@ -21,6 +21,9 @@ class DashboardController extends AbstractController
     #[Route('/panel', name: 'admin_dashboard')]
     public function index(EntityManagerInterface $em, HikingProgramRepository $programRepository, CacheInterface $cache): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
 
         $data = $cache->get('admin_dashboard', function (ItemInterface $item) use ($em, $programRepository) {
 
@@ -112,12 +115,20 @@ class DashboardController extends AbstractController
     #[Route('/actions-rapides', name: 'admin_quick_actions')]
     public function quickActions(): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('admin/dashboard/_quick_actions.html.twig');
     }
 
     #[Route('/stats-widget', name: 'admin_stats_widget')]
     public function statsWidget(EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $stats = $em->createQueryBuilder()
             ->select("
         COUNT(a.id) as total,

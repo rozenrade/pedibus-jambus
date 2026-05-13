@@ -34,7 +34,7 @@ class Album
     )]
     private ?string $title = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true, length: 255)]
     private ?string $description = null;
 
     #[ORM\Column(type: 'date')]

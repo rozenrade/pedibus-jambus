@@ -21,6 +21,10 @@ class HikingProgramController extends AbstractController
     #[Route('/', name: 'admin_programs_index', methods: ['GET'])]
     public function index(HikingProgramRepository $repository): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         // Récupère les programmes groupés par année
         $programs = $repository->findBy([], ['year' => 'DESC', 'quarter' => 'ASC']);
         $groupedByYear = [];
@@ -41,6 +45,10 @@ class HikingProgramController extends AbstractController
     #[Route('/new', name: 'admin_programs_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $program = new HikingProgram();
         $form = $this->createForm(HikingProgramType::class, $program, [
             'is_new' => true
@@ -63,6 +71,10 @@ class HikingProgramController extends AbstractController
     #[Route('/{id}/edit', name: 'admin_programs_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, HikingProgram $program, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $form = $this->createForm(HikingProgramType::class, $program, [
             'is_new' => false // Pour l'édition, le PDF n'est pas obligatoire
         ]);
@@ -84,6 +96,10 @@ class HikingProgramController extends AbstractController
     #[Route('/{id}', name: 'admin_programs_delete', methods: ['POST'])]
     public function delete(Request $request, HikingProgram $program, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         if ($this->isCsrfTokenValid('delete' . $program->getId(), $request->request->get('_token'))) {
             $entityManager->remove($program);
             $entityManager->flush();

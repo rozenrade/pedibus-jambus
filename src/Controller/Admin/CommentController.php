@@ -15,12 +15,20 @@ class CommentController extends AbstractController
     #[Route('/', name: 'admin_comments')]
     public function index(CommentRepository $repo): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('admin/comments/index.html.twig', ['comments' => $repo->findBy([], ['createdAt' => 'DESC'])]);
     }
 
     #[Route('/supprimer/{id}', name: 'admin_comment_delete')]
     public function delete(Comment $comment, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $em->remove($comment);
         $em->flush();
 

@@ -12,7 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Image;
+
 
 class AlbumType extends AbstractType
 {
@@ -33,7 +35,16 @@ class AlbumType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Décrivez le contenu de cet album...',
-                    'rows' => 4
+                    'rows' => 4,
+                    'maxlength' => 255
+                ],
+                'constraints' => [
+                    new Assert\Length([
+                        'min' => 3,
+                        'max' => 255,
+                        'minMessage' => 'Le titre doit faire au moins {{ limit }} caractères',
+                        'maxMessage' => 'Le titre ne peut pas dépasser {{ limit }} caractères'
+                    ])
                 ]
             ])
             ->add('eventDate', DateType::class, [
@@ -70,7 +81,6 @@ class AlbumType extends AbstractType
                     ])
                 ],
             ]);
-            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

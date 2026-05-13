@@ -18,6 +18,10 @@ class UserController extends AbstractController
     #[Route('/', name: 'admin_users_list')]
     public function index(EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $users = $em->getRepository(User::class)->findAll();
 
         return $this->render('admin/users/index.html.twig', [
@@ -31,6 +35,9 @@ class UserController extends AbstractController
         User $user,
         Request $request
     ): Response {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
 
         $form = $this->createForm(UserType::class, $user);
 
@@ -57,9 +64,12 @@ class UserController extends AbstractController
         User $user,
         Request $request
     ): Response {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
 
         if (!$this->isCsrfTokenValid(
-            'delete-user-'.$user->getId(),
+            'delete-user-' . $user->getId(),
             $request->request->get('_token')
         )) {
             throw $this->createAccessDeniedException();

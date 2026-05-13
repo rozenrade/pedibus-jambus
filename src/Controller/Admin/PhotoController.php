@@ -19,6 +19,10 @@ class PhotoController extends AbstractController
     #[Route('/', name: 'admin_photo_index', methods: ['GET'])]
     public function index(EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $photos = $em->getRepository(Photo::class)->findBy([], ['updatedAt' => 'DESC']);
 
         return $this->render('admin/photo/index.html.twig', [
@@ -30,6 +34,10 @@ class PhotoController extends AbstractController
     // Dans PhotoController.php
     public function new(Request $request, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $photo = new Photo();
         $form = $this->createForm(PhotoType::class, $photo);
         $form->handleRequest($request);
@@ -64,6 +72,10 @@ class PhotoController extends AbstractController
     #[Route('/new-to-album/{albumId}', name: 'admin_photo_new_to_album', methods: ['GET', 'POST'], requirements: ['albumId' => '\d+'])]
     public function newToAlbum(Request $request, EntityManagerInterface $em, int $albumId): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $album = $em->getRepository(Album::class)->find($albumId);
 
         if (!$album) {
@@ -100,6 +112,10 @@ class PhotoController extends AbstractController
     #[Route('/multiple-to-album/{albumId}', name: 'admin_photo_multiple_to_album', methods: ['GET', 'POST'], requirements: ['albumId' => '\d+'])]
     public function multipleToAlbum(Request $request, EntityManagerInterface $em, int $albumId): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $album = $em->getRepository(Album::class)->find($albumId);
 
         if (!$album) {
@@ -139,6 +155,10 @@ class PhotoController extends AbstractController
     #[Route('/{id}', name: 'admin_photo_show', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function show(Photo $photo): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         return $this->render('admin/photo/show.html.twig', [
             'photo' => $photo,
         ]);
@@ -147,7 +167,10 @@ class PhotoController extends AbstractController
     #[Route('/{id}/edit', name: 'admin_photo_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Photo $photo, EntityManagerInterface $em): Response
     {
-
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $form = $this->createForm(PhotoType::class, $photo, ['is_edit' => true]);
 
         $form->handleRequest($request);
@@ -169,6 +192,10 @@ class PhotoController extends AbstractController
     #[Route('/{id}/assign-to-album', name: 'admin_photo_assign_to_album', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function assignToAlbum(Request $request, Photo $photo, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         if ($photo->getAlbum()) {
             $this->addFlash('warning', 'Cette photo a déjà un album. Utilisez "Déplacer vers un autre album".');
             return $this->redirectToRoute('admin_photo_show', ['id' => $photo->getId()]);
@@ -198,6 +225,10 @@ class PhotoController extends AbstractController
     #[Route('/{id}/delete', name: 'admin_photo_delete', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function delete(Request $request, Photo $photo, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $albumId = $photo->getAlbum() ? $photo->getAlbum()->getId() : null;
 
         if ($request->isMethod('POST')) {
@@ -226,6 +257,10 @@ class PhotoController extends AbstractController
     #[Route('/{id}/move-to-album', name: 'admin_photo_move_to_album', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function moveToAlbum(Request $request, Photo $photo, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $albums = $em->getRepository(Album::class)->findAll();
 
         if ($request->isMethod('POST')) {
@@ -250,6 +285,10 @@ class PhotoController extends AbstractController
     #[Route('/{id}/set-as-album-cover', name: 'admin_photo_set_as_album_cover', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function setAsAlbumCover(Request $request, Photo $photo, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         $album = $photo->getAlbum();
 
         if (!$album) {

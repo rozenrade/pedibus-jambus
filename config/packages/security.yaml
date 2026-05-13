@@ -33,6 +33,14 @@ security:
                 # where to redirect after logout
                 # target: app_any_route
 
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+                secure: true # cookie will only be set for HTTPS requests
+                httponly: true # protect against XSS attacks (not accessible via JS)
+                samesite: strict # csrf protection
+
     access_control:
         - { path: ^/connexion, roles: PUBLIC_ACCESS }
         - { path: ^/inscription, roles: PUBLIC_ACCESS }

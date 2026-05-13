@@ -17,6 +17,11 @@ class AlbumController extends AbstractController
     #[Route('/', name: 'admin_album_index', methods: ['GET'])]
     public function index(EntityManagerInterface $em): Response
     {
+
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $albums = $em->getRepository(Album::class)->findBy([], ['createdAt' => 'DESC']);
 
         return $this->render('admin/album/index.html.twig', [
@@ -27,6 +32,10 @@ class AlbumController extends AbstractController
     #[Route('/new', name: 'admin_album_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $album = new Album();
         $form = $this->createForm(AlbumType::class, $album);
 
@@ -50,6 +59,10 @@ class AlbumController extends AbstractController
     #[Route('/{id}', name: 'admin_album_show', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function show(Album $album): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('admin/album/show.html.twig', [
             'album' => $album,
         ]);
@@ -58,6 +71,10 @@ class AlbumController extends AbstractController
     #[Route('/{id}/edit', name: 'admin_album_edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function edit(Request $request, Album $album, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(AlbumType::class, $album);
 
         $form->handleRequest($request);
@@ -81,6 +98,9 @@ class AlbumController extends AbstractController
     #[Route('/{id}/delete', name: 'admin_album_delete', methods: ['GET', 'POST'], requirements: ['id' => '\d+'])]
     public function delete(Request $request, Album $album, EntityManagerInterface $em, AlbumRepository $albumRepository): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
 
         $photoCount = $albumRepository->countPhotos($album->getId());
         if ($request->isMethod('POST')) {
@@ -105,6 +125,10 @@ class AlbumController extends AbstractController
     #[Route('/{id}/stats', name: 'admin_album_stats', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function stats(Album $album): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $photoCount = $album->getPhotos()->count();
         $lastPhoto = $photoCount > 0 ? $album->getPhotos()->last() : null;
 
@@ -118,6 +142,10 @@ class AlbumController extends AbstractController
     #[Route('/{id}/toggle-visibility', name: 'admin_album_toggle_visibility', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function toggleVisibility(Request $request, Album $album, EntityManagerInterface $em): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         if ($this->isCsrfTokenValid('toggle-visibility-' . $album->getId(), $request->request->get('_token'))) {
             $album->setIsPublic(!$album->isPublic());
             $em->flush();
@@ -135,6 +163,10 @@ class AlbumController extends AbstractController
     #[Route('/{id}/set-cover-from-photo/{photoId}', name: 'admin_album_set_cover_from_photo', methods: ['POST'], requirements: ['id' => '\d+', 'photoId' => '\d+'])]
     public function setCoverFromPhoto(Request $request, Album $album, EntityManagerInterface $em, int $photoId): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         if ($this->isCsrfTokenValid('set-cover-' . $album->getId(), $request->request->get('_token'))) {
             $photo = $em->getRepository(\App\Entity\Photo::class)->find($photoId);
 

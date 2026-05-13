@@ -22,10 +22,12 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
+
         $response->headers->addCacheControlDirective('no-cache', true);
         $response->headers->addCacheControlDirective('max-age', 0);
         $response->headers->addCacheControlDirective('must-revalidate', true);
-        $response->headers->addCacheControlDirective('no-store', true); // ajoute aussi no-store
+        $response->headers->addCacheControlDirective('no-store', true); 
+
         return $response;
     }
 
