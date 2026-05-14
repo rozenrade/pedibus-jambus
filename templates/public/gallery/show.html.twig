@@ -46,7 +46,7 @@
                     {% for photo in album.photos %}
                         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
 
-                            <a href="{{ asset('uploads/photos/' ~ photo.imageName) }}" target="_blank" class="block">
+                            <a href="{{ path('public_photo_image', {uuid: photo.uuid}) }}" target="_blank" class="block">
 
                                 <img src="{{ asset('uploads/photos/' ~ photo.imageName) }}" alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" class="w-full h-auto" loading="lazy">
 
