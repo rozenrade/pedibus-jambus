@@ -17,6 +17,11 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            user_checker: App\Security\UserChecker
+                # where to redirect after logout
+                # target: app_any_route
+                # where to redirect after logout
+                # target: app_any_route
 
             form_login:
                 login_path: app_login
@@ -26,12 +31,6 @@ security:
 
             logout:
                 path: app_logout
-
-            user_checker: App\Security\UserChecker
-                # where to redirect after logout
-                # target: app_any_route
-                # where to redirect after logout
-                # target: app_any_route
 
             remember_me:
                 secret: '%kernel.secret%'
