@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)] 
 #[Vich\Uploadable]
@@ -53,11 +54,16 @@ class Photo
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $createdAt;
 
-    #[ORM\Column(type: 'json', nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photoAlt = null;
+
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private Uuid $uuid;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->uuid = Uuid::v4(); 
     }
 
     public function getId(): ?int
@@ -158,5 +164,30 @@ class Photo
             return null;
         }
         return '/uploads/photos/' . $this->imageName;
+    }
+
+    /**
+     * Get the value of photoAlt
+     */ 
+    public function getPhotoAlt()
+    {
+        return $this->photoAlt;
+    }
+
+    /**
+     * Set the value of photoAlt
+     *
+     * @return  self
+     */ 
+    public function setPhotoAlt(?String $photoAlt)
+    {
+        $this->photoAlt = $photoAlt;
+
+        return $this;
+    }
+
+    public function getUuid(): Uuid
+    {
+        return $this->uuid;
     }
 }

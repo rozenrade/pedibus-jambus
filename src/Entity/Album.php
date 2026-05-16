@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: AlbumRepository::class)]
 #[Vich\Uploadable] // Si vous utilisez VichUploaderBundle pour la couverture
@@ -18,6 +19,10 @@ class Album
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 255, unique: true)]
+    #[Gedmo\Slug(fields: ['title'])]
+    private ?string $slug;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Le titre est obligatoire")]
@@ -29,7 +34,7 @@ class Album
     )]
     private ?string $title = null;
 
-    #[ORM\Column(type: 'text', nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true, length: 255)]
     private ?string $description = null;
 
     #[ORM\Column(type: 'date')]
@@ -80,6 +85,11 @@ class Album
     public function getId(): ?int
     {
         return $this->id;
+    }
+    
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     public function getTitle(): ?string
@@ -255,4 +265,5 @@ class Album
 
         return $this;
     }
+
 }

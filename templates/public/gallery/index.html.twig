@@ -3,126 +3,12 @@
 
 {% block title %}Photos publiques - Pedibus Jambus{% endblock %}
 
-{# {% block stylesheets %}
-    {{ parent() }}
-    <style>
-        /* Styles pour la lightbox */
-        .lightbox-overlay {
-            background-color: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
-        }
-        
-        .lightbox-image {
-            animation: zoomIn 0.3s ease-out;
-        }
-        
-        .lightbox-thumbnail {
-            transition: all 0.2s ease;
-        }
-        
-        .lightbox-thumbnail:hover {
-            transform: scale(1.05);
-        }
-        
-        .lightbox-thumbnail.active {
-            border-color: #3b82f6 !important;
-            transform: scale(1.05);
-        }
-        
-        /* Animation d'entrée */
-        @keyframes zoomIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.3s ease forwards;
-        }
-        
-        /* Scrollbar personnalisée */
-        .scrollbar-thin::-webkit-scrollbar {
-            height: 6px;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-        
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-        
-        /* Carte photo améliorée */
-        .photo-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .photo-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Navigation horizontale */
-        .album-carousel {
-            scroll-behavior: smooth;
-            scroll-snap-type: x mandatory;
-        }
-        
-        .album-carousel-item {
-            scroll-snap-align: start;
-            flex: 0 0 auto;
-        }
-        
-        /* Boutons de navigation */
-        .carousel-nav-btn {
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.2s ease;
-        }
-        
-        .album-carousel-container:hover .carousel-nav-btn {
-            opacity: 1;
-        }
-        
-        .carousel-nav-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        /* Overlay image */
-        .image-overlay {
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .photo-card:hover .image-overlay {
-            opacity: 1;
-        }
-    </style>
-{% endblock %} #}
-
 {% block body %}
 <!-- Section des photos publiques -->
 <section class="w-full px-4 py-8 relative">
     <div class="max-w-7xl mx-auto">
         <!-- Conteneur avec fond blanc semi-transparent -->
-        <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8">
+        <div class="bg-white/60 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8">
             <!-- En-tête -->
             <div class="text-center mb-10">
                 <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
@@ -209,7 +95,7 @@
                                     </div>
                                     
                                     <!-- Bouton voir tout -->
-                                    <a href="{{ path('public_album_show', {id: album.id}) }}" 
+                                    <a href="{{ path('public_album_show', {slug: album.slug}) }}" 
                                        class="hidden md:flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors text-sm font-medium">
                                         <i class="fas fa-external-link-alt text-xs"></i>
                                         Voir tout
@@ -314,7 +200,7 @@
                 <!-- Bouton retour -->
                 <div class="text-center mt-12">
                     <a href="{{ path('app_home') }}" 
-                       class="inline-flex items-center gap-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105">
+                       class="inline-flex items-center gap-3 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105 bg-blue-500 hover:bg-blue-600">
                         <i class="fas fa-home"></i>
                         Retour à l'accueil
                     </a>

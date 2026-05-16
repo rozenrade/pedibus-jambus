@@ -8,8 +8,8 @@ framework:
         save_path: '%kernel.project_dir%/var/sessions'
         cookie_secure: auto
         cookie_samesite: lax
-        cookie_lifetime: 3600    # durée de vie du cookie en secondes (1h)
-        gc_maxlifetime: 3600     # durée de vie maximale des données en session
+        cookie_lifetime: 0
+        gc_maxlifetime: 1440
 
     #esi: true
     #fragments: true

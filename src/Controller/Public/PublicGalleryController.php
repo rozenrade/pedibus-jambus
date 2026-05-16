@@ -6,8 +6,7 @@ use App\Entity\Album;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\AlbumRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,9 +26,10 @@ class PublicGalleryController extends AbstractController
         ]);
     }
 
-    #[Route('/galerie/{id}', name: 'public_album_show', methods: ['GET'])]
-    public function show(Album $album): Response
-    {
+    #[Route('/galerie/{slug}', name: 'public_album_show', methods: ['GET'])]
+    public function show(
+        #[MapEntity(mapping: ['slug' => 'slug'])] Album $album
+    ): Response {
         $form = $this->createForm(CommentType::class, new Comment());
 
         return $this->render('public/gallery/show.html.twig', [
