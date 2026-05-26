@@ -17,7 +17,7 @@ class AlbumController extends AbstractController
     #[Route('/', name: 'admin_album_index', methods: ['GET'])]
     public function index(EntityManagerInterface $em): Response
     {
-
+     # Sécurité utilisateur & remember me token
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
