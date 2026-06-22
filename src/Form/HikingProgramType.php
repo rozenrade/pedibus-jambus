@@ -20,13 +20,6 @@ class HikingProgramType extends AbstractType
         $currentYear = (int) date('Y');
         
         $builder
-            ->add('title', TextType::class, [
-                'label' => 'Titre de la randonnée',
-                'required' => true,
-                'attr' => [
-                    'placeholder' => 'Ex: Programme du 1er trimestre 2024'
-                ]
-            ])
             ->add('year', IntegerType::class, [
                 'label' => 'Année',
                 'required' => true,
@@ -44,17 +37,8 @@ class HikingProgramType extends AbstractType
                     '1er trimestre' => 1,
                     '2ème trimestre' => 2,
                     '3ème trimestre' => 3,
-                    '4ème trimestre' => 4,
                     'Sorties Grandes Évasions' => null
                 ],
-            ])
-            ->add('description', TextareaType::class, [
-                'label' => 'Description',
-                'required' => false,
-                'attr' => [
-                    'rows' => 4,
-                    'placeholder' => 'Description optionnelle...'
-                ]
             ]);
             
         // Ajoutez le champ pdfFile avec des options conditionnelles

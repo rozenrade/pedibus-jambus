@@ -17,17 +17,11 @@ class HikingProgram
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
-
     #[ORM\Column(length: 4)]
     private ?int $year = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $quarter = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $description = null;
 
     // Champ virtuel pour l'upload de fichier
     #[Vich\UploadableField(mapping: 'program_pdf', fileNameProperty: 'pdfName', size: 'pdfSize')]
@@ -45,18 +39,6 @@ class HikingProgram
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): static
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getQuarter(): ?string
@@ -79,18 +61,6 @@ class HikingProgram
     public function setYear(string $year): static
     {
         $this->year = $year;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): static
-    {
-        $this->description = $description;
 
         return $this;
     }
