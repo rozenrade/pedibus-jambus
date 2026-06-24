@@ -86,11 +86,6 @@ class ProfileController extends AbstractController
                 $user->setEmail($userForm->get('email')->getData());
             }
 
-            // If user decides to add a nickname
-            if ($userForm->get('nickname')->getData()) {
-                $user->setNickname($userForm->get('nickname')->getData());
-            }
-
             $em->persist($user);
             $em->flush();
 
@@ -102,37 +97,37 @@ class ProfileController extends AbstractController
         return $this->render('public/profile/change_infos.html.twig', ['userForm' => $userForm, 'passwordForm' => $passwordForm->createView()]);
     }
 
-    #[Route('/supprimer-compte', name: 'app_profile_delete_account', methods: ['POST'])]
-    public function deleteAccount(
-        HttpFoundationRequest $request,
-        UserPasswordHasherInterface $passwordHasher,
-        EntityManagerInterface $em
-    ): Response {
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
+    // #[Route('/supprimer-compte', name: 'app_profile_delete_account', methods: ['POST'])]
+    // public function deleteAccount(
+    //     HttpFoundationRequest $request,
+    //     UserPasswordHasherInterface $passwordHasher,
+    //     EntityManagerInterface $em
+    // ): Response {
+    //     /** @var \App\Entity\User $user */
+    //     $user = $this->getUser();
 
-        if (!$user) {
-            return $this->redirectToRoute('app_home');
-        }
+    //     if (!$user) {
+    //         return $this->redirectToRoute('app_home');
+    //     }
 
-        if (!$this->isCsrfTokenValid('delete-account-' . $user->getId(), $request->request->get('_token'))) {
-            $this->addFlash('error', 'Token invalide.');
-            return $this->redirectToRoute('app_profile_index');
-        }
+    //     if (!$this->isCsrfTokenValid('delete-account-' . $user->getId(), $request->request->get('_token'))) {
+    //         $this->addFlash('error', 'Token invalide.');
+    //         return $this->redirectToRoute('app_profile_index');
+    //     }
 
-        if (!$passwordHasher->isPasswordValid($user, $request->request->get('password'))) {
-            $this->addFlash('error', 'Mot de passe incorrect.');
-            return $this->redirectToRoute('app_profile_index');
-        }
+    //     if (!$passwordHasher->isPasswordValid($user, $request->request->get('password'))) {
+    //         $this->addFlash('error', 'Mot de passe incorrect.');
+    //         return $this->redirectToRoute('app_profile_index');
+    //     }
 
-        // Déconnexion puis suppression
-        $this->container->get('security.token_storage')->setToken(null);
-        $request->getSession()->invalidate();
+    //     // Déconnexion puis suppression
+    //     $this->container->get('security.token_storage')->setToken(null);
+    //     $request->getSession()->invalidate();
 
-        $em->remove($user);
-        $em->flush();
+    //     $em->remove($user);
+    //     $em->flush();
 
-        $this->addFlash('success', 'Votre compte a été supprimé.');
-        return $this->redirectToRoute('app_home');
-    }
+    //     $this->addFlash('success', 'Votre compte a été supprimé.');
+    //     return $this->redirectToRoute('app_home');
+    // }
 }

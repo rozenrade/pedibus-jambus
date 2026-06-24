@@ -17,7 +17,6 @@ class HikingProgramController extends AbstractController
         $programs = $repository->findBy([], [
             'year' => 'DESC', 
             'quarter' => 'ASC',
-            'title' => 'ASC'
         ]);
         
         // Grouper par année

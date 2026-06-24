@@ -33,7 +33,6 @@ class DashboardController extends AbstractController
             $totalAlbums = $em->getRepository(Album::class)->count([]);
             $totalPhotos = $em->getRepository(Photo::class)->count([]);
             $totalUsers = $em->getRepository(User::class)->count([]);
-            $totalComments = $em->getRepository(Comment::class)->count([]);
 
             $recentAlbums = $em->createQueryBuilder()
                 ->select('a', 'COUNT(p.id) as photoCount')
@@ -93,7 +92,6 @@ class DashboardController extends AbstractController
                 'totalAlbums' => $totalAlbums,
                 'totalPhotos' => $totalPhotos,
                 'totalUsers' => $totalUsers,
-                'totalComments' => $totalComments,
                 'recentAlbums' => $recentAlbums,
                 'recentPhotos' => $recentPhotos,
                 'publicAlbums' => $publicAlbums,
@@ -110,16 +108,6 @@ class DashboardController extends AbstractController
         });
 
         return $this->render('admin/dashboard/index.html.twig', $data);
-    }
-
-    #[Route('/actions-rapides', name: 'admin_quick_actions')]
-    public function quickActions(): Response
-    {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            return $this->redirectToRoute('app_home');
-        }
-
-        return $this->render('admin/dashboard/_quick_actions.html.twig');
     }
 
     #[Route('/stats-widget', name: 'admin_stats_widget')]

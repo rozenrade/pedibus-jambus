@@ -28,7 +28,6 @@
 							{% for program in programs %}
 								<div class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
 									<div class="mb-3">
-										<h3 class="font-bold text-gray-900">{{ program.title }}</h3>
 										<div class="mt-1">
 											{% if program.quarter %}
 												<span class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded">
@@ -41,10 +40,6 @@
 											{% endif %}
 										</div>
 									</div>
-
-									{% if program.description %}
-										<p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ program.description }}</p>
-									{% endif %}
 
 									<div class="flex justify-between items-center">
 										<div>

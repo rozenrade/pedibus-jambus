@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: AlbumRepository::class)]
-#[Vich\Uploadable] // Si vous utilisez VichUploaderBundle pour la couverture
+#[Vich\Uploadable] 
 class Album
 {
     #[ORM\Id]
@@ -47,7 +47,6 @@ class Album
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $coverImage = null;
 
-    // Si vous utilisez VichUploaderBundle
     #[Vich\UploadableField(mapping: 'album_cover', fileNameProperty: 'coverImage')]
     #[Assert\Image(
         maxSize: '5M',
@@ -66,20 +65,12 @@ class Album
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $photos;
 
-    /**
-     * @var Collection<int, Comment>
-     */
-    #[ORM\OneToMany(mappedBy: 'album', targetEntity: Comment::class, cascade: ['remove'], orphanRemoval: true)]
-    #[ORM\OrderBy(['createdAt' => 'DESC'])]
-    private Collection $comments;
-
     public function __construct()
     {
         $this->photos = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->eventDate = new \DateTimeImmutable();
         $this->isPublic = true;
-        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -234,36 +225,6 @@ class Album
     public function getEventDateFormatted(): string
     {
         return $this->eventDate->format('d/m/Y');
-    }
-
-    /**
-     * @return Collection<int, Comment>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): static
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setAlbum($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getAlbum() === $this) {
-                $comment->setAlbum(null);
-            }
-        }
-
-        return $this;
     }
 
 }

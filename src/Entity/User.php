@@ -28,9 +28,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 16, nullable: true, unique: true)]
-    private ?string $nickname = null;
-
     /**
      * @var list<string> The user roles
      */
@@ -43,15 +40,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column]
-    private bool $isVerified = false;
-
-    /**
-     * @var Collection<int, Comment>
-     */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
-    private Collection $comments;
-
     #[Vich\UploadableField(mapping: 'avatar', fileNameProperty: 'avatarName')]
     private ?File $avatarFile = null;
 
@@ -61,10 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-    }
+    public function __construct() {}
 
     public function getId(): ?int
     {
@@ -81,17 +66,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
 
         return $this;
-    }
-
-    public function setNickname(?string $nickname): static
-    {
-        $this->nickname = $nickname;
-
-        return $this;
-    }
-    public function getNickname(): ?string
-    {
-        return $this->nickname;
     }
 
     /**
@@ -160,48 +134,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // @deprecated, to be removed when upgrading to Symfony 8
     }
 
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): static
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Comment>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): static
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): static
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getAuthor() === $this) {
-                $comment->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function setAvatarFile(?File $avatarFile = null): void
     {
         $this->avatarFile = $avatarFile;
@@ -225,5 +157,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->avatarName;
     }
-
 }
