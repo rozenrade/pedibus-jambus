@@ -3,8 +3,6 @@
 namespace App\Controller\Public;
 
 use App\Entity\Album;
-use App\Entity\Comment;
-use App\Form\CommentType;
 use App\Repository\AlbumRepository;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,11 +28,9 @@ class PublicGalleryController extends AbstractController
     public function show(
         #[MapEntity(mapping: ['slug' => 'slug'])] Album $album
     ): Response {
-        $form = $this->createForm(CommentType::class, new Comment());
 
         return $this->render('public/gallery/show.html.twig', [
             'album' => $album,
-            'commentForm' => $form->createView()
         ]);
     }
 }
