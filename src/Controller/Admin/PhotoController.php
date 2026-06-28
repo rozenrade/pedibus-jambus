@@ -44,14 +44,14 @@ class PhotoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // DEBUG : Afficher les informations
-            dump($photo->getImageFile());  // Fichier uploadé
-            dump($photo->getImageName());  // Nom du fichier (doit être rempli par Vich)
+            // dump($photo->getImageFile());  // Fichier uploadé
+            // dump($photo->getImageName());  // Nom du fichier (doit être rempli par Vich)
 
             $em->persist($photo);
             $em->flush();
 
             // DEBUG après flush
-            dump($photo->getImageName());  // Doit être non-null
+            // dump($photo->getImageName());  // Doit être non-null
 
             $this->addFlash('success', 'Photo ajoutée avec succès !');
 

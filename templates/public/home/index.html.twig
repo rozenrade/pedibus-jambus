@@ -123,107 +123,112 @@
                                         {% for photo in album.photos|slice(0, 3) %}
                                             <div class="aspect-square overflow-hidden rounded-lg bg-gray-100 cursor-pointer group">
                                                 {% if photo.imageName %}
-                                                    <img src="{{ asset('uploads/photos/' ~ photo.imageName) }}" alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 lightbox-image" data-album="{{ album.id }}" data-photo-id="{{ photo.id }}" data-index="{{ loop.index0 }}">
-                                                {% else %}
-                                                    <div class="w-full h-full flex items-center justify-center bg-gray-200">
-                                                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                                        </svg>
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                        {% else %}
-                                            {% for i in 1..3 %}
-                                                <div class="aspect-square overflow-hidden rounded-lg bg-gray-100">
-                                                    <div class="w-full h-full flex items-center justify-center bg-gray-200">
-                                                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                                        </svg>
-                                                    </div>
+                                                    <img src="{{ ('uploads/photos/' ~ photo.imageName)|imagine_filter('thumbnail') }}"
+                                                        data-full="{{ ('uploads/photos/' ~ photo.imageName)|imagine_filter('display') }}"
+                                                        alt="{{ photo.title ? photo.title : 'Photo ' ~ loop.index }}"
+                                                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 lightbox-image"
+                                                        data-album="{{ album.id }}" data-photo-id="{{ photo.id }}" data-index="{{ loop.index0 }}">
+
+                                                    {% else %}
+                                                        <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                                                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                            </svg>
+                                                        </div>
+                                                    {% endif %}
                                                 </div>
+                                            {% else %}
+                                                {% for i in 1..3 %}
+                                                    <div class="aspect-square overflow-hidden rounded-lg bg-gray-100">
+                                                        <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                                                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
                                             {% endfor %}
-                                        {% endfor %}
+                                        </div>
+
+                                        {% if album.photos|length > 0 %}
+                                            <div class="mt-4 text-center">
+                                                <span class="inline-block text-sm text-green-600 font-medium bg-green-50/80 px-4 py-2 rounded-full">
+                                                    {{ album.photos|length }}
+                                                    photo(s) disponible(s)
+                                                </span>
+                                            </div>
+                                        {% endif %}
                                     </div>
 
-                                    {% if album.photos|length > 0 %}
-                                        <div class="mt-4 text-center">
-                                            <span class="inline-block text-sm text-green-600 font-medium bg-green-50/80 px-4 py-2 rounded-full">
-                                                {{ album.photos|length }}
-                                                photo(s) disponible(s)
+                                    <div class="px-5 md:px-6 pb-5 md:pb-6">
+                                        <a href="{{ path('public_album_show', {'slug': album.slug}) }}" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg">
+                                            <span class="flex items-center justify-center gap-2">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                </svg>
+                                                Voir l'album complet
                                             </span>
-                                        </div>
-                                    {% endif %}
+                                        </a>
+                                    </div>
                                 </div>
-
-                                <div class="px-5 md:px-6 pb-5 md:pb-6">
-                                    <a href="{{ path('public_album_show', {'slug': album.slug}) }}" class="block w-full text-center bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg">
-                                        <span class="flex items-center justify-center gap-2">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                            </svg>
-                                            Voir l'album complet
-                                        </span>
-                                    </a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <div class="text-center py-12 md:py-16">
-                        <div class="max-w-md mx-auto">
-                            <svg class="w-16 h-16 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                            </svg>
-                            <h3 class="text-xl md:text-2xl font-bold text-gray-700 mb-3">
-                                Aucun album disponible pour le moment
-                            </h3>
-                            <p class="text-gray-500 mb-6">
-                                Nos prochaines randonnées seront bientôt publiées !
-                            </p>
-                            <div class="h-1 w-20 bg-green-500 mx-auto rounded-full"></div>
+                            {% endfor %}
                         </div>
-                    </div>
-                {% endif %}
+                    {% else %}
+                        <div class="text-center py-12 md:py-16">
+                            <div class="max-w-md mx-auto">
+                                <svg class="w-16 h-16 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                </svg>
+                                <h3 class="text-xl md:text-2xl font-bold text-gray-700 mb-3">
+                                    Aucun album disponible pour le moment
+                                </h3>
+                                <p class="text-gray-500 mb-6">
+                                    Nos prochaines randonnées seront bientôt publiées !
+                                </p>
+                                <div class="h-1 w-20 bg-green-500 mx-auto rounded-full"></div>
+                            </div>
+                        </div>
+                    {% endif %}
 
-                {% if albums|length > 0 %}
-                    <div class="text-center mt-10 md:mt-12">
-                        <a href="{{ path('public_album') }}" class="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
-                            </svg>
-                            Voir tous nos albums de randonnées
-                        </a>
-                    </div>
-                {% endif %}
+                    {% if albums|length > 0 %}
+                        <div class="text-center mt-10 md:mt-12">
+                            <a href="{{ path('public_album') }}" class="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                                </svg>
+                                Voir tous nos albums de randonnées
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
+        </section>
+
+        <div
+        id="lightbox" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95">
+        <!-- Boutons -->
+        <button id="lightbox-close" class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
+            &times;
+        </button>
+
+        <button id="lightbox-prev" class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
+            ‹
+        </button>
+
+        <button id="lightbox-next" class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
+            ›
+        </button>
+
+        <!-- Image -->
+        <div class="relative z-40 flex items-center justify-center h-full p-2 md:p-4">
+            <img id="lightbox-img" class="max-w-full max-h-[85vh] md:max-h-[90vh] object-contain rounded-lg" src="" alt="">
         </div>
-    </section>
 
-    <div
-    id="lightbox" class="hidden fixed inset-0 z-50 bg-black bg-opacity-95">
-    <!-- Boutons -->
-    <button id="lightbox-close" class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
-        &times;
-    </button>
-
-    <button id="lightbox-prev" class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
-        ‹
-    </button>
-
-    <button id="lightbox-next" class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl md:text-4xl z-50 bg-black bg-opacity-50 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-opacity-70 transition-colors">
-        ›
-    </button>
-
-    <!-- Image -->
-    <div class="relative z-40 flex items-center justify-center h-full p-2 md:p-4">
-        <img id="lightbox-img" class="max-w-full max-h-[85vh] md:max-h-[90vh] object-contain rounded-lg" src="" alt="">
-    </div>
-
-    <!-- Compteur -->
-    <div id="lightbox-counter" class="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 text-white bg-black bg-opacity-60 px-4 py-2 rounded-full text-sm md:text-base font-medium z-50">
-        1 / 1
-    </div>
+        <!-- Compteur -->
+        <div id="lightbox-counter" class="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 text-white bg-black bg-opacity-60 px-4 py-2 rounded-full text-sm md:text-base font-medium z-50">
+            1 / 1
+        </div>
     </div>
 {% endblock %}
 
@@ -250,7 +255,7 @@
             // Ouvrir lightbox
             function openLightbox(index) {
                 currentIndex = index;
-                img.src = images[currentIndex].src;
+                img.src = images[currentIndex].dataset.full || images[currentIndex].src;
                 img.alt = images[currentIndex].alt;
                 counter.textContent = `${
                     currentIndex + 1
