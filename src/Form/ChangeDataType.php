@@ -26,18 +26,6 @@ class ChangeDataType extends AbstractType
                 ],
             ])
 
-            ->add('nickname', TextType::class, [
-                'label' => false,
-                'required' => false,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Length([
-                        'min' => 3,
-                        'max' => 16,
-                    ]),
-                ],
-            ])
-
             ->add('password', PasswordType::class, [
                 'label' => false,
                 'mapped' => false,

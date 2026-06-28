@@ -18,151 +18,181 @@
                 {{ form_start(userForm, {'attr': {'enctype': 'multipart/form-data', 'class': 'space-y-6'}}) }}
 
                 <div class="space-y-2">
-                    <p class="text-sm uppercase tracking-wide text-gray-300">
+                    <p class="text-base font-semibold uppercase tracking-wide text-white">
                         Adresse e-mail
                     </p>
 
-                    <div class="text-black">
-                        {{ form_row(userForm.email) }}
+                    <div>
+                        {{ form_row(userForm.email, {
+                            'attr': {
+                                'class': 'w-full rounded-xl bg-white text-black text-lg px-4 py-3 border-2 border-gray-300 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-300 focus:outline-none'
+                            }
+                        }) }}
                     </div>
                 </div>
 
-                <div class="space-y-2">
-                    <p class="text-sm uppercase tracking-wide text-gray-300">
+                {# <div class="space-y-2">
+                    <p class="text-base font-semibold uppercase tracking-wide text-white">
                         Pseudonyme
                     </p>
 
-                    <p class="text-sm text-gray-400">
+                    <p class="text-base text-gray-200">
                         Entre 3 et 16 caractères, unique pour chaque utilisateur.
                     </p>
 
-                    <div class="text-black">
-                        {{ form_row(userForm.nickname) }}
+                    <div>
+                        {{ form_row(userForm.nickname, {
+                            'attr': {
+                                'class': 'w-full rounded-xl bg-white text-black text-lg px-4 py-3 border-2 border-gray-300 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-300 focus:outline-none'
+                            }
+                        }) }}
                     </div>
-                </div>
+                </div> #}
 
-                <div class="space-y-2">
-                    <p class="text-sm uppercase tracking-wide text-gray-300">
+                {# Avatar : décommenté avec gestion sûre si avatarFile n'existe pas dans le form #}
+                {# {% if userForm.avatarFile is defined %} #}
+                {# <div class="space-y-2"> #}
+                    {# <p class="text-base font-semibold uppercase tracking-wide text-white">
                         Photo de profil
                     </p>
 
-                    <div class="text-white">
-                        {{ form_row(userForm.avatarFile) }}
+                    <div>
+                        {{ form_row(userForm.avatarFile, {
+                            'attr': {
+                                'class': 'w-full rounded-xl bg-white text-black text-lg px-4 py-3 border-2 border-gray-300 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-300 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-600 file:text-white file:font-medium'
+                            }
+                        }) }}
                     </div>
 
                     {# Aperçu nouvelle image #}
-                    <img id="avatar-preview"
+                    {# <img id="avatar-preview"
                         src="#"
                         alt="Aperçu"
-                        class="mt-3 max-h-40 rounded-xl hidden" />
+                        class="mt-3 max-h-40 rounded-xl hidden" /> #}
 
                     {# Avatar actuel #}
-                    {% if app.user.avatarName %}
-                        <p class="mt-2 text-sm text-gray-400">
+                    {# {% if app.user.avatarName %}
+                        <p class="mt-2 text-base text-gray-200">
                             Image actuelle :
                         </p>
 
                         <img src="{{ vich_uploader_asset(app.user, 'avatarFile') }}"
                             alt="Avatar actuel"
-                            class="mt-1 max-h-40 rounded-xl">
-                        {% endif %}
+                            class="mt-1 max-h-40 rounded-xl border-2 border-white/30">
+                    {% endif %}  #}
+                {# </div> #}
+                {# {% endif %} #}
+
+                <div class="space-y-2">
+                    <p class="text-base font-semibold uppercase tracking-wide text-white">
+                        Confirmation du mot de passe
+                    </p>
+
+                    <div>
+                        {{ form_row(userForm.password, {
+                            'attr': {
+                                'class': 'w-full rounded-xl bg-white text-black text-lg px-4 py-3 border-2 border-gray-300 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-300 focus:outline-none'
+                            }
+                        }) }}
                     </div>
-
-                    <div class="space-y-2">
-                        <p class="text-sm uppercase tracking-wide text-gray-300">
-                            Confirmation du mot de passe
-                        </p>
-
-                        <div class="text-black">
-                            {{ form_row(userForm.password) }}
-                        </div>
-                    </div>
-
-                    <button class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 transition border border-white/20 text-white font-medium">
-                        Modifier mes informations
-                    </button>
-
-                    {{ form_end(userForm) }}
-
                 </div>
 
-                {# FORMULAIRE MOT DE PASSE #}
-                <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl shadow-2xl p-8 text-white">
+                <button type="submit" class="w-full py-4 rounded-xl bg-cyan-600 hover:bg-cyan-700 transition border-2 border-cyan-700 text-white text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-cyan-300">
+                    Modifier mes informations
+                </button>
 
-                    <h2 class="text-3xl font-semibold mb-8 text-center">
-                        Mot de passe
-                    </h2>
-
-                    {{ form_start(passwordForm, {'attr': {'class': 'space-y-6'}}) }}
-
-                    <div class="space-y-2">
-                        <p class="text-sm uppercase tracking-wide text-gray-300">
-                            Ancien mot de passe
-                        </p>
-
-                        <div class="text-black">
-                            {{ form_row(passwordForm.oldPassword) }}
-                        </div>
-                    </div>
-
-                    <div class="space-y-2">
-                        <p class="text-sm uppercase tracking-wide text-gray-300">
-                            Nouveau mot de passe
-                        </p>
-
-                        <div class="text-black">
-                            {{ form_row(passwordForm.newPassword) }}
-                        </div>
-                    </div>
-
-                    <div class="space-y-2">
-                        <p class="text-sm uppercase tracking-wide text-gray-300">
-                            Confirmation du nouveau mot de passe
-                        </p>
-
-                        <div class="text-black">
-                            {{ form_row(passwordForm.confirmPassword) }}
-                        </div>
-                    </div>
-
-                    <button class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/20 transition border border-white/20 text-white font-medium">
-                        Changer mon mot de passe
-                    </button>
-
-                    {{ form_end(passwordForm) }}
-                </div>
+                {{ form_end(userForm) }}
 
             </div>
-        </div>
 
-        {% block javascripts %}
-            {{ parent() }}
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const avatarInput = document.querySelector('#{{ userForm.avatarFile.vars.id }}');
-                    const preview = document.getElementById('avatar-preview');
+            {# FORMULAIRE MOT DE PASSE #}
+            <div class="backdrop-blur-md bg-black/40 border border-white/10 rounded-2xl shadow-2xl p-8 text-white">
 
-                    if (avatarInput) {
-                        avatarInput.addEventListener('change', function() {
-                            const file = this.files[0];
+                <h2 class="text-3xl font-semibold mb-8 text-center">
+                    Mot de passe
+                </h2>
 
-                            if (file) {
-                                const reader = new FileReader();
+                {{ form_start(passwordForm, {'attr': {'class': 'space-y-6'}}) }}
 
-                                reader.onload = function(e) {
-                                    preview.src = e.target.result;
-                                    preview.classList.remove('hidden');
-                                };
+                <div class="space-y-2">
+                    <p class="text-base font-semibold uppercase tracking-wide text-white">
+                        Ancien mot de passe
+                    </p>
 
-                                reader.readAsDataURL(file);
-                                } else {
-                                // Si l'utilisateur réinitialise le champ
-                                preview.src = '#';
-                                preview.classList.add('hidden');
+                    <div>
+                        {{ form_row(passwordForm.oldPassword, {
+                            'attr': {
+                                'class': 'w-full rounded-xl bg-white text-black text-lg px-4 py-3 border-2 border-gray-300 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-300 focus:outline-none'
                             }
-                        });
-                    }
-                });
-            </script>
-        {% endblock %}
+                        }) }}
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <p class="text-base font-semibold uppercase tracking-wide text-white">
+                        Nouveau mot de passe
+                    </p>
+
+                    <div>
+                        {{ form_row(passwordForm.newPassword, {
+                            'attr': {
+                                'class': 'w-full rounded-xl bg-white text-black text-lg px-4 py-3 border-2 border-gray-300 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-300 focus:outline-none'
+                            }
+                        }) }}
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <p class="text-base font-semibold uppercase tracking-wide text-white">
+                        Confirmation du nouveau mot de passe
+                    </p>
+
+                    <div>
+                        {{ form_row(passwordForm.confirmPassword, {
+                            'attr': {
+                                'class': 'w-full rounded-xl bg-white text-black text-lg px-4 py-3 border-2 border-gray-300 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-300 focus:outline-none'
+                            }
+                        }) }}
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-4 rounded-xl bg-cyan-600 hover:bg-cyan-700 transition border-2 border-cyan-700 text-white text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-cyan-300">
+                    Changer mon mot de passe
+                </button>
+
+                {{ form_end(passwordForm) }}
+            </div>
+
+        </div>
+    </div>
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const avatarInput = document.querySelector('#{{ userForm.avatarFile.vars.id }}');
+                const preview = document.getElementById('avatar-preview');
+
+                if (avatarInput) {
+                    avatarInput.addEventListener('change', function() {
+                        const file = this.files[0];
+
+                        if (file) {
+                            const reader = new FileReader();
+
+                            reader.onload = function(e) {
+                                preview.src = e.target.result;
+                                preview.classList.remove('hidden');
+                            };
+
+                            reader.readAsDataURL(file);
+                        } else {
+                            preview.src = '#';
+                            preview.classList.add('hidden');
+                        }
+                    });
+                }
+            });
+        </script>
     {% endblock %}
+{% endblock %}
