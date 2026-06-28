@@ -24,32 +24,32 @@
 			<ul class="space-y-2 text-sm text-gray-600">
 
 				<li>
-					<a href="/about-us" class="hover:text-green-600 transition">
+					<a href="{{ path('app_about_us') }}" class="hover:text-green-600 transition">
 						Qui sommes-nous
 					</a>
 				</li>
 
 				<li>
-					<a href="/outlings" class="hover:text-green-600 transition">
+					<a href="{{ path('app_outlings') }}" class="hover:text-green-600 transition">
 						Sorties
 					</a>
 				</li>
 
 				<li>
-					<a href="/programs" class="hover:text-green-600 transition">
+					<a href="{{ path('public_programs_index') }}" class="hover:text-green-600 transition">
 						Programmes
 					</a>
 				</li>
 
 				<li>
-					<a href="/photos" class="hover:text-green-600 transition">
+					<a href="{{ path('public_album') }}" class="hover:text-green-600 transition">
 						Photos
 					</a>
 				</li>
 
 				{% if is_granted('ROLE_ADMIN') %}
 				<li>
-					<a href="/admin/dashboard"
+					<a href="{{ path('admin_dashboard') }}"
 					   class="text-green-600 font-medium hover:underline">
 						Panneau Administratif
 					</a>
