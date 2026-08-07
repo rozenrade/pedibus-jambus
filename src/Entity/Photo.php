@@ -28,6 +28,9 @@ class Photo
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $position = 0;
+
     // Fichier uploadé (non stocké en BDD)
     #[Vich\UploadableField(mapping: 'photos', fileNameProperty: 'imageName')]
     #[Assert\Image(
@@ -189,5 +192,25 @@ class Photo
     public function getUuid(): Uuid
     {
         return $this->uuid;
+    }
+
+    /**
+     * Get the value of position
+     */ 
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set the value of position
+     *
+     * @return  self
+     */ 
+    public function setPosition(int $position)
+    {
+        $this->position = $position;
+
+        return $this;
     }
 }

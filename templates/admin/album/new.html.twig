@@ -1,192 +1,194 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvel album - Administration{% endblock %}
+{% block title %}
+    Nouvel album - Administration
+{% endblock %}
 
 {% block body %}
-<div class="min-h-screen">
+    <div class="min-h-screen">
 
-    <!-- Header -->
-    <div class="sticky top-0 z-10 bg-white shadow-sm border-b">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <!-- Header -->
+        <div class="sticky top-0 z-10 bg-white shadow-sm border-b">
+            <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
 
-            <div class="flex items-center gap-4">
-                <a href="{{ path('admin_dashboard') }}"
-                   class="text-gray-500 hover:text-gray-900 transition">
-                    ←
-                </a>
+                <div class="flex items-center gap-4">
+                    <a href="{{ path('admin_dashboard') }}"
+                        class="text-gray-500 hover:text-gray-900 transition">
+                        ←
+                    </a>
 
-                <div>
-                    <h1 class="text-xl font-bold text-gray-900">
-                        Nouvel album
-                    </h1>
-                    <p class="text-sm text-gray-500">
-                        Créez un album photo
-                    </p>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">
+                            Nouvel album
+                        </h1>
+                        <p class="text-sm text-gray-500">
+                            Créez un album photo
+                        </p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="text-sm text-gray-500">
-                {{ "now"|date("d/m/Y") }}
-            </div>
+                <div class="text-sm text-gray-500">
+                    {{ "now"|date("d/m/Y") }}
+                </div>
 
+            </div>
         </div>
-    </div>
 
 
-    <!-- Formulaire -->
-    <div class="max-w-4xl mx-auto px-6 py-8">
+        <!-- Formulaire -->
+        <div class="max-w-4xl mx-auto px-6 py-8">
 
-        <div class="bg-white rounded-xl shadow-sm border">
+            <div class="bg-white rounded-xl shadow-sm border">
 
-            {{ form_start(form, {
+                {{ form_start(form, {
                 attr: {
-                    class: 'divide-y',
-                    novalidate: 'novalidate'
+                class: 'divide-y',
+                novalidate: 'novalidate'
                 }
-            }) }}
-
-            <!-- Informations -->
-            <div class="p-6 space-y-6">
-
-                <h2 class="text-lg font-semibold text-gray-900">
-                    Informations générales
-                </h2>
-
-                <div>
-                    {{ form_label(form.title, 'Titre de l\'album *',
-                        { label_attr: { class: 'block text-sm font-medium mb-1' } }
-                    ) }}
-
-                    {{ form_widget(form.title, {
-                        attr: {
-                            class: 'w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500',
-                            placeholder: 'Ex: Sortie montagne 2024'
-                        }
-                    }) }}
-
-                    {{ form_errors(form.title) }}
-                </div>
-
-
-                <div>
-                    {{ form_label(form.description,
-                        'Description',
-                        { label_attr: { class: 'block text-sm font-medium mb-1' } }
-                    ) }}
-
-                    {{ form_widget(form.description, {
-                        attr: {
-                            class: 'w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500',
-                            rows: 4
-                        }
-                    }) }}
-
-                    {{ form_errors(form.description) }}
-                </div>
-
-            </div>
-
-
-            <!-- Paramètres -->
-            <div class="p-6 space-y-6">
-
-                <h2 class="text-lg font-semibold text-gray-900">
-                    Paramètres
-                </h2>
-
-                <div>
-
-                    {{ form_label(form.eventDate,
-                        'Date de l\'événement',
-                        { label_attr: { class: 'block text-sm font-medium mb-1' } }
-                    ) }}
-
-                    {{ form_widget(form.eventDate, {
-                        attr: {
-                            class: 'w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500'
-                        }
-                    }) }}
-
-                    {{ form_errors(form.eventDate) }}
-
-                </div>
-
-
-                <div class="flex items-center gap-3">
-
-                    {{ form_widget(form.isPublic) }}
-
-                    {{ form_label(form.isPublic,
-                        'Album visible publiquement',
-                        { label_attr: { class: 'text-sm font-medium' } }
-                    ) }}
-
-                    {{ form_errors(form.isPublic) }}
-
-                </div>
-
-            </div>
-
-
-            <!-- Couverture -->
-            <div class="p-6 space-y-4">
-
-                <h2 class="text-lg font-semibold text-gray-900">
-                    Image de couverture (optionnel)
-                </h2>
-
-                {{ form_widget(form.coverImageFile, {
-                    attr: {
-                        class: 'block w-full border rounded-lg px-4 py-2 bg-white',
-                        accept: 'image/*',
-                        onchange: 'previewCoverImage(event)'
-                    }
                 }) }}
 
-                <div class="mt-4 hidden" id="coverPreviewContainer">
-                    <img id="coverPreviewImage"
-                         class="rounded-lg shadow max-h-64 border"
-                         src=""
-                         alt="Preview image">
+                <!-- Informations -->
+                <div class="p-6 space-y-6">
+
+                    <h2 class="text-lg font-semibold text-gray-900">
+                        Informations générales
+                    </h2>
+
+                    <div>
+                        {{ form_label(form.title, 'Titre de l\'album *',
+                        { label_attr: { class: 'block text-sm font-medium mb-1' } }
+                        ) }}
+
+                        {{ form_widget(form.title, {
+                        attr: {
+                        class: 'w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500',
+                        placeholder: 'Ex: Sortie montagne 2024'
+                        }
+                        }) }}
+
+                        {{ form_errors(form.title) }}
+                    </div>
+
+
+                    <div>
+                        {{ form_label(form.description,
+                        'Description',
+                        { label_attr: { class: 'block text-sm font-medium mb-1' } }
+                        ) }}
+
+                        {{ form_widget(form.description, {
+                        attr: {
+                        class: 'w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500',
+                        rows: 4
+                        }
+                        }) }}
+
+                        {{ form_errors(form.description) }}
+                    </div>
+
                 </div>
 
-                {{ form_errors(form.coverImageFile) }}
+
+                <!-- Paramètres -->
+                <div class="p-6 space-y-6">
+
+                    <h2 class="text-lg font-semibold text-gray-900">
+                        Paramètres
+                    </h2>
+
+                    <div>
+
+                        {{ form_label(form.eventDate,
+                        'Date de l\'événement',
+                        { label_attr: { class: 'block text-sm font-medium mb-1' } }
+                        ) }}
+
+                        {{ form_widget(form.eventDate, {
+                        attr: {
+                        class: 'w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500'
+                        }
+                        }) }}
+
+                        {{ form_errors(form.eventDate) }}
+
+                    </div>
+
+
+                    <div class="flex items-center gap-3">
+
+                        {{ form_widget(form.isPublic) }}
+
+                        {{ form_label(form.isPublic,
+                        'Album visible publiquement',
+                        { label_attr: { class: 'text-sm font-medium' } }
+                        ) }}
+
+                        {{ form_errors(form.isPublic) }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- Couverture -->
+                <div class="p-6 space-y-4">
+
+                    <h2 class="text-lg font-semibold text-gray-900">
+                        Image de couverture (optionnel)
+                    </h2>
+
+                    {{ form_widget(form.coverImageFile, {
+                    attr: {
+                    class: 'block w-full border rounded-lg px-4 py-2 bg-white',
+                    accept: 'image/*',
+                    onchange: 'previewCoverImage(event)'
+                    }
+                    }) }}
+
+                    <div class="mt-4 hidden" id="coverPreviewContainer">
+                        <img id="coverPreviewImage"
+                            class="rounded-lg shadow max-h-64 border"
+                            src=""
+                            alt="Preview image">
+                        </div>
+
+                        {{ form_errors(form.coverImageFile) }}
+
+                    </div>
+
+
+                    <!-- Actions -->
+                    <div class="p-6  flex justify-between items-center">
+
+                        <a href="{{ path('admin_album_index') }}"
+                            class="px-5 py-2 border rounded-lg text-gray-600 hover:bg-gray-100">
+                            Annuler
+                        </a>
+
+                        <button type="submit"
+                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            Créer l'album
+                        </button>
+
+                    </div>
+
+                    {{ form_end(form) }}
+
+                </div>
 
             </div>
-
-
-            <!-- Actions -->
-            <div class="p-6  flex justify-between items-center">
-
-                <a href="{{ path('admin_album_index') }}"
-                   class="px-5 py-2 border rounded-lg text-gray-600 hover:bg-gray-100">
-                    Annuler
-                </a>
-
-                <button type="submit"
-                        class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                    Créer l'album
-                </button>
-
-            </div>
-
-            {{ form_end(form) }}
 
         </div>
+        <script>
+            function previewCoverImage(event) {
+                const input = event.target;
+                const preview = document.getElementById('coverPreviewImage');
+                const container = document.getElementById('coverPreviewContainer');
 
-    </div>
-
-</div>
-<script>
-    function previewCoverImage(event) {
-        const input = event.target;
-        const preview = document.getElementById('coverPreviewImage');
-        const container = document.getElementById('coverPreviewContainer');
-
-        if (input.files && input.files[0]) {
-            preview.src = URL.createObjectURL(input.files[0]);
-            container.classList.remove('hidden');
-        }
-    }
-</script>
-{% endblock %}
+                if (input.files && input.files[0]) {
+                    preview.src = URL.createObjectURL(input.files[0]);
+                    container.classList.remove('hidden');
+                }
+            }
+        </script>
+    {% endblock %}

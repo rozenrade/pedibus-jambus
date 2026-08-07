@@ -7,6 +7,7 @@ use App\Form\AlbumType;
 use App\Repository\AlbumRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,7 @@ class AlbumController extends AbstractController
     #[Route('/', name: 'admin_album_index', methods: ['GET'])]
     public function index(EntityManagerInterface $em): Response
     {
-     # Sécurité utilisateur & remember me token
+        # Sécurité utilisateur & remember me token
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
@@ -145,7 +146,7 @@ class AlbumController extends AbstractController
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
-        
+
         if ($this->isCsrfTokenValid('toggle-visibility-' . $album->getId(), $request->request->get('_token'))) {
             $album->setIsPublic(!$album->isPublic());
             $em->flush();
@@ -166,7 +167,7 @@ class AlbumController extends AbstractController
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
-        
+
         if ($this->isCsrfTokenValid('set-cover-' . $album->getId(), $request->request->get('_token'))) {
             $photo = $em->getRepository(\App\Entity\Photo::class)->find($photoId);
 
@@ -189,5 +190,33 @@ class AlbumController extends AbstractController
         return $this->redirectToRoute('admin_album_show', [
             'id' => $album->getId(),
         ]);
+    }
+
+    #[Route('/{id}/photos/reorder', name: 'admin_album_photos_reorder', methods: ['POST'], requirements: ['id' => '\d+'])]
+    public function reorderPhotos(Request $request, Album $album, EntityManagerInterface $em): JsonResponse
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse(['success' => false, 'message' => 'Accès refusé'], 403);
+        }
+
+        $data = json_decode($request->getContent(), true);
+
+        if (!$this->isCsrfTokenValid('reorder-photos-' . $album->getId(), $data['_token'] ?? '')) {
+            return new JsonResponse(['success' => false, 'message' => 'Token invalide'], 403);
+        }
+
+        $orderedIds = $data['order'] ?? [];
+
+        foreach ($orderedIds as $index => $photoId) {
+            $photo = $em->getRepository(\App\Entity\Photo::class)->find($photoId);
+
+            if ($photo && $photo->getAlbum() === $album) {
+                $photo->setPosition($index);
+            }
+        }
+
+        $em->flush();
+
+        return new JsonResponse(['success' => true]);
     }
 }

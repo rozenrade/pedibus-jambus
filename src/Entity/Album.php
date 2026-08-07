@@ -62,7 +62,7 @@ class Album
     private \DateTimeInterface $createdAt;
 
     #[ORM\OneToMany(mappedBy: 'album', targetEntity: Photo::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\OrderBy(['createdAt' => 'DESC'])]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $photos;
 
     public function __construct()
