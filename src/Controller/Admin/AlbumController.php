@@ -16,17 +16,24 @@ use Symfony\Component\Routing\Annotation\Route;
 class AlbumController extends AbstractController
 {
     #[Route('/', name: 'admin_album_index', methods: ['GET'])]
-    public function index(EntityManagerInterface $em): Response
+    public function index(EntityManagerInterface $em, Request $request, AlbumRepository $albumRepository): Response
     {
         # Sécurité utilisateur & remember me token
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
 
-        $albums = $em->getRepository(Album::class)->findBy([], ['createdAt' => 'DESC']);
+        // $albums = $em->getRepository(Album::class)->findBy([], ['createdAt' => 'DESC']);
+
+        $filter = $request->query->get('filter', 'all');
+        $sort = $request->query->get('sort', 'recent');
+
+        $albums = $albumRepository->findFiltered($filter, $sort);
 
         return $this->render('admin/album/index.html.twig', [
             'albums' => $albums,
+            'currentFilter' => $filter,
+            'currentSort' => $sort,
         ]);
     }
 

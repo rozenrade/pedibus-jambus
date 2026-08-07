@@ -70,4 +70,34 @@ class AlbumRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findFiltered(string $filter = 'all', string $sort = 'recent'): array
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        // Filtre
+        if ($filter === 'public') {
+            $qb->andWhere('a.isPublic = :isPublic')->setParameter('isPublic', true);
+        } elseif ($filter === 'private') {
+            $qb->andWhere('a.isPublic = :isPublic')->setParameter('isPublic', false);
+        }
+
+        // Tri
+        switch ($sort) {
+            case 'title':
+                $qb->orderBy('a.title', 'ASC');
+                break;
+            case 'photos':
+                $qb->leftJoin('a.photos', 'p')
+                    ->groupBy('a.id')
+                    ->orderBy('COUNT(p.id)', 'DESC');
+                break;
+            case 'recent':
+            default:
+                $qb->orderBy('a.createdAt', 'DESC');
+                break;
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }
