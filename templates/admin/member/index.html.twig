@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des membres - Administration{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Gestion des membres</h1>
+    </div>
+
+    {% for label, categoryKey in categories %}
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-900">{{ label }}</h2>
+                <a href="{{ path('admin_member_new', {'category': categoryKey}) }}"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium">
+                    + Ajouter
+                </a>
+            </div>
+
+            {% set members = groupedMembers[categoryKey] ?? [] %}
+
+            {% if members|length == 0 %}
+                <p class="text-gray-400 text-sm italic">Aucun membre dans cette catégorie.</p>
+            {% else %}
+                <div id="members-sortable-{{ categoryKey }}" class="space-y-3">
+                    {% for member in members %}
+                        <div class="flex items-center justify-between bg-gray-50 rounded-lg p-3 cursor-move" data-id="{{ member.id }}">
+                            <div class="flex items-center gap-3">
+                                {% if member.hasPhoto %}
+                                    <img src="{{ asset('uploads/members/' ~ member.photoName) }}" alt="{{ member.name }}" class="w-10 h-10 rounded-full object-cover">
+                                {% else %}
+                                    <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-user text-gray-400"></i>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <p class="font-medium text-gray-900">{{ member.name }}</p>
+                                    <p class="text-sm text-gray-500">{{ member.role }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <a href="{{ path('admin_member_edit', {'id': member.id}) }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium">Modifier</a>
+                                <form method="post" action="{{ path('admin_member_delete', {'id': member.id}) }}" onsubmit="return confirm('Supprimer ce membre ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete-member-' ~ member.id) }}">
+                                    <button type="submit" class="text-sm text-red-600 hover:text-red-800 font-medium">Supprimer</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[id^="members-sortable-"]').forEach(function (container) {
+                new Sortable(container, {
+                    animation: 150,
+                    ghostClass: 'opacity-40',
+                    onEnd: function () {
+                        const order = Array.from(container.children).map(el => el.dataset.id);
+                        fetch('{{ path('admin_member_reorder') }}', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                order: order,
+                                _token: '{{ csrf_token('reorder-members') }}'
+                            })
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
