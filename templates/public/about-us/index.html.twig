@@ -1,472 +1,481 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Qui sommes-nous ? - Pedibus Jambus
+    Qui sommes-nous ? - Pedibus Jambus
 {% endblock %}
 
 {% block body %}
-	<section class="w-full py-12 px-4 bg-gradient-to-br from-green-50 to-blue-50">
-		<div class="max-w-7xl mx-auto">
+    <section class="w-full py-12 px-4 bg-gradient-to-br from-green-50 to-blue-50">
+        <div class="max-w-7xl mx-auto">
 
-			{# En-tête de la page #}
-			<div class="text-center mb-12">
-				<h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-					Qui sommes-nous ?
-				</h1>
-				<div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
-			</div>
+            {# En-tête de la page #}
+            <div class="text-center mb-12">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
+                    Qui sommes-nous ?
+                </h1>
+                <div class="w-24 h-1 bg-green-500 mx-auto rounded-full"></div>
+            </div>
 
-			{# Section carte d'identité #}
-			<div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-12">
-				<div class="flex flex-col lg:flex-row gap-8 items-start">
-					<div class="lg:w-1/3">
-						<div class="sticky top-8">
-							<div class="bg-gradient-to-r from-green-500 to-blue-500 p-8 rounded-2xl text-center text-white shadow-lg">
-								<div class="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-									<i class="fas fa-hiking text-5xl text-green-500"></i>
-								</div>
-								<h2 class="text-2xl font-bold mb-2">PEDIBUS JAMBUS</h2>
-								<p class="text-green-500">Association de randonnée pédestre</p>
-							</div>
-						</div>
-					</div>
+            {# Section carte d'identité #}
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-12">
+                <div class="flex flex-col lg:flex-row gap-8 items-start">
+                    <div class="lg:w-1/3">
+                        <div class="sticky top-8">
+                            <div class="bg-gradient-to-r from-green-500 to-blue-500 p-8 rounded-2xl text-center text-white shadow-lg">
+                                <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                                    <i class="fas fa-hiking text-5xl text-green-500"></i>
+                                </div>
+                                <h2 class="text-2xl font-bold mb-2">PEDIBUS JAMBUS</h2>
+                                <p class="text-green-500">Association de randonnée pédestre</p>
+                            </div>
+                        </div>
+                    </div>
 
-					<div class="lg:w-2/3">
-						<div class="mb-8">
-							<h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 pb-3 border-b border-green-200">
-								<i class="fas fa-id-card text-green-500 mr-3"></i>
-								Carte d'identité
-							</h2>
+                    <div class="lg:w-2/3">
+                        <div class="mb-8">
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 pb-3 border-b border-green-200">
+                                <i class="fas fa-id-card text-green-500 mr-3"></i>
+                                Carte d'identité
+                            </h2>
 
-							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-								<div class="space-y-4">
-									<div class="bg-green-50 p-4 rounded-xl border border-green-100">
-										<div class="flex items-center">
-											<i class="fas fa-user text-green-600 mr-3 text-xl"></i>
-											<div>
-												<p class="text-sm text-gray-500">Nom / Prénom</p>
-												<p class="text-lg font-semibold text-gray-800">PEDIBUS JAMBUS</p>
-											</div>
-										</div>
-									</div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div class="bg-green-50 p-4 rounded-xl border border-green-100">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-user text-green-600 mr-3 text-xl"></i>
+                                            <div>
+                                                <p class="text-sm text-gray-500">Nom / Prénom</p>
+                                                <p class="text-lg font-semibold text-gray-800">PEDIBUS JAMBUS</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-									<div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
-										<div class="flex items-center">
-											<i class="fas fa-birthday-cake text-blue-600 mr-3 text-xl"></i>
-											<div>
-												<p class="text-sm text-gray-500">Fondé le</p>
-												<p class="text-lg font-semibold text-gray-800">1er janvier 1994</p>
-											</div>
-										</div>
-									</div>
+                                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-birthday-cake text-blue-600 mr-3 text-xl"></i>
+                                            <div>
+                                                <p class="text-sm text-gray-500">Fondé le</p>
+                                                <p class="text-lg font-semibold text-gray-800">1er janvier 1994</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-									<div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
-										<div class="flex items-center">
-											<i class="fas fa-users text-purple-600 mr-3 text-xl"></i>
-											<div>
-												<p class="text-sm text-gray-500">Taille</p>
-												<p class="text-lg font-semibold text-gray-800">80 à 100 adhérents</p>
-											</div>
-										</div>
-									</div>
-								</div>
+                                    <div class="bg-purple-50 p-4 rounded-xl border border-purple-100">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-users text-purple-600 mr-3 text-xl"></i>
+                                            <div>
+                                                <p class="text-sm text-gray-500">Taille</p>
+                                                <p class="text-lg font-semibold text-gray-800">80 à 100 adhérents</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-								<div class="space-y-4">
-									<div class="bg-yellow-50 p-4 rounded-xl border border-yellow-100">
-										<div class="flex items-center">
-											<i class="fas fa-globe-americas text-yellow-600 mr-3 text-xl"></i>
-											<div>
-												<p class="text-sm text-gray-500">Nationalité</p>
-												<p class="text-lg font-semibold text-gray-800">Multinationale</p>
-											</div>
-										</div>
-									</div>
+                                <div class="space-y-4">
+                                    <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-100">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-globe-americas text-yellow-600 mr-3 text-xl"></i>
+                                            <div>
+                                                <p class="text-sm text-gray-500">Nationalité</p>
+                                                <p class="text-lg font-semibold text-gray-800">Multinationale</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-									<div class="bg-red-50 p-4 rounded-xl border border-red-100">
-										<div class="flex items-center">
-											<i class="fas fa-star text-red-600 mr-3 text-xl"></i>
-											<div>
-												<p class="text-sm text-gray-500">Signe particulier</p>
-												<p class="text-lg font-semibold text-gray-800">Moyenne d'âge 60 ans</p>
-											</div>
-										</div>
-									</div>
+                                    <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-star text-red-600 mr-3 text-xl"></i>
+                                            <div>
+                                                <p class="text-sm text-gray-500">Signe particulier</p>
+                                                <p class="text-lg font-semibold text-gray-800">Moyenne d'âge 60 ans</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-									<div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
-										<div class="flex items-center">
-											<i class="fas fa-smile text-indigo-600 mr-3 text-xl"></i>
-											<div>
-												<p class="text-sm text-gray-500">Ambiance</p>
-												<p class="text-lg font-semibold text-gray-800">Bonne humeur permanente</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                                    <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                                        <div class="flex items-center">
+                                            <i class="fas fa-smile text-indigo-600 mr-3 text-xl"></i>
+                                            <div>
+                                                <p class="text-sm text-gray-500">Ambiance</p>
+                                                <p class="text-lg font-semibold text-gray-800">Bonne humeur permanente</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-						{# Informations détaillées #}
-						<div class="space-y-8">
-							{# But #}
-							<div class="bg-gradient-to-r from-green-100 to-blue-100 p-6 rounded-2xl">
-								<h3 class="text-xl font-bold text-gray-800 mb-4">
-									<i class="fas fa-bullseye text-green-600 mr-2"></i>
-									Son but
-								</h3>
-								<p class="text-gray-700 text-lg leading-relaxed">
-									Découvrir les paysages les plus variés, partager les rêves et idées entre amis.
-								</p>
-							</div>
+                        {# Informations détaillées #}
+                        <div class="space-y-8">
+                            {# But #}
+                            <div class="bg-gradient-to-r from-green-100 to-blue-100 p-6 rounded-2xl">
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">
+                                    <i class="fas fa-bullseye text-green-600 mr-2"></i>
+                                    Son but
+                                </h3>
+                                <p class="text-gray-700 text-lg leading-relaxed">
+                                    Découvrir les paysages les plus variés, partager les rêves et idées entre amis.
+                                </p>
+                            </div>
 
-							{# Sorties #}
-							<div class="bg-gradient-to-r from-blue-100 to-purple-100 p-6 rounded-2xl">
-								<h3 class="text-xl font-bold text-gray-800 mb-4">
-									<i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
-									Sorties
-								</h3>
-								<ul class="space-y-3 text-gray-700">
-									<li class="flex items-start">
-										<i class="fas fa-check text-green-500 mt-1 mr-3"></i>
-										<span>Toutes les fins de semaine, un samedi ou dimanche sur deux</span>
-									</li>
-									<li class="flex items-start">
-										<i class="fas fa-check text-green-500 mt-1 mr-3"></i>
-										<span>Un lundi, mardi et jeudi par mois</span>
-									</li>
-									<li class="flex items-start">
-										<i class="fas fa-check text-green-500 mt-1 mr-3"></i>
-										<span>Selon la disponibilité des animateurs</span>
-									</li>
-								</ul>
-							</div>
+                            {# Sorties #}
+                            <div class="bg-gradient-to-r from-blue-100 to-purple-100 p-6 rounded-2xl">
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">
+                                    <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                                    Sorties
+                                </h3>
+                                <ul class="space-y-3 text-gray-700">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                        <span>Toutes les fins de semaine, un samedi ou dimanche sur deux</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                        <span>Un lundi, mardi et jeudi par mois</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mt-1 mr-3"></i>
+                                        <span>Selon la disponibilité des animateurs</span>
+                                    </li>
+                                </ul>
+                            </div>
 
-							{# Grille d'informations #}
-							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-								<div class="bg-white border border-green-200 p-6 rounded-2xl shadow-sm">
-									<h4 class="text-lg font-bold text-gray-800 mb-3">
-										<i class="fas fa-sun text-yellow-500 mr-2"></i>
-										Périodes
-									</h4>
-									<ul class="space-y-2 text-gray-600">
-										<li><strong>Mars à novembre :</strong> Sortie à la journée avec pique-nique</li>
-										<li><strong>Novembre à mars :</strong> Sortie à la demi-journée</li>
-									</ul>
-								</div>
+                            {# Grille d'informations #}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="bg-white border border-green-200 p-6 rounded-2xl shadow-sm">
+                                    <h4 class="text-lg font-bold text-gray-800 mb-3">
+                                        <i class="fas fa-sun text-yellow-500 mr-2"></i>
+                                        Périodes
+                                    </h4>
+                                    <ul class="space-y-2 text-gray-600">
+                                        <li><strong>Mars à novembre :</strong> Sortie à la journée avec pique-nique</li>
+                                        <li><strong>Novembre à mars :</strong> Sortie à la demi-journée</li>
+                                    </ul>
+                                </div>
 
-								<div class="bg-white border border-blue-200 p-6 rounded-2xl shadow-sm">
-									<h4 class="text-lg font-bold text-gray-800 mb-3">
-										<i class="fas fa-route text-blue-500 mr-2"></i>
-										Kilométrage
-									</h4>
-									<ul class="space-y-2 text-gray-600">
-										<li><strong>Journée :</strong> 18 à 25 km environ</li>
-										<li><strong>Demi-journée :</strong> 10 à 15 km environ</li>
-									</ul>
-								</div>
+                                <div class="bg-white border border-blue-200 p-6 rounded-2xl shadow-sm">
+                                    <h4 class="text-lg font-bold text-gray-800 mb-3">
+                                        <i class="fas fa-route text-blue-500 mr-2"></i>
+                                        Kilométrage
+                                    </h4>
+                                    <ul class="space-y-2 text-gray-600">
+                                        <li><strong>Journée :</strong> 18 à 25 km environ</li>
+                                        <li><strong>Demi-journée :</strong> 10 à 15 km environ</li>
+                                    </ul>
+                                </div>
 
-								<div class="bg-white border border-purple-200 p-6 rounded-2xl shadow-sm">
-									<h4 class="text-lg font-bold text-gray-800 mb-3">
-										<i class="fas fa-utensils text-purple-500 mr-2"></i>
-										Repas
-									</h4>
-									<p class="text-gray-600">Pique-nique à la charge du participant</p>
-								</div>
+                                <div class="bg-white border border-purple-200 p-6 rounded-2xl shadow-sm">
+                                    <h4 class="text-lg font-bold text-gray-800 mb-3">
+                                        <i class="fas fa-utensils text-purple-500 mr-2"></i>
+                                        Repas
+                                    </h4>
+                                    <p class="text-gray-600">Pique-nique à la charge du participant</p>
+                                </div>
 
-								<div class="bg-white border border-red-200 p-6 rounded-2xl shadow-sm">
-									<h4 class="text-lg font-bold text-gray-800 mb-3">
-										<i class="fas fa-info-circle text-red-500 mr-2"></i>
-										Programmes
-									</h4>
-									<ul class="space-y-2 text-gray-600">
-										<li>4 programmes trimestriels</li>
-										<li>Programmes annuels "Grandes Évasions" et "Horizons Lointains"</li>
-										<li>Programmes spécifiques occasionnels</li>
-									</ul>
-								</div>
-							</div>
+                                <div class="bg-white border border-red-200 p-6 rounded-2xl shadow-sm">
+                                    <h4 class="text-lg font-bold text-gray-800 mb-3">
+                                        <i class="fas fa-info-circle text-red-500 mr-2"></i>
+                                        Programmes
+                                    </h4>
+                                    <ul class="space-y-2 text-gray-600">
+                                        <li>4 programmes trimestriels</li>
+                                        <li>Programmes annuels "Grandes Évasions" et "Horizons Lointains"</li>
+                                        <li>Programmes spécifiques occasionnels</li>
+                                    </ul>
+                                </div>
+                            </div>
 
-							{# Matériel nécessaire #}
-							<div class="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-2xl border border-red-100">
-								<h3 class="text-xl font-bold text-gray-800 mb-4">
-									<i class="fas fa-hiking text-red-600 mr-2"></i>
-									Matériel nécessaire
-								</h3>
-								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									<ul class="space-y-2 text-gray-700">
-										<li class="flex items-center">
-											<i class="fas fa-backpack text-green-500 mr-3"></i>
-											<span>Sac à dos 35/45 litres</span>
-										</li>
-										<li class="flex items-center">
-											<i class="fas fa-shoe-prints text-green-500 mr-3"></i>
-											<span>Chaussures de marche</span>
-										</li>
-										<li class="flex items-center">
-											<i class="fas fa-tint text-green-500 mr-3"></i>
-											<span>Gourde</span>
-										</li>
-									</ul>
-									<ul class="space-y-2 text-gray-700">
-										<li class="flex items-center">
-											<i class="fas fa-umbrella text-green-500 mr-3"></i>
-											<span>Cape de pluie</span>
-										</li>
-										<li class="flex items-center">
-											<i class="fas fa-first-aid text-green-500 mr-3"></i>
-											<span>Pharmacie personnelle</span>
-										</li>
-										<li class="flex items-center">
-											<i class="fas fa-box text-green-500 mr-3"></i>
-											<span>Boîte plastique ronde</span>
-										</li>
-									</ul>
-								</div>
-							</div>
+                            {# Matériel nécessaire #}
+                            <div class="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-2xl border border-red-100">
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">
+                                    <i class="fas fa-hiking text-red-600 mr-2"></i>
+                                    Matériel nécessaire
+                                </h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <ul class="space-y-2 text-gray-700">
+                                        <li class="flex items-center">
+                                            <i class="fas fa-backpack text-green-500 mr-3"></i>
+                                            <span>Sac à dos 35/45 litres</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-shoe-prints text-green-500 mr-3"></i>
+                                            <span>Chaussures de marche</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-tint text-green-500 mr-3"></i>
+                                            <span>Gourde</span>
+                                        </li>
+                                    </ul>
+                                    <ul class="space-y-2 text-gray-700">
+                                        <li class="flex items-center">
+                                            <i class="fas fa-umbrella text-green-500 mr-3"></i>
+                                            <span>Cape de pluie</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-first-aid text-green-500 mr-3"></i>
+                                            <span>Pharmacie personnelle</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-box text-green-500 mr-3"></i>
+                                            <span>Boîte plastique ronde</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
 
-							{# Important #}
-							<div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-r-xl">
-								<div class="flex items-start">
-									<i class="fas fa-exclamation-triangle text-yellow-500 text-2xl mr-4 mt-1"></i>
-									<div>
-										<h4 class="text-xl font-bold text-gray-800 mb-3">IMPORTANT</h4>
-										<p class="text-gray-700 italic">
-											Ne jamais trop charger son sac de choses qui paraissent essentielles et qui deviennent vite inutiles.
-										</p>
-									</div>
-								</div>
-							</div>
+                            {# Important #}
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-r-xl">
+                                <div class="flex items-start">
+                                    <i class="fas fa-exclamation-triangle text-yellow-500 text-2xl mr-4 mt-1"></i>
+                                    <div>
+                                        <h4 class="text-xl font-bold text-gray-800 mb-3">IMPORTANT</h4>
+                                        <p class="text-gray-700 italic">
+                                            Ne jamais trop charger son sac de choses qui paraissent essentielles et qui deviennent vite inutiles.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
-							{# Message final #}
-							<div class="text-center py-8 border-t border-green-200">
-								<p class="text-2xl md:text-3xl text-green-600 font-bold italic mb-4">
-									A bientôt parmi nous, pour découvrir petits chemins et grands sentiers.
-								</p>
-								<div class="w-16 h-1 bg-green-400 mx-auto"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                            {# Message final #}
+                            <div class="text-center py-8 border-t border-green-200">
+                                <p class="text-2xl md:text-3xl text-green-600 font-bold italic mb-4">
+                                    A bientôt parmi nous, pour découvrir petits chemins et grands sentiers.
+                                </p>
+                                <div class="w-16 h-1 bg-green-400 mx-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			{# Section contact #}
-			<div class="bg-gradient-to-r from-emerald-800 to-slate-700 rounded-2xl shadow-xl p-8 text-white mb-12 backdrop-blur-sm bg-opacity-90">
-				<div class="flex flex-col lg:flex-row items-center gap-8">
-					<div class="lg:w-1/3 text-center lg:text-left">
-						<h2 class="text-2xl md:text-3xl font-bold mb-4">PEDIBUS JAMBUS</h2>
-						<p class="text-white">Association Randonnée Pédestre</p>
-					</div>
-					<div class="lg:w-2/3">
-						<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-							<div class="space-y-3">
-								<div class="flex items-center">
-									<i class="fas fa-map-marker-alt text-emerald-300 mr-4 text-xl"></i>
-									<span>8 rue des andains<br>77380 Combs-la-Ville</span>
-								</div>
-								<div class="flex items-center">
-									<i class="fas fa-phone text-emerald-300 mr-4 text-xl"></i>
-									<span>Christiane : 06 69 47 00 16</span>
-								</div>
-							</div>
-							<div class="space-y-3">
-								<div class="flex items-center">
-									<i class="fas fa-envelope text-emerald-300 mr-4 text-xl"></i>
-									<span>pedibusjambus77380@gmail.com</span>
-								</div>
-								<div class="flex items-center">
-									<i class="fas fa-hiking text-emerald-300 mr-4 text-xl"></i>
-									<span>Sorties toute l'année</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+            {# Section contact #}
+            <div class="bg-gradient-to-r from-emerald-800 to-slate-700 rounded-2xl shadow-xl p-8 text-white mb-12 backdrop-blur-sm bg-opacity-90">
+                <div class="flex flex-col lg:flex-row items-center gap-8">
+                    <div class="lg:w-1/3 text-center lg:text-left">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-4">PEDIBUS JAMBUS</h2>
+                        <p class="text-white">Association Randonnée Pédestre</p>
+                    </div>
+                    <div class="lg:w-2/3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <i class="fas fa-map-marker-alt text-emerald-300 mr-4 text-xl"></i>
+                                    <span>8 rue des andains<br>77380 Combs-la-Ville</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-phone text-emerald-300 mr-4 text-xl"></i>
+                                    <span>Christiane : 06 69 47 00 16</span>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <i class="fas fa-envelope text-emerald-300 mr-4 text-xl"></i>
+                                    <span>pedibusjambus77380@gmail.com</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-hiking text-emerald-300 mr-4 text-xl"></i>
+                                    <span>Sorties toute l'année</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			{# Sections Bureau et Animateurs #}
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {# Sections Bureau et Animateurs #}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
 
-				{# Bureau #}
-				<div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-					<h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 pb-4 border-b border-green-200 text-center">
-						<i class="fas fa-users text-green-500 mr-3"></i>
-						Le Bureau
-					</h2>
+                {# Bureau #}
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 pb-4 border-b border-green-200 text-center">
+                        <i class="fas fa-users text-green-500 mr-3"></i>
+                        Le Bureau
+                    </h2>
 
-					<div class="space-y-6">
-						{% for president in bureauPresident %}
-							<div class="flex flex-col items-center text-center bg-green-50 p-6 rounded-2xl border border-green-100">
-								{% if president.hasPhoto %}
-									<img src="{{ vich_uploader_asset(president, 'photoFile') }}" alt="{{ president.name }}" class="w-32 h-32 rounded-full border-4 border-white shadow-lg mb-4 object-cover">
-								{% else %}
-									<div class="w-32 h-32 rounded-full bg-white flex items-center justify-center border-4 border-white shadow-lg mb-4">
-										<i class="fas fa-user text-4xl text-gray-300"></i>
-									</div>
-								{% endif %}
-								<h3 class="text-xl font-bold text-gray-800">{{ president.name }}</h3>
-								<p class="text-green-600 font-semibold">{{ president.role }}</p>
-							</div>
-						{% else %}
-							<p class="text-center text-gray-400 italic">Aucun membre renseigné.</p>
-						{% endfor %}
+                    <div class="space-y-6">
+                        {% for president in bureauPresident %}
+                            <div class="flex flex-col items-center text-center bg-green-50 p-6 rounded-2xl border border-green-100">
+                                {% if president.hasPhoto %}
+                                    <img src="{{ vich_uploader_asset(president, 'photoFile') }}" alt="{{ president.name }}" class="w-32 h-32 rounded-full border-4 border-white shadow-lg mb-4 object-cover">
+                                {% else %}
+                                    <div class="w-32 h-32 rounded-full bg-white flex items-center justify-center border-4 border-white shadow-lg mb-4">
+                                        <i class="fas fa-user text-4xl text-gray-300"></i>
+                                    </div>
+                                {% endif %}
+                                <h3 class="text-xl font-bold text-gray-800">{{ president.name }}</h3>
+                                <p class="text-green-600 font-semibold">{{ president.role }}</p>
+                            </div>
+                        {% else %}
+                            <p class="text-center text-gray-400 italic">Aucun membre renseigné.</p>
+                        {% endfor %}
 
-						{% if bureauMembers|length > 0 %}
-							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-								{% set colors = ['blue', 'purple', 'yellow', 'red', 'indigo', 'pink', 'teal'] %}
-								{% for member in bureauMembers %}
-									{% set color = colors[loop.index0 % colors|length] %}
-									<div class="bg-{{ color }}-50 p-4 rounded-xl border border-{{ color }}-100">
-										<h4 class="font-bold text-gray-800 mb-2">{{ member.role }}</h4>
-										<p class="text-gray-700">{{ member.name }}</p>
-									</div>
-								{% endfor %}
-							</div>
-						{% endif %}
-					</div>
-				</div>
+                        {% if bureauMembers|length > 0 %}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {% set colors = ['blue', 'purple', 'yellow', 'red', 'indigo', 'pink', 'teal'] %}
+                                {% for member in bureauMembers %}
 
-				{# Animateurs #}
-				<div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-					<h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 pb-4 border-b border-blue-200 text-center">
-						<i class="fas fa-hiking text-blue-500 mr-3"></i>
-						Les Animateurs
-					</h2>
 
-					<div class="space-y-6">
-						{% if animateurs|length > 0 %}
-							<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-								{% set colors = ['blue', 'purple', 'yellow', 'green'] %}
-								{% for animateur in animateurs %}
-									{% set color = colors[loop.index0 % colors|length] %}
-									<div class="flex items-center bg-{{ color }}-50 p-4 rounded-xl border border-{{ color }}-100">
-										{% if animateur.hasPhoto %}
-											<img src="{{ vich_uploader_asset(animateur, 'photoFile') }}" alt="{{ animateur.name }}" class="w-16 h-16 rounded-full border-2 border-white shadow mr-4 object-cover">
-										{% else %}
-											<div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center border-2 border-white shadow mr-4">
-												<i class="fas fa-user text-gray-400"></i>
-											</div>
-										{% endif %}
-										<div>
-											<h4 class="font-bold text-gray-800">{{ animateur.name }}</h4>
-											{% if animateur.phone %}
-												<p class="text-sm text-gray-600">{{ animateur.phone }}</p>
-											{% endif %}
-										</div>
-									</div>
-								{% endfor %}
-							</div>
-						{% else %}
-							<p class="text-center text-gray-400 italic">Aucun animateur renseigné.</p>
-						{% endif %}
-					</div>
-				</div>
-			</div>
+                                    {% set color = colors[loop.index0 % colors|length] %}
+                                    <div class="bg-{{ color }}-50 p-4 rounded-xl border border-{{ color }}-100">
+                                        {% if member.hasPhoto %}
+                                            <img src="{{ vich_uploader_asset(member, 'photoFile') }}" alt="{{ member.name }}" class="w-32 h-32 rounded-full border-4 border-white shadow-lg mb-4 object-cover">
+                                        {% else %}
+                                            <div class="w-32 h-32 rounded-full bg-white flex items-center justify-center border-4 border-white shadow-lg mb-4">
+                                                <i class="fas fa-user text-4xl text-gray-300"></i>
+                                            </div>
+                                        {% endif %}
+                                        <h4 class="font-bold text-gray-800 mb-2">{{ member.role }}</h4>
+                                        <p class="text-gray-700">{{ member.name }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
 
-			{# Sections Webmestre et Président d'honneur #}
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {# Animateurs #}
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 pb-4 border-b border-blue-200 text-center">
+                        <i class="fas fa-hiking text-blue-500 mr-3"></i>
+                        Les Animateurs
+                    </h2>
 
-				{# Webmestres #}
-				<div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
-					<h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-						<i class="fas fa-laptop-code text-indigo-500 mr-3"></i>
-						Webmestres
-					</h2>
+                    <div class="space-y-6">
+                        {% if animateurs|length > 0 %}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                {% set colors = ['blue', 'purple', 'yellow', 'green'] %}
+                                {% for animateur in animateurs %}
+                                    {% set color = colors[loop.index0 % colors|length] %}
+                                    <div class="flex items-center bg-{{ color }}-50 p-4 rounded-xl border border-{{ color }}-100">
+                                        {% if animateur.hasPhoto %}
+                                            <img src="{{ vich_uploader_asset(animateur, 'photoFile') }}" alt="{{ animateur.name }}" class="w-16 h-16 rounded-full border-2 border-white shadow mr-4 object-cover">
+                                        {% else %}
+                                            <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center border-2 border-white shadow mr-4">
+                                                <i class="fas fa-user text-gray-400"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div>
+                                            <h4 class="font-bold text-gray-800">{{ animateur.name }}</h4>
+                                            {% if animateur.phone %}
+                                                <p class="text-sm text-gray-600">{{ animateur.phone }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-center text-gray-400 italic">Aucun animateur renseigné.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
 
-					<div class="space-y-6">
-						{% for webmestre in webmestres %}
-							{% if loop.first %}
-								<div class="flex flex-col sm:flex-row items-center gap-6 bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
-									{% if webmestre.hasPhoto %}
-										<img src="{{ vich_uploader_asset(webmestre, 'photoFile') }}" alt="{{ webmestre.name }}" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">
-									{% else %}
-										<div class="w-24 h-24 rounded-full bg-white flex items-center justify-center border-4 border-white shadow-lg">
-											<i class="fas fa-user text-3xl text-gray-300"></i>
-										</div>
-									{% endif %}
-									<div class="text-center sm:text-left">
-										<h3 class="text-xl font-bold text-gray-800">{{ webmestre.name }}</h3>
-										<p class="text-indigo-600 font-semibold mb-2">{{ webmestre.role }}</p>
-										<div class="space-y-1">
-											{% if webmestre.phone %}
-												<p class="text-gray-600">
-													<i class="fas fa-phone text-indigo-500 mr-2"></i>
-													{{ webmestre.phone }}
-												</p>
-											{% endif %}
-											{% if webmestre.email %}
-												<p class="text-gray-600">
-													<i class="fas fa-envelope text-indigo-500 mr-2"></i>
-													{{ webmestre.email }}
-												</p>
-											{% endif %}
-										</div>
-									</div>
-								</div>
-							{% else %}
-								<div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
-									<h4 class="font-bold text-gray-800 mb-3">{{ webmestre.name }}</h4>
-									<div class="space-y-2">
-										{% if webmestre.phone %}
-											<p class="text-gray-600">
-												<i class="fas fa-phone text-gray-500 mr-2"></i>
-												{{ webmestre.phone }}
-											</p>
-										{% endif %}
-										{% if webmestre.email %}
-											<p class="text-gray-600">
-												<i class="fas fa-envelope text-gray-500 mr-2"></i>
-												{{ webmestre.email }}
-											</p>
-										{% endif %}
-									</div>
-								</div>
-							{% endif %}
-						{% else %}
-							<p class="text-center text-gray-400 italic">Aucun webmestre renseigné.</p>
-						{% endfor %}
-					</div>
-				</div>
+            {# Sections Webmestre et Président d'honneur #}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-				{# Président d'honneur #}
-				<div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl shadow-xl p-6 md:p-8 border border-yellow-100 bg-white">
-					<h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
-						<i class="fas fa-crown text-yellow-500 mr-3"></i>
-						Président d'honneur
-					</h2>
+                {# Webmestres #}
+                <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                        <i class="fas fa-laptop-code text-indigo-500 mr-3"></i>
+                        Webmestres
+                    </h2>
 
-					{% for honneur in presidentHonneur %}
-						<div class="flex flex-col items-center">
-							{% if honneur.hasPhoto %}
-								<img src="{{ vich_uploader_asset(honneur, 'photoFile') }}" alt="{{ honneur.name }}" class="w-40 h-40 rounded-full border-4 border-white shadow-xl mb-6 object-cover">
-							{% else %}
-								<div class="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center border-4 border-white shadow-xl mb-6">
-									<i class="fas fa-user text-5xl text-gray-300"></i>
-								</div>
-							{% endif %}
-							<h3 class="text-2xl font-bold text-gray-800">{{ honneur.name }}</h3>
-							<p class="text-yellow-600 font-semibold text-lg">{{ honneur.role }}</p>
-							{% if honneur.quote %}
-								<div class="mt-6 p-4 bg-white rounded-xl shadow-sm border border-yellow-200 max-w-md">
-									<p class="text-gray-600 text-center italic">
-										"{{ honneur.quote }}"
-									</p>
-								</div>
-							{% endif %}
-						</div>
-					{% else %}
-						<p class="text-center text-gray-400 italic">Aucun président d'honneur renseigné.</p>
-					{% endfor %}
-				</div>
-			</div>
+                    <div class="space-y-6">
+                        {% for webmestre in webmestres %}
+                            {% if loop.first %}
+                                <div class="flex flex-col sm:flex-row items-center gap-6 bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+                                    {% if webmestre.hasPhoto %}
+                                        <img src="{{ vich_uploader_asset(webmestre, 'photoFile') }}" alt="{{ webmestre.name }}" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover">
+                                    {% else %}
+                                        <div class="w-24 h-24 rounded-full bg-white flex items-center justify-center border-4 border-white shadow-lg">
+                                            <i class="fas fa-user text-3xl text-gray-300"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="text-center sm:text-left">
+                                        <h3 class="text-xl font-bold text-gray-800">{{ webmestre.name }}</h3>
+                                        <p class="text-indigo-600 font-semibold mb-2">{{ webmestre.role }}</p>
+                                        <div class="space-y-1">
+                                            {% if webmestre.phone %}
+                                                <p class="text-gray-600">
+                                                    <i class="fas fa-phone text-indigo-500 mr-2"></i>
+                                                    {{ webmestre.phone }}
+                                                </p>
+                                            {% endif %}
+                                            {% if webmestre.email %}
+                                                <p class="text-gray-600">
+                                                    <i class="fas fa-envelope text-indigo-500 mr-2"></i>
+                                                    {{ webmestre.email }}
+                                                </p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                                    <h4 class="font-bold text-gray-800 mb-3">{{ webmestre.name }}</h4>
+                                    <div class="space-y-2">
+                                        {% if webmestre.phone %}
+                                            <p class="text-gray-600">
+                                                <i class="fas fa-phone text-gray-500 mr-2"></i>
+                                                {{ webmestre.phone }}
+                                            </p>
+                                        {% endif %}
+                                        {% if webmestre.email %}
+                                            <p class="text-gray-600">
+                                                <i class="fas fa-envelope text-gray-500 mr-2"></i>
+                                                {{ webmestre.email }}
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <p class="text-center text-gray-400 italic">Aucun webmestre renseigné.</p>
+                        {% endfor %}
+                    </div>
+                </div>
 
-			{# Message final #}
-			<div class="mt-12 text-center">
-				<div class="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-4 rounded-full shadow-lg">
-					<p class="text-xl font-bold">
-						<i class="fas fa-heart mr-3"></i>
-						Merci à tous nos bénévoles !
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
+                {# Président d'honneur #}
+                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl shadow-xl p-6 md:p-8 border border-yellow-100 bg-white">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+                        <i class="fas fa-crown text-yellow-500 mr-3"></i>
+                        Président d'honneur
+                    </h2>
+
+                    {% for honneur in presidentHonneur %}
+                        <div class="flex flex-col items-center">
+                            {% if honneur.hasPhoto %}
+                                <img src="{{ vich_uploader_asset(honneur, 'photoFile') }}" alt="{{ honneur.name }}" class="w-40 h-40 rounded-full border-4 border-white shadow-xl mb-6 object-cover">
+                            {% else %}
+                                <div class="w-40 h-40 rounded-full bg-gray-100 flex items-center justify-center border-4 border-white shadow-xl mb-6">
+                                    <i class="fas fa-user text-5xl text-gray-300"></i>
+                                </div>
+                            {% endif %}
+                            <h3 class="text-2xl font-bold text-gray-800">{{ honneur.name }}</h3>
+                            <p class="text-yellow-600 font-semibold text-lg">{{ honneur.role }}</p>
+                            {% if honneur.quote %}
+                                <div class="mt-6 p-4 bg-white rounded-xl shadow-sm border border-yellow-200 max-w-md">
+                                    <p class="text-gray-600 text-center italic">
+                                        "{{ honneur.quote }}"
+                                    </p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <p class="text-center text-gray-400 italic">Aucun président d'honneur renseigné.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {# Message final #}
+            <div class="mt-12 text-center">
+                <div class="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-4 rounded-full shadow-lg">
+                    <p class="text-xl font-bold">
+                        <i class="fas fa-heart mr-3"></i>
+                        Merci à tous nos bénévoles !
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
