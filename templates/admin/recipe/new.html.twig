@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle recette - Administration{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50 p-4">
+    <div class="max-w-2xl mx-auto">
+        <div class="mb-8">
+            <a href="{{ path('admin_recipes_index') }}" class="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Retour à la liste
+            </a>
+            <h1 class="text-2xl font-bold text-gray-900">Ajouter une recette</h1>
+        </div>
+
+        <div class="bg-white rounded-lg border shadow-sm p-6">
+            {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+
+            <div>
+                {{ form_label(form.title, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
+                {{ form_widget(form.title, {'attr': {'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500'}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    {{ form_label(form.category, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
+                    {{ form_widget(form.category, {'attr': {'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500'}}) }}
+                    {{ form_errors(form.category) }}
+                </div>
+                <div>
+                    {{ form_label(form.servings, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
+                    {{ form_widget(form.servings, {'attr': {'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500'}}) }}
+                    {{ form_errors(form.servings) }}
+                </div>
+            </div>
+
+            <div>
+                {{ form_label(form.ingredients, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
+                {{ form_widget(form.ingredients, {'attr': {'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 font-mono text-sm'}}) }}
+                <p class="text-sm text-gray-500 mt-1">Un ingrédient par ligne.</p>
+                {{ form_errors(form.ingredients) }}
+            </div>
+
+            <div>
+                {{ form_label(form.steps, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
+                {{ form_widget(form.steps, {'attr': {'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500'}}) }}
+                <p class="text-sm text-gray-500 mt-1">Une étape par ligne.</p>
+                {{ form_errors(form.steps) }}
+            </div>
+
+            <div>
+                {{ form_label(form.photoFile, null, {'label_attr': {'class': 'block mb-2 font-medium text-gray-900'}}) }}
+                {{ form_widget(form.photoFile, {'attr': {'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500'}}) }}
+                {{ form_errors(form.photoFile) }}
+            </div>
+
+            <div class="flex justify-end space-x-4 pt-6 border-t">
+                <a href="{{ path('admin_recipes_index') }}" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    Annuler
+                </a>
+                <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    Enregistrer la recette
+                </button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -14,14 +14,11 @@ class HikingProgramController extends AbstractController
     public function index(HikingProgramRepository $repository): Response
     {
         // Récupérer tous les programmes triés par année (décroissant) et trimestre
-        $programs = $repository->findBy([], [
-            'year' => 'DESC', 
-            'quarter' => 'ASC',
-        ]);
+        $programs = $repository->findPublicPrograms();
         
         // Grouper par année
         $groupedByYear = [];
-        
+
         foreach ($programs as $program) {
             $year = $program->getYear();
             if (!isset($groupedByYear[$year])) {
@@ -29,9 +26,10 @@ class HikingProgramController extends AbstractController
             }
             $groupedByYear[$year][] = $program;
         }
-        
+
         return $this->render('public/hiking_program/index.html.twig', [
             'groupedPrograms' => $groupedByYear
         ]);
     }
+    
 }

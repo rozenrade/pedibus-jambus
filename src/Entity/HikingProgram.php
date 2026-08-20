@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\HikingProgramRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -12,6 +11,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 class HikingProgram
 {
+
+    public const QUARTER_COURTS_SEJOURS = 4;
+    public const QUARTER_PRIVATE = 5;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -38,6 +41,9 @@ class HikingProgram
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updateAt = null;
+
+    #[ORM\Column]
+    private bool $isPublic = true;
 
     public function getId(): ?int
     {
@@ -141,5 +147,20 @@ class HikingProgram
     public function __toString(): string
     {
         return $this->title ?? 'Nouveau programme de randonnée';
+    }
+
+    /**
+     * Get the value of isPublic
+     */
+    public function getIsPublic(): bool
+    {
+        return $this->isPublic;
+    }
+
+    public function setIsPublic(bool $isPublic): static
+    {
+        $this->isPublic = $isPublic;
+
+        return $this;
     }
 }

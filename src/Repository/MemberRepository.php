@@ -56,4 +56,13 @@ class MemberRepository extends ServiceEntityRepository
 
         return $result !== null ? $result + 1 : 0;
     }
+
+    public function findRecentMembers(int $limit = 5): array
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.id', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

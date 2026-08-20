@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Recettes - Administration
+{% endblock %}
+
+{% block body %}
+    <div class="min-h-screen bg-gray-50 p-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-6 flex justify-between items-center">
+                <h1 class="text-2xl font-bold text-gray-800">Recettes</h1>
+                <a href="{{ path('admin_recipes_new') }}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                    + Nouvelle recette
+                </a>
+            </div>
+
+            {% if recipes|length > 0 %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {% for recipe in recipes %}
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
+                            <div class="aspect-[4/3] bg-gray-100">
+                                {% if recipe.hasPhoto %}
+                                    <img src="{{ vich_uploader_asset(recipe, 'photoFile') }}" alt="{{ recipe.title }}" class="w-full h-full object-cover">
+                                {% else %}
+                                    <div class="w-full h-full flex items-center justify-center text-gray-300">
+                                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="p-4 flex flex-col flex-1">
+                                <span class="inline-block w-fit px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded mb-2">
+                                    {{ recipe.categoryLabel }}
+                                </span>
+
+                                <h3 class="font-semibold text-gray-900 mb-1">{{ recipe.title }}</h3>
+
+                                <div class="flex items-center gap-3 text-xs text-gray-500 mt-auto pt-3 border-t border-gray-100">
+                                    {% if recipe.servings %}
+                                        <span class="flex items-center gap-1">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a4 4 0 10-4-4"/>
+                                            </svg>
+                                            {{ recipe.servings }} pers.
+                                        </span>
+                                    {% endif %}
+                                </div>
+
+                                <div class="flex justify-end gap-2 mt-3">
+                                    <a href="{{ path('admin_recipes_edit', {'id': recipe.id}) }}" class="text-xs font-medium px-2 py-1 rounded-md bg-blue-50 text-blue-700 hover:bg-blue-100">
+                                        Modifier
+                                    </a>
+                                    <form method="post" action="{{ path('admin_recipes_delete', {'id': recipe.id}) }}" onsubmit="return confirm('Supprimer cette recette ?');">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('delete-recipe-' ~ recipe.id) }}">
+                                        <button type="submit" class="text-xs font-medium px-2 py-1 rounded-md bg-red-50 text-red-700 hover:bg-red-100">
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="bg-white border border-gray-200 rounded-lg p-8 text-center">
+                    <p class="text-gray-600 mb-4">Aucune recette pour le moment</p>
+                    <a href="{{ path('admin_recipes_new') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        Créer la première recette
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

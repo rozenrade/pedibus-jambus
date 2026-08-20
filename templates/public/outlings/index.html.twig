@@ -1,63 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sorties{% endblock %}
+{% block title %}
+    Sorties
+{% endblock %}
 
 {% block body %}
 
-<div class="min-h-screen py-10 px-4">
+    <div class="min-h-screen py-10 px-4">
 
-    <div class="max-w-7xl mx-auto">
+        <div class="max-w-7xl mx-auto">
 
-        <h1 class="text-3xl font-semibold text-gray-800 mb-6 text-center">
-            Agenda des sorties
-        </h1>
-
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <h1 class="text-3xl font-semibold text-gray-800 mb-6 text-center">
+                Agenda des sorties
+            </h1>
 
 
-            <!-- CALENDAR -->
-
-            <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
-
-                <iframe
-                    src="https://calendar.google.com/calendar/embed?src=pedibusjambus77380%40gmail.com&ctz=Europe%2FParis&mode=MONTH&showTabs=0&showPrint=0&showCalendars=0&showTz=0"
-                    class="w-full h-[700px] border-0"
-                    loading="lazy">
-                </iframe>
-
-            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
 
-            <!-- DESCRIPTION PANEL -->
+                <!-- CALENDAR -->
 
-            <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 p-6">
+                <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
 
-                <h2 class="text-xl font-semibold mb-4">
-                    Informations
-                </h2>
+                    {# <iframe src="https://calendar.google.com/calendar/embed?src=pedibusjambus77380%40gmail.com&ctz=Europe%2FParis&mode=MONTH&showTabs=0&showPrint=0&showCalendars=0&showTz=0"
+                    >
+                    </iframe> #}
+                    <iframe src="https://calendar.google.com/calendar/embed?src=pedibus77380%40gmail.com&ctz=Europe%2FParis" style="border: 0" width="800" height="600" frameborder="0" scrolling="no" class="w-full h-[700px] border-0"
+                        loading="lazy"></iframe>
+                    </div>
 
-                <p class="text-gray-700 mb-4">
-                    Ce calendrier présente les sorties organisées par l'association.
-                </p>
 
-                <ul class="space-y-2 text-gray-600">
+                    <!-- DESCRIPTION PANEL -->
 
-                    <li>📍 Lieu de rendez-vous indiqué dans chaque événement</li>
+                    <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 p-6">
 
-                    <li>🕘 Horaires précisés dans le calendrier</li>
+                        <h2 class="text-xl font-semibold mb-4">
+                            Informations
+                        </h2>
 
-                    <li>👟 Prévoir tenue adaptée à la marche</li>
+                        <p class="text-gray-700 mb-4">
+                            Ce calendrier présente les sorties organisées par l'association.
+                        </p>
 
-                    <li>📞 Contactez-nous en cas de question</li>
+                        <ul class="space-y-2 text-gray-600">
 
-                </ul>
+                            <li>📍 Lieu de rendez-vous indiqué dans chaque événement</li>
 
-                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                            <li>🕘 Horaires précisés dans le calendrier</li>
 
-                    <p class="text-sm text-blue-800">
-                        Les événements sont mis à jour régulièrement par l'équipe organisatrice.
-                    </p>
+                            <li>👟 Prévoir tenue adaptée à la marche</li>
+
+                            <li>📞 Contactez-nous en cas de question</li>
+
+                        </ul>
+
+                        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+
+                            <p class="text-sm text-blue-800">
+                                Les événements sont mis à jour régulièrement par l'équipe organisatrice.
+                            </p>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -65,8 +70,4 @@
 
         </div>
 
-    </div>
-
-</div>
-
-{% endblock %}
+    {% endblock %}

@@ -19,14 +19,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class HikingProgramController extends AbstractController
 {
     #[Route('/', name: 'admin_programs_index', methods: ['GET'])]
-    public function index(HikingProgramRepository $repository): Response
+    public function index(Request $request, HikingProgramRepository $repository): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
-        
-        // Récupère les programmes groupés par année
-        $programs = $repository->findBy([], ['year' => 'DESC', 'quarter' => 'ASC']);
+
+        $filter = $request->query->get('filter', 'all');
+
+        // Récupère les programmes filtrés, groupés par année
+        $programs = $repository->findFiltered($filter);
         $groupedByYear = [];
 
         foreach ($programs as $program) {
@@ -38,7 +40,9 @@ class HikingProgramController extends AbstractController
         }
 
         return $this->render('admin/hiking_program/index.html.twig', [
-            'groupedPrograms' => $groupedByYear
+            'groupedPrograms' => $groupedByYear,
+            'currentFilter' => $filter,
+            'totalCount' => count($programs),
         ]);
     }
 
@@ -48,7 +52,7 @@ class HikingProgramController extends AbstractController
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
-        
+
         $program = new HikingProgram();
         $form = $this->createForm(HikingProgramType::class, $program, [
             'is_new' => true
@@ -56,6 +60,11 @@ class HikingProgramController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Si le programme est privé, le document est non-public
+            if ($program->getQuarter() === HikingProgram::QUARTER_PRIVATE) {
+                $program->setIsPublic(false);
+            }
+
             $entityManager->persist($program);
             $entityManager->flush();
 
@@ -74,13 +83,17 @@ class HikingProgramController extends AbstractController
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
-        
+
         $form = $this->createForm(HikingProgramType::class, $program, [
             'is_new' => false // Pour l'édition, le PDF n'est pas obligatoire
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($program->getQuarter() === HikingProgram::QUARTER_PRIVATE) {
+                $program->setIsPublic(false);
+            }
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Le programme a été modifié avec succès.');
@@ -99,7 +112,7 @@ class HikingProgramController extends AbstractController
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
-        
+
         if ($this->isCsrfTokenValid('delete' . $program->getId(), $request->request->get('_token'))) {
             $entityManager->remove($program);
             $entityManager->flush();

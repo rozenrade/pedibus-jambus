@@ -3,12 +3,12 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Album;
-use App\Entity\Comment;
-use App\Entity\Photo;
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\AlbumRepository;
 use App\Repository\HikingProgramRepository;
+use App\Repository\MemberRepository;
+use App\Repository\PhotoRepository;
+use App\Repository\RecipeRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,91 +19,59 @@ use Symfony\Contracts\Cache\ItemInterface;
 class DashboardController extends AbstractController
 {
     #[Route('/panel', name: 'admin_dashboard')]
-    public function index(EntityManagerInterface $em, HikingProgramRepository $programRepository, CacheInterface $cache): Response
-    {
+    public function index(
+        AlbumRepository $albumRepository,
+        PhotoRepository $photoRepository,
+        UserRepository $userRepository,
+        HikingProgramRepository $programRepository,
+        MemberRepository $memberRepository,
+        RecipeRepository $recipeRepository,
+        CacheInterface $cache
+    ): Response {
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
 
-        $data = $cache->get('admin_dashboard', function (ItemInterface $item) use ($em, $programRepository) {
-
-            // Cache for 5 minutes
+        $data = $cache->get('admin_dashboard', function (ItemInterface $item) use (
+            $albumRepository,
+            $photoRepository,
+            $programRepository,
+            $memberRepository,
+            $recipeRepository
+        ) {
             $item->expiresAfter(300);
 
-            $totalAlbums = $em->getRepository(Album::class)->count([]);
-            $totalPhotos = $em->getRepository(Photo::class)->count([]);
-            $totalUsers = $em->getRepository(User::class)->count([]);
-
-            $recentAlbums = $em->createQueryBuilder()
-                ->select('a', 'COUNT(p.id) as photoCount')
-                ->from(Album::class, 'a')
-                ->leftJoin('a.photos', 'p')
-                ->groupBy('a.id')
-                ->orderBy('a.createdAt', 'DESC')
-                ->setMaxResults(5)
-                ->getQuery()
-                ->getResult();
-
-            $recentPhotos = $em->getRepository(Photo::class)->findBy(
-                [],
-                ['updatedAt' => 'DESC'],
-                5
-            );
-
-            $publicAlbums = $em->getRepository(Album::class)->count(['isPublic' => true]);
-            $privateAlbums = $em->getRepository(Album::class)->count(['isPublic' => false]);
-
-            $qb = $em->createQueryBuilder();
-            $topAlbums = $qb->select('a as album', 'COUNT(p.id) as photoCount')
-                ->from(Album::class, 'a')
-                ->leftJoin('a.photos', 'p')
-                ->groupBy('a.id')
-                ->orderBy('photoCount', 'DESC')
-                ->setMaxResults(5)
-                ->getQuery()
-                ->getResult();
-
-            $lastMonth = new \DateTime('-1 month');
-            $recentAlbumsCount = $em->getRepository(Album::class)->createQueryBuilder('a')
-                ->select('COUNT(a.id)')
-                ->where('a.createdAt >= :lastMonth')
-                ->setParameter('lastMonth', $lastMonth)
-                ->getQuery()
-                ->getSingleScalarResult();
-
-            $recentPhotosCount = $em->getRepository(Photo::class)->createQueryBuilder('p')
-                ->select('COUNT(p.id)')
-                ->where('p.updatedAt >= :lastMonth')
-                ->setParameter('lastMonth', $lastMonth)
-                ->getQuery()
-                ->getSingleScalarResult();
-
-            $totalPrograms = $programRepository->count([]);
-            $recentProgramsCount = $programRepository->countRecent(30);
-            $programsByYear = $programRepository->countByYear();
-
-            $recentPrograms = $programRepository->findBy(
-                [],
-                ['updateAt' => 'DESC'],
-                5
-            );
+            $since = new \DateTimeImmutable('-1 month');
 
             return [
-                'totalAlbums' => $totalAlbums,
-                'totalPhotos' => $totalPhotos,
-                'totalUsers' => $totalUsers,
-                'recentAlbums' => $recentAlbums,
-                'recentPhotos' => $recentPhotos,
-                'publicAlbums' => $publicAlbums,
-                'privateAlbums' => $privateAlbums,
-                'topAlbums' => $topAlbums,
-                'recentAlbumsCount' => $recentAlbumsCount,
-                'recentPhotosCount' => $recentPhotosCount,
-                'totalPrograms' => $totalPrograms,
-                'recentProgramsCount' => $recentProgramsCount,
-                'programsByYear' => $programsByYear,
-                'recentPrograms' => $recentPrograms,
+                // Albums
+                'totalAlbums' => $albumRepository->count([]),
+                'publicAlbums' => $albumRepository->countPublic(),
+                'privateAlbums' => $albumRepository->countPrivate(),
+                'recentAlbumsCount' => $albumRepository->countRecentSince($since),
+                'recentAlbums' => $albumRepository->findRecentWithPhotoCount(5),
+                'topAlbums' => $albumRepository->findTopByPhotoCount(5),
 
+                // Photos
+                'totalPhotos' => $photoRepository->count([]),
+                'recentPhotos' => $photoRepository->findRecentPhotos(5),
+                'recentPhotosCount' => $photoRepository->countRecentSince($since),
+
+                // Programmes
+                'totalPrograms' => $programRepository->count([]),
+                'recentProgramsCount' => $programRepository->countRecent(30),
+                'programsByYear' => $programRepository->countByYear(),
+                'recentPrograms' => $programRepository->findBy([], ['updateAt' => 'DESC'], 5),
+
+                // Membres
+                'totalMembers' => $memberRepository->count([]),
+                'recentMembers' => $memberRepository->findRecentMembers(5),
+
+                // Recettes
+                'totalRecipes' => $recipeRepository->count([]),
+                'recentRecipesCount' => $recipeRepository->countRecent(30),
+                'recentRecipes' => $recipeRepository->findRecent(5),
+                'recipesByCategory' => $recipeRepository->countByCategory(),
             ];
         });
 
@@ -111,24 +79,18 @@ class DashboardController extends AbstractController
     }
 
     #[Route('/stats-widget', name: 'admin_stats_widget')]
-    public function statsWidget(EntityManagerInterface $em): Response
+    public function statsWidget(AlbumRepository $albumRepository): Response
     {
         if (!$this->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('app_home');
         }
 
-        $stats = $em->createQueryBuilder()
-            ->select("
-        COUNT(a.id) as total,
-        SUM(CASE WHEN a.isPublic = true THEN 1 ELSE 0 END) as publicCount,
-        SUM(CASE WHEN a.isPublic = false THEN 1 ELSE 0 END) as privateCount
-    ")
-            ->from(Album::class, 'a')
-            ->getQuery()
-            ->getSingleResult();
-
         return $this->render('admin/dashboard/_stats_widget.html.twig', [
-            'stats' => $stats,
+            'stats' => [
+                'total' => $albumRepository->count([]),
+                'publicCount' => $albumRepository->countPublic(),
+                'privateCount' => $albumRepository->countPrivate(),
+            ],
         ]);
     }
 }

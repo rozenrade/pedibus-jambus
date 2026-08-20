@@ -42,3 +42,8 @@ vich_uploader:
             uri_prefix: /uploads/members
             upload_destination: '%kernel.project_dir%/public/uploads/members'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+        recipe_photo:
+            uri_prefix: /uploads/recipes
+            upload_destination: '%kernel.project_dir%/public/uploads/recipes'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

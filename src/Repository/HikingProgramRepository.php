@@ -16,6 +16,8 @@ class HikingProgramRepository extends ServiceEntityRepository
         parent::__construct($registry, HikingProgram::class);
     }
 
+    // Filtres public
+    
     public function countRecent(int $days = 30): int
     {
         $date = new \DateTime("-$days days");
@@ -34,6 +36,35 @@ class HikingProgramRepository extends ServiceEntityRepository
             ->select('p.year, COUNT(p.id) as count')
             ->groupBy('p.year')
             ->orderBy('p.year', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findPublicPrograms(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.isPublic = :isPublic')
+            ->setParameter('isPublic', true)
+            ->orderBy('p.year', 'DESC')
+            ->addOrderBy('p.quarter', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Filtres admin
+    public function findFiltered(string $filter = 'all'): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if ($filter === 'public') {
+            $qb->andWhere('p.isPublic = :isPublic')->setParameter('isPublic', true);
+        } elseif ($filter === 'private') {
+            $qb->andWhere('p.isPublic = :isPublic')->setParameter('isPublic', false);
+        }
+
+        return $qb
+            ->orderBy('p.year', 'DESC')
+            ->addOrderBy('p.quarter', 'ASC')
             ->getQuery()
             ->getResult();
     }
