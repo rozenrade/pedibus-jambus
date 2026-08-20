@@ -5,6 +5,7 @@ namespace App\Form;
 
 use App\Entity\HikingProgram;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,11 +18,11 @@ class HikingProgramType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $currentYear = (int) date('Y');
-        
+
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Nom du programme',
-                'required' => true,
+                'label' => 'Nom du document',
+                'required' => false,
             ])
 
             ->add('year', IntegerType::class, [
@@ -35,16 +36,24 @@ class HikingProgramType extends AbstractType
             ])
             ->add('quarter', ChoiceType::class, [
                 'label' => 'Type de programme',
-                'required' => false,
+                'required' => true,
                 'placeholder' => 'Sélectionnez un trimestre',
                 'choices' => [
+                    'Sorties Grandes Évasions' => null,
                     '1er trimestre' => 1,
                     '2ème trimestre' => 2,
                     '3ème trimestre' => 3,
-                    'Sorties Grandes Évasions' => null
+                    'Courts séjours' => HikingProgram::QUARTER_COURTS_SEJOURS,
+                    'Privé' => HikingProgram::QUARTER_PRIVATE,
                 ],
+            ])
+
+            ->add('isPublic', CheckboxType::class, [
+                'label' => 'Visible sur le site public',
+                'required' => false,
+                'help' => 'Décochez pour réserver ce document aux administrateurs uniquement.'
             ]);
-            
+
         // Ajoutez le champ pdfFile avec des options conditionnelles
         $pdfFileOptions = [
             'label' => 'Programme PDF',
@@ -54,7 +63,7 @@ class HikingProgramType extends AbstractType
             'download_label' => 'Télécharger',
             'delete_label' => 'Supprimer',
         ];
-        
+
         // Ajouter les contraintes seulement pour la création
         if ($options['is_new']) {
             $pdfFileOptions['constraints'] = [
@@ -68,7 +77,7 @@ class HikingProgramType extends AbstractType
                 ])
             ];
         }
-        
+
         $builder->add('pdfFile', VichFileType::class, $pdfFileOptions);
     }
 
@@ -78,7 +87,7 @@ class HikingProgramType extends AbstractType
             'data_class' => HikingProgram::class,
             'is_new' => true, // Par défaut, c'est pour la création
         ]);
-        
+
         $resolver->setAllowedTypes('is_new', 'bool');
     }
 }

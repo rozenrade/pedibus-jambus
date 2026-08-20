@@ -51,32 +51,27 @@
                         <p class="text-sm text-gray-600 mb-2">Image actuelle :</p>
                         {% set coverPath = 'uploads/albums/covers/' ~ album.coverImage %}
                         <a href="{{ asset(coverPath) }}" target="_blank" rel="noopener noreferrer">
-                            <img src="{{ coverPath | imagine_filter('thumbnail') }}"
-                                alt="Couverture actuelle"
-                                width="400" height="400"
-                                loading="lazy"
-                                decoding="async"
-                                class="max-w-xs rounded border border-gray-200">
-                            </a>
-                        </div>
-                    {% endif %}
-                </div>
-
-                <div class="flex justify-between pt-6 border-t border-gray-200">
-                    <a href="{{ path('admin_album_show', {'id': album.id}) }}" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                        Annuler
-                    </a>
-                    <div class="flex space-x-3">
-                        <a href="{{ path('admin_album_delete', {'id': album.id}) }}" class="px-4 py-2 border border-red-300 text-red-700 rounded-lg hover:bg-red-50">
-                            Supprimer
+                            <img src="{{ coverPath | imagine_filter('thumbnail') }}" alt="Couverture actuelle" width="400" height="400" loading="lazy" decoding="async" class="max-w-xs rounded border border-gray-200">
                         </a>
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
-                            Enregistrer les modifications
-                        </button>
                     </div>
-                </div>
-
-                {{ form_end(form) }}
+                {% endif %}
             </div>
+
+            <div class="flex justify-between pt-6 border-t border-gray-200">
+                <a href="{{ path('admin_album_show', {'id': album.id}) }}" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                    Annuler
+                </a>
+                <div class="flex space-x-3">
+                    <a href="{{ path('admin_album_delete', {'id': album.id}) }}" class="px-4 py-2 border border-red-300 text-red-700 rounded-lg hover:bg-red-50">
+                        Supprimer
+                    </a>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                        Enregistrer les modifications
+                    </button>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
         </div>
-    {% endblock %}
+    </div>
+{% endblock %}

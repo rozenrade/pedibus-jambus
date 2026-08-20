@@ -16,6 +16,56 @@ class AlbumRepository extends ServiceEntityRepository
         parent::__construct($registry, Album::class);
     }
 
+    public function countPublic(): int
+    {
+        return $this->count(['isPublic' => true]);
+    }
+
+    public function countPrivate(): int
+    {
+        return $this->count(['isPublic' => false]);
+    }
+
+    public function countRecentSince(\DateTimeInterface $since): int
+    {
+        return (int) $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->where('a.createdAt >= :since')
+            ->setParameter('since', $since)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Retourne les albums les plus récents avec leur nombre de photos.
+     */
+    public function findRecentWithPhotoCount(int $limit = 5): array
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a', 'COUNT(p.id) as photoCount')
+            ->leftJoin('a.photos', 'p')
+            ->groupBy('a.id')
+            ->orderBy('a.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Retourne les albums les plus riches en photos.
+     */
+    public function findTopByPhotoCount(int $limit = 5): array
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a as album', 'COUNT(p.id) as photoCount')
+            ->leftJoin('a.photos', 'p')
+            ->groupBy('a.id')
+            ->orderBy('photoCount', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     // Méthode pour récupérer les albums les plus récents
     public function findRecentAlbums(int $limit = 6): array
     {

@@ -42,6 +42,7 @@
                                                 <div class="flex-1">
                                                     <!-- Titre et informations -->
                                                     <div class="flex items-start gap-4">
+
                                                         <!-- Icône PDF -->
                                                         <div class="flex-shrink-0">
                                                             <div class="p-2 bg-red-100/80 rounded-lg group-hover:bg-red-100 transition-colors">
@@ -51,20 +52,23 @@
                                                             </div>
                                                         </div>
 
+                                                        {% if program.title %}
+                                                            <h2 class="text-2xl font-bold text-black">{{ program.title }}</h2>
+                                                        {% endif %}
                                                         <div class="flex-1 min-w-0">
                                                             <h3 class="text-xl font-semibold text-gray-900 mb-2">
-                                                                {% if program.quarter %}
-                                                                    {% if program.quarter == 1 %}
-                                                                    Programme du {{ program.quarter }}er trimestre
-                                                                    {% elseif program.quarter > 1 %}
-                                                                    Programme du {{ program.quarter }}ème trimestre
-                                                                    {% endif %}
-
-                                                                {% else %}
-
-                                                                    Sorties Grandes Évasions
-
+                                                                {% if program.quarter == null %}
+                                                                    <p class="text-blue-600">Sorties Grandes Évasions</p>
+                                                                {% elseif program.quarter == 4 %}
+                                                                    <p class="text-red-600">Courts séjours</p>
+                                                                {% elseif program.quarter == 5 %}
+                                                                    <p class="text-red-600">Privé</p>
+                                                                {% elseif program.quarter == 1 %}
+                                                                    <p class="text-green-600">Programme du {{ program.quarter }}er trimestre</p>
+                                                                {% elseif program.quarter > 1 %}
+                                                                    <p class="text-green-600">Programme du {{ program.quarter }}ème trimestre</p>
                                                                 {% endif %}
+
                                                             </h3>
 
                                                             <!-- Badges -->

@@ -16,6 +16,21 @@ class PhotoRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Photo::class);
     }
+    
+    public function findRecentPhotos(int $limit = 5): array
+    {
+        return $this->findBy([], ['updatedAt' => 'DESC'], $limit);
+    }
+
+    public function countRecentSince(\DateTimeInterface $since): int
+    {
+        return (int) $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->where('p.updatedAt >= :since')
+            ->setParameter('since', $since)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
     public function searchPublicPhotos(string $query): array
     {
